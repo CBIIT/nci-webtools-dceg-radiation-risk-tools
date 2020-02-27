@@ -1,0 +1,13 @@
+
+<p>Please contact the administrator at <a href="mailto:{{contact_email}}?Subject=Fallout Web site">Fallout Web staff</a> and inform them of the time the error occurred, and anything you might have done that may have caused the error.</p>
+{% endblock %}
+
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center;">
+	<h1 class="page-title"><span style="font-size: 4em;">500</span><br/> Internal Server Error</h1>
+	<p>The server encountered an internal error or misconfiguration and was unable to complete your request.</p>
+	<p>Please contact the administrator at <a href="mailto:{{contact_email}}?Subject=Fallout Web site">Fallout Web staff</a> and inform them of the time the error occurred, and anything you might have done that may have caused the error.</p>
+	<p>Check out the <a href="{% url "get-started" %}">Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population online calculator</a><br/> for estimating radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site (NTS) and sites outside of the United States (global fallout).</p> 
+</div>
+{% endblock %}

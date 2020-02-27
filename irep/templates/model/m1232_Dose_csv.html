@@ -1,0 +1,57 @@
+{% extends "model/model_base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}The absorbed organ dose (cGy) is calculated by dividing the input equivalent organ dose (input by the user) by the specified reference radiation weighting factor value of w_r.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Estimate of Absorbed Organ Dose (cGy)" />
+<meta property="og:description" content="The absorbed organ dose (cGy) is calculated by dividing the input equivalent organ dose (input by the user) by the specified reference radiation weighting factor value of w_r." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/other/dose/cgy/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Estimate of Absorbed Organ Dose (cGy)">
+<meta name="twitter:description" content="The absorbed organ dose (cGy) is calculated by dividing the input equivalent organ dose (input by the user) by the specified reference radiation weighting factor value of w_r.">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	<a href="{% url "model-m121_err_other" %}">ERR Other Sources</a>
+	<a href="{% url "model-m123_Dose_sv" %}">Dose (Sv)</a>
+	Dose (cGy)
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Estimate of Absorbed Organ Dose (cGy)</h1>
+<p class="equation">
+	<span class="equation-box">Absorbed Organ Dose (cGy)</span>
+	<span class="equation-operators">=</span>
+	<span class="equation-operator-box">
+		<span class="equation-box">Equivalent Organ Dose (cSv) - input by the user</span>
+		<span class="equation-operators divide"></span>
+		<span class="equation-box">Reference radiation weighting factor (w_r)</span>
+	</span>
+</p>
+<p>The absorbed organ dose (cGy) is calculated by dividing the input equivalent organ dose (input by the user) by the specified reference radiation weighting factor value of w_r.</p>
+<p>The reference values of w_r are as follows:</p>
+<div class="rwdtable">
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Radiation Type</th>
+				<th scope="col">Reference w_r</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr><td>electrons E&lt;15 keV</td><td><center>1</center></td></tr>
+			<tr><td>electrons E&gt;15 keV</td><td><center>1</center></td></tr>
+			<tr><td>photons E&lt;30 keV</td><td><center>1</center></td></tr>
+			<tr><td>photons E=30-250 keV</td><td><center>1</center></td></tr>
+			<tr><td>photons E&gt;250 keV</td><td><center>1</center></td></tr>
+			<tr><td>neutrons E&lt;10 keV</td><td><center>5</center></td></tr>
+			<tr><td>neutrons E=10-100 keV</td><td><center>10</center></td></tr>
+			<tr><td>neutrons E=100keV - 2MeV</td><td><center>20</center></td></tr>
+			<tr><td>neutrons E=2-20 MeV</td><td><center>10</center></td></tr>
+			<tr><td>neutrons E&gt;20 Mev</td><td><center>5</center></td></tr>
+			<tr><td>alpha</td><td><center>20</center></td></tr>
+		</tbody>
+	</table>
+</div>
+{% endblock %}

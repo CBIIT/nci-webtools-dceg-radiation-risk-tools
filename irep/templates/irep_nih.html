@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}The Interactive RadioEpidemiological Program (IREP) was developed as part of the effort to update the 1985 Radioepidemiological Tables report.'{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Interactive RadioEpidemiological Program - Probability of Cancer Causation from Radiation" />
+<meta property="og:description" content="The Interactive RadioEpidemiological Program (IREP) was developed as part of the effort to update the 1985 Radioepidemiological Tables report." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Interactive RadioEpidemiological Program - Probability of Cancer Causation from Radiation">
+<meta name="twitter:description" content="The Interactive RadioEpidemiological Program (IREP) was developed as part of the effort to update the 1985 Radioepidemiological Tables report.">
+{% endblock %}
+{% block content %}	
+<p>The Interactive RadioEpidemiological Program (IREP) was developed as part of the effort to update the 1985 Radioepidemiological Tables report. The 1985 report was mandated by the 1983 &quot;Orphan Drug Act&quot; (PL 97-414) which instructs to &quot;devise and publish radioepidemiological tables that estimate the likelihood that persons who have or have had any of the radiation-related cancers and who have received specific doses prior to the onset of such disease developed cancer as a result of these doses.&quot;</p> 
+<p>IREP contains a collection of risk coefficients for cancer incidence obtained mainly from the Japanese A-bomb survivors study, but also from other epidemiological studies. The risk coefficients are adjusted for random and systematic errors in the A-bomb survivors dosimetry, and they are adapted for the U.S. population. Appropriate adjustments of the coefficients are made for low dose and low dose-rate exposure situations. The uncertainties in every component are fully expressed and propagated.</p>
+<a class="btn btn-primary" href="{% url "get-started" %}">Get Started &raquo;</a>
+<div class="alert alert-secondary mt-1">
+	<p>IREP is based upon the <a href="{% static 'docs/NIH_Radioepidemiological_Tables.pdf' %}">Report of the NCI-CDC Working Group to Revise the 1985 NIH Radioepidemiological Tables, 2003 (PDF)</a>.</p>
+	<p>IREP Version 5.7 was released in January 2020. Please refer to the <a href="{% url "irep-updates" %}">upgrade history</a> for the modifications included in various versions of the code.</p>
+	<p>A separately maintained version of IREP developed for NIOSH is also <a href="https://www.niosh-irep.com/irep_niosh/">available</a>.</p>
+</div>
+{% endblock %}

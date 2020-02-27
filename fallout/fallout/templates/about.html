@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}Cancer investigators have been studying the health effects of radiation for decades, including radioactive fallout, making radiation one of the best-understood agents of environmental injury.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="About - Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population" />
+<meta property="og:description" content="Cancer investigators have been studying the health effects of radiation for decades, including radioactive fallout, making radiation one of the best-understood agents of environmental injury." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/fallout/about/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="About - Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population">
+<meta name="twitter:description" content="Cancer investigators have been studying the health effects of radiation for decades, including radioactive fallout, making radiation one of the best-understood agents of environmental injury.">
+{% endblock %}
+{% block breadcrumbs %}
+	About
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">About the I-131 Calculator</h1>	
+<p>Between 1945 and 1980, the U.S., the U.S.S.R., the U.K., France and China carried out more than 500 atmospheric tests of nuclear weapons totaling the explosive equivalent of 440 megatons of TNT. These tests injected radioactive material into the atmosphere, much of which became widely dispersed before being deposited as fallout. Cancer investigators have been studying the health effects of radiation for decades, including radioactive fallout, making radiation one of the best-understood agents of environmental injury. The legacy of open-air nuclear weapons testing includes a small but significant increase in thyroid cancer, leukemia and certain solid tumors.</p>
+<p>The Nevada Test Site (NTS) in the U.S. was used for surface and above-ground nuclear testing from early 1951 through mid-1962. More than 100 tests were conducted at or above ground level and hundreds underground, with only about 14 of the latter resulting in significant releases of radioactive material into the atmosphere. Radioactive debris from the NTS tests subsequently was deposited, to varying degrees, over most of the continental U.S.</p>
+<p>Global fallout originated from high-yield weapons that derived much of their yield from fusion reactions. These tests, of what were called H-bombs or hydrogen bombs, were conducted by the U.S. in the mid-Pacific and by the Soviet Union at northern latitudes. Fallout from these large tests was distributed over the northern hemisphere.</p>
+<p>Fallout from the NTS and from global sources contributed exposures to persons living in the U.S. through ingestion of contaminated food products, primarily fresh milk, but also from external dose and from inhalation. The internal thyroid dose received by any individual depends largely on the individual’s age at the time of each test, geographic location, and the types and amounts of fresh milk consumed. The principal radionuclide of concern for internal dose to the thyroid gland is Iodine-131 (I-131). There are many other radionuclides deposited in fallout though they primarily contribute to the thyroid dose from external exposure.</p> 
+<p>The NCI Fallout Calculator is a software tool to estimate the internal and external dose to thyroid gland from exposure to radioactive fallout and the subsequent risk of developing thyroid cancer for persons resident in the U.S. between 1951 and 1980.</p>
+<p>For additional information, see <a href="https://www.cancer.gov/about-cancer/causes-prevention/risk/radiation/i-131">Get the Facts about Exposure to I-131 Radiation</a>.</p>
+<h2>Acknowledgements</h2>
+<p>The original version of the dose calculator was developed by Jed Rifkin, Ph.D., and Andre Bouville, Ph.D., of the National Cancer Institute (NCI), National Institutes of Health, Department of Health and Human Services. The Principal Investigator for the newest version of the calculator was Steven L. Simon, Ph.D., of the NCI. Assistance with development of this version was provided by André Bouville, PhD, the <a href="https://www.orrisk.com/">Oak Ridge Center for Risk Analysis</a> (formerly SENES Oak Ridge, Inc.), and Mr. Harold Beck.</p>
+<p>Support for this version of the thyroid dose and risk calculator was provided by the National Institutes of Allergies and Infectious Diseases (NIAID), Radiation Countermeasures Program through an intra-agency agreement (NIAID agreement #Y2-Al-5077 and NCI agreement #Y3-CO-5117).</p> 
+<h2>References</h2> 
+<ul>
+	<li>Simon, SL, Bouville A, Land CE. <a href="https://www.cancer.gov/about-cancer/causes-prevention/risk/radiation/Fallout-PDF">Fallout from nuclear weapons tests and cancer risks. Exposures 50 years ago still have implications today that will continue into the future</a> (PDF, 4 MB). Am Sci 2006 Jan-Feb;94(1):48-57.</l1>  
+	<li><a href="https://www.cancer.gov/about-cancer/causes-prevention/risk/radiation/i131-report-and-appendix">Estimated Exposure and Thyroid Doses Report</a> (PDF, 8 MB)</li>  
+	<li><a href="https://www.cancer.gov/about-cancer/causes-prevention/risk/radiation/stateandcountyexposure">State and County Exposure Levels to I-131</a></l1>  
+	<li><a href="https://dceg.cancer.gov/research/what-we-study/environment/fallout-studies">Recent and Current NCI Studies of Radioactive Fallout</a></l1>  
+	<li><a href="https://www.ncbi.nlm.nih.gov/books/NBK100842/">Exposure of the American People to Iodine-131 from Nevada Nuclear-Bomb Tests</a></l1> 
+</ul>
+{% endblock %}

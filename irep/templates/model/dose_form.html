@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<td header="dose-number" data-label="Number">
+	<span class="index">{{forloop.counter}}</span>
+</td>
+<td header="exposure-year" data-label="Exposure Year">{{ form.yoe.label_tag }}{{ form.yoe }}{{form.ORDER.as_hidden}}</td>
+<td header="exposure-rate" data-label="Exposure Rate">{{ form.exprate.label_tag }}{{ form.exprate }}</td>
+<td header="radiation-type" data-label="Radiation Type">{{ form.radtype.label_tag }}{{ form.radtype }} <a class="rad_type-help-button hide-desktop" href="{% url "model-help_rad_type" %}"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></td>
+<td header="organ-dose" data-label="Organ Dose (cSv)">{{ form.dosetype.label_tag }}{{ form.dosetype }} <a class="distr-help-button hide-desktop" href="{% url "model-help_rad_type" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></td>
+<td header="parameter-1 organ-dose" data-label="Parameter 1">{{ form.doseparm1.label_tag }}{{ form.doseparm1 }}</td>
+<td header="parameter-1 organ-dose" data-label="Parameter 2">{{ form.doseparm2.label_tag }}{{ form.doseparm2 }}</td>
+<td header="parameter-1 organ-dose" data-label="Parameter 3">{{ form.doseparm3.label_tag }}{{ form.doseparm3 }}</td>
+<td header="delete" data-label="Delete" class="delete-form">{% if not forloop.first %}<a class="delete-button" href="#"><img src="{% static 'img/delete.png' %}" height="16" width="16" title="Delete Dose Exposure" alt="Delete Dose Exposure" style="display:none;"/></a><div class="formset_delete" title="Exclude Dose Exposure">{{ form.DELETE.label_tag }}{{form.DELETE}}</div>{% endif %}</td>

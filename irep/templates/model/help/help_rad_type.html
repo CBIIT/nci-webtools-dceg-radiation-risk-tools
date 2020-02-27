@@ -1,0 +1,37 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+				<p>Desired inputs to IREP are doses from one or more of the eleven (11) radiation types listed in the menu on the previous screen.  All radiation types except alpha particles ("alpha") are defined by the name of the radiation and its energy.</p>
+				<ul>
+					<li>If all doses are specified according to the radiation types used by IREP, you may proceed with the calculation, entering the dose for each radiation type separately.</li>
+					<li>If a dose is not specified according to the radiation types used by IREP, guidance on selecting the radiation type is provided.  This may be helpful, for example, if you are given a dose fromexternal exposure to photons or neutrons but the sources and energies of these radiations are not identified, or if you are given a dose from internal exposure with only the radionuclides identified, but not the names of the associated radiations.</li>
+				</ul>
+				<p>Guidance on selection of radiation type is considered separately for external exposure and internal exposure because:</p>
+				<ol>
+					<li> an individual's exposure record usually contains separate entries for external and internal dose, and you may be given these doses separately;</li>
+					<li>an internal dose may be due primarily to radiation types different from radiation types that caused an external dose, and doses from different radiation types should not be combined: IREP internally assigns different weights to different radiation types, reflecting type-specific differences in biological effectiveness (this caution also applies when internal exposure to more than one type of radionuclide occurs, such as a beta/gamma-emitter and an alpha emitter).</li>
+				</ol>
+				<p>NOTE: If you are given only a dose but no indication of whether it resulted from external or internal exposure and no indication of radiation type, return the case to the analyst to obtain further information.</p>
+				<p>Choose guidance on selecting radiation type for <a class="external-help-button" href="{% url "model-help_external" %}" target="_blank">external exposure</a> or for <a class="internal-help-button" href="{% url "model-help_internal" %}" target="_blank">internal exposure</a>.</p>
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Radiation Risk Assessment Tool Information - Version {{version}}" />
+<meta property="og:description" content="RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/model/inputs/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Radiation Risk Assessment Tool Information - Version {{version}}">
+<meta name="twitter:description" content="RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy.">
+{% endblock %}
+{% block breadcrumbs %}
+	RadRAT Information
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Radiation Risk Assessment Tool Information - Version {{version}}</h1>
+<p>Enter the inputs in the form below or <a href="{% url "model-template" %}">upload an input file.</a></p>
+<form id="personal_information" name="personal_information" action="." method="post" novalidate autocomplete="off">
+	{% csrf_token %}
+	<div id="id_personal_information">
+		<h2>Demographic Information</h2>
+		<input type="hidden" id="id_action" name="action" value="">
+		<table>
+			<tbody>
+				<tr><th>{{ form.gen_choice.label_tag }}</th><td>{{ form.gen_choice }}{{ form.gen_choice.errors }}</td></tr>
+				<tr><th>{{ form.by.label_tag }}</th><td>{{ form.by }}{{ form.by.errors }}</td></tr>
+				<tr><th>{{ form.baseline.label_tag }} <a class="distr-help-population-info" href="{% url "model-help_population_info" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th><td>{{ form.baseline }}{{ form.baseline.errors }}</td></tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="id_smoking_history">
+		<h2>Smoking History</h2>
+			<p>A history of smoking will affect the risk of lung cancer, but also the risk of cancers other than lung, because smokers have a different life expectancy compared to the average population. Smoking history is only applicable for the "U.S. 2000-2005" population.</p>
+			<div id="id_smoking_history_select" class="mb-1">{{ smoking_history_form.include_history }}{{ smoking_history_form.include_history.label_tag }}{{ smoking_history_form.include_history.errors }}</div>
+			<div id="id_smoking_history_data" class="rwdtable">
+				<table>
+					<tbody>
+						<tr><th>{{ smoking_history_form.cpd_intensity_inp.label_tag }}</th><td>{{ smoking_history_form.cpd_intensity_inp }}{{ smoking_history_form.cpd_intensity_inp.errors }}</td></tr>
+						<tr><th>{{ smoking_history_form.start_smk_yr_inp.label_tag }}</th><td>{{ smoking_history_form.start_smk_yr_inp }}{{ smoking_history_form.start_smk_yr_inp.errors }}</td></tr>
+						<tr><th>{{ smoking_history_form.quit_smk_p_inp.label_tag }}<div>(leave blank if never quit)</div></th><td>{{ smoking_history_form.quit_smk_p_inp }}{{ smoking_history_form.quit_smk_p_inp.errors }}</td></tr>
+					</tbody>
+				</table>
+			</div>
+	</div>		
+
+	<div id="id_dose_exosure_formset" data-add-label="Add Exposure Event">
+		<h2>Exposure Information</h2>
+		<p>An exposure event may result in doses to one or more organs. All doses associated with the same event should be indicated by entering the same number in the "Exposure Event" column and the same year in the "Exposure Year" column. Refer to <a class="distr-help-expo-info" href="{% url "model-help_exposure_info" %}" target="_blank">Guidance for Entering Exposure Information</a>.</p>
+		<p>Each organ dose may be entered as a value with no related uncertainty by selecting "Fixed Value" from the Distribution Type menu and typing the value into the "Parameter 1" column. The organ dose may also be entered as an uncertain quantity by selecting one of the probability distributions from the Distribution Type menu. The corresponding distribution parameters should be entered into columns 1, 2, and/or 3.</p>
+		{{ dose_formset.management_form }}
+		{% if dose_formset.non_form_errors %}
+			<div class="alert alert-error">
+				<ul>
+					{% for error in dose_formset.non_form_errors %}
+						<li>{{ error|striptags }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+		<table class="dose-history removeTableRWD counterRow">
+			<thead>
+				<tr>
+					<th rowspan="2" id="number" title="Row Number">No.</th>
+					<th rowspan="2" id="exposure-event">Exposure Event <a class="distr-help-expo-info" href="{% url "model-help_exposure_info" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+					<th rowspan="2" id="exposure-year">Exposure Year</th>
+					<th rowspan="2" id="organ">Organ</th>
+					<th rowspan="2" id="exposure-rate">Exposure Rate <a class="exposure-rate-help-button" href="{% url "model-help_exposure_rate" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+					<th colspan="4" id="organ-dose">{{ dose_units_form.dose_units.label_tag }} {{ dose_units_form.dose_units }} <a class="help-organ-dose-units-button" href="{% url "model-help_organ_dose_units" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a> {{ dose_units_form.dose_units.errors }}</th>
+					<th rowspan="2" id="delete-action"><span class="offscreen">Delete Action</span></th>
+				</tr>
+				<tr>
+					<th id="distribution-type" header="organ-dose">Distribution Type <a class="distr-help-organ-button" href="{% url "model-help_distr_organ" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+					<th id="parameter-1" header="organ-dose">Parameter 1</th>
+					<th id="parameter-2" header="organ-dose">Parameter 2</th>
+					<th id="parameter-3" header="organ-dose">Parameter 3</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for form in dose_formset.forms %}	
+					<tr class="form">{% include "model/dose_form.html" %}</tr>
+					{% if form.errors %}
+						<tr class="errorlist">
+							<td colspan=10>
+								<ul>
+									{% for field in form %}
+										{% if field.errors %}
+										<li>{{ field.errors|striptags }}</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+				{% with dose_formset.empty_form as form %}
+				<tr class="empty-form">{% include "model/dose_form.html" %}</tr>
+				{% endwith %}
+			</tbody>
+		</table>
+		<div id="id_add_dose_exposure">
+			<input type="submit" class="btn btn-primary" value="Add Dose Exposure" id="id_add_dose" name="id_add_dose">
+		</div>		
+	</div>
+	<div id="id_assumptions" class="accordion">
+		<div class="accordion-header">
+			<a href="#"><span id="expandIcon" title="Expand" alt="Expand">+</span> Assumptions, Settings and Report Options</a>
+		</div>
+		<div class="accordion-body">
+			<p>These settings allows the user to control two sampling parameters, sample size and the random seed for sampling.</p>
+			<div class="rwdtable">
+				<table>
+					<tbody>
+						<tr><th>{{ advanced_form.sample_size.label_tag }}</th><td>{{ advanced_form.sample_size }}{{ advanced_form.sample_size.errors }}</td></tr>
+						<tr><th>{{ advanced_form.random_seed.label_tag }}</th><td>{{ advanced_form.random_seed }}<a href="" onclick="return false;" class="seed-button"><img src="{% static 'img/cog.png' %}" height="16" width="16" title="Generate New Random Seed" alt="Seed" /></a>{{ advanced_form.random_seed.errors }}</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>The reported future lifetime risk represents the risk from the "Current Year" to the end of the expected lifetime. By default, the current year is determined automatically, based on computer settings. However, for the purpose of testing alternative scenarios, different years may be selected.</p>
+			<div class="rwdtable">
+				<table>
+					<tbody>
+						<tr><th>{{ advanced_form.year_today.label_tag }}</th><td>{{ advanced_form.year_today }}{{ advanced_form.year_today.errors }}</td></tr>
+					</tbody>
+				</table>
+			</div>
+			<p>The User Defined Adjustment Factor is a multiplicative bias parameter that can be used to adjust the estimated lifetime risk to account for additional sources of uncertainty or bias not presently included in the methodology for estimation of lifetime risk.</p>
+			<p><strong>NOTE:</strong> The default setting, a fixed value of 1 entered in the Parameter 1 column, allows the calculation of lifetime risk to proceed without any additional adjustments. Changing the default settings should be done when there is sufficient justification for applying a bias correction.</p>
+			<div class="rwdtable">
+				<table>
+					<tbody>
+						<tr><th>{{ advanced_form.ududtype.label_tag }}<a href="{% url "model-help_distr_udaf" %}" target="_blank" class="distr-help-udaf-button"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th><td>{{ advanced_form.ududtype }}{{ advanced_form.ududtype.errors }}</td></tr>
+						<tr><th>{{ advanced_form.ududparm1.label_tag }}</th><td>{{ advanced_form.ududparm1 }}{{ advanced_form.ududparm1.errors }}</tr>
+						<tr><th>{{ advanced_form.ududparm2.label_tag }}</th><td>{{ advanced_form.ududparm2 }}{{ advanced_form.ududparm2.errors }}</td></tr>
+						<tr><th>{{ advanced_form.ududparm3.label_tag }}</th><td>{{ advanced_form.ududparm3 }}{{ advanced_form.ududparm3.errors }}</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>					
+	</div>
+	{{ advanced_form.leukemia_choice }}
+	{{ advanced_form.thyroid_choice }}
+	<input type="submit" class="btn btn-primary" value="Generate Results" id="id_generate_results" name="id_generate_results">
+	<a href="{% url 'clear-inputs' %}" class="btn btn-secondary" id="id_clear">Clear</a>
+	<img style="display:none;" title="Loading" alt="Loading" height="16" width="16" src="{% static 'img/loading_small.gif' %}" />
+</form>
+{% endblock %}
+
+{% block css %}
+	<link href="{% static 'css/jquery.countdown.css' %}" type="text/css" rel="stylesheet">
+	<link href="{% static 'select2/select2.css' %}" type="text/css" rel="stylesheet">
+	<style>
+	.hasCountdown {
+		background-color: #FFF;
+		border: 0px solid;
+	}
+	.countdown_amount {
+		font-size: 100%;
+	}
+	</style>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.countdown.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'select2/select2.js' %}" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {
+   first=true;
+   $(":input:not(textarea):not([type=submit])").keypress(function(event) {
+	    if (event.keyCode == 13)
+	        event.preventDefault();
+	    
+   });
+   $('.formset_delete').css("display","none");  
+   $('.delete-button img').css("display","inline");        
+   if ({% if advanced_form.errors %}0{% else %}1{% endif %}) {$('#id_assumptions .accordion-body').css("display","none");}
+   $('#id_add_dose_exposure').css("display","none");
+   $('#id_assumptions .accordion-header a').click(function(e) {
+      e.preventDefault();
+	  if ($('#id_assumptions .accordion-body').is(":visible")) {
+	  	$("#id_assumptions #expandIcon").attr("src", "{% static 'img/plus_icon.gif' %}");
+	  	$("#id_assumptions #expandIcon").attr("title", "Expand");
+	  } else {
+	  	$("#id_assumptions #expandIcon").attr("src", "{% static 'img/minus_icon.gif' %}");
+	  	$("#id_assumptions #expandIcon").attr("title", "Collapse");
+	  }      
+      $('#id_assumptions .accordion-body').slideToggle(1000);
+      return false;
+   }); 
+   // dose exposure javascript
+	new FormSet('id_dose_exosure_formset', 200, "{% static 'img/add.png' %}");
+    $('a.distr-help-population-info').on( 'click', function() {
+        $.colorbox( {
+            href: "{% url "model-help_population_info" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );        
+    $(document).on( 'click', 'a.distr-help-organ-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_distr_organ" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );	    		
+    $(document).on( 'click', 'a.distr-help-udaf-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_distr_udaf" %}",
+            width: "75%",
+            maxwidth: "75%",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );                
+    $(document).on( 'click', 'a.exposure-rate-help-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_exposure_rate" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );                
+    $(document).on( 'click', 'a.distr-help-expo-info', function() {
+        $.colorbox( {
+            href: "{% url "model-help_exposure_info" %}",
+            width: "75%",
+            maxwidth: "75%",
+            height: "600px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );     
+    $(document).on( 'click', 'a.help-organ-dose-units-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_organ_dose_units" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6       
+        } );
+        return false;
+    } );                    
+    //advanced settings
+	$('.seed-button').click(function() {
+	   $('#id_random_seed').val(Math.floor(Math.random() * 1000000) + 1);
+	});
+    
+    $('#id_generate_results').on( 'click', function(event) {
+        var execution_task_id = 0;
+        $.ajax({
+            url: "{% url 'queue-report' %}",
+            async: false,
+            type: "POST",
+            data: $('form').serialize(),
+            success: function( response ) {
+                if (response.is_valid) {
+                   execution_task_id = response.execution_task_id;
+                }
+            }
+        });
+        
+        if (!execution_task_id) {
+            /* Ajax call to queue analysis indicated that parameters are not valid, reload page to see errors. */
+            return true;
+        } else {
+            /* Form is valid -- cancel form submission and start process of periodically polled execution status. */  
+            event.preventDefault();
+            var estimation = getExecuteEstimation();
+            setTimeout( function() {
+                $.colorbox( {
+                    html: '<p>Do not close this webpage or browser, results are being generated.</p><p>This may take as long as ' + estimation['text'] + '.</p><div id="id_estimation_count"><p>Approximate time to complete: <span id="id_countdown"></span></p></div>',
+                    width: "1200px",
+                    maxwidth: "1200px",
+                    height: "1200px",
+                    overlayClose: false,
+                    escKey: false,
+                    opacity: 0.6,
+                    close: ''
+                } );
+                $('#id_countdown').countdown({until: +estimation['seconds'], format: 'MS', timeSeparator: ' : ',compact: true, onExpiry: onExpiry});
+            }, 0 ); 
+
+            function pollStatus() {
+                $.ajax({
+                    url: "{% url 'poll-execution' %}?execution_task_id=" + execution_task_id,
+                    cache: false,
+                    success:function(response) {
+                        if (response.completed) {
+                            window.location.href = "{% url 'summary-report' %}?execution_task_id=" + execution_task_id;
+                        } else if ($('#colorbox').is(':visible')) {                   
+                            setTimeout(pollStatus, 5000);
+                        }
+                    }
+                });
+            }
+            
+            pollStatus();
+                
+            return false;
+        }        
+    } );
+	
+    $(window).unload(function() {
+        $.colorbox.close();
+    });	
+   
+    {% for form in dose_formset.forms %} 
+    //$("#id_dose_-{{forloop.counter0}}-organ").select2({width: "220px"});
+    {% endfor %}     
+    
+    /*$('#id_baseline').on( 'change', function() {    	
+        if ($(this).val() == 'usseer00_05') {
+        	$('#id_smoking_history').show(1000);
+        } else {
+        	$('#id_smoking_history').hide(1000);
+        }
+    } );*/    
+    /*$('#id_include_history').click(function() {
+        if ($(this).is(':checked')) {
+            $('#id_smoking_history_data').show(1000);
+        } else {
+            $('#id_smoking_history_data').hide(1000);
+        }    	
+    });*/
+    $('#id_cpd_intensity_inp').on( 'change', function() {
+    	if (/^\+?\d+$/.test($(this).val())) {
+    	    var num_cigarettes = parseInt($(this).val());
+    	    if (num_cigarettes > 0) {
+    	    	$('#id_start_smk_yr_inp').removeClass('disabled').removeAttr('disabled');
+    	    	$('#id_quit_smk_p_inp').removeClass('disabled').removeAttr('disabled');
+    	    } else {     
+                $('#id_start_smk_yr_inp').addClass('disabled').attr('disabled','disabled');
+                $('#id_quit_smk_p_inp').addClass('disabled').attr('disabled','disabled');
+    	    }
+    	}
+    } );    
+    $('.dose-type').on( 'change', function() {
+    	enableDoseParameters($(this));
+    } );    
+    $('.udud-type').on( 'change', function() {
+    	enableUdudParameters($(this));
+    } );    
+    $('.dose-type').each(function(idx) {
+       enableDoseParameters($(this));      
+    });
+    $('.udud-type').each(function(idx) {
+        enableUdudParameters($(this));  
+    });
+    $(window).unload(function() {
+        $.colorbox.close();
+    });
+    /*if ($('#id_baseline').val() == 'usseer00_05') {
+    	$('#id_smoking_history').show();
+    }*/
+    /*if ($('#id_include_history').is(':checked')) {
+       $('#id_smoking_history_data').show();
+    };*/
+
+    first=false;
+});
+function enableParameters(selection, param2, param3) {
+    if (selection == 'Fixed Value') {
+        $.each([param2,param3], function(idx, item) { 
+            item.addClass('disabled');
+            item.attr('disabled','disabled');
+        });         
+    } else if ($.inArray(selection, ['Lognormal','Normal','Uniform','Loguniform']) != -1) {
+        param2.removeClass('disabled');
+        param2.removeAttr('disabled');
+        param3.addClass('disabled');
+        param3.attr('disabled','disabled');
+    } else /*if ($.inArray(selection, ['Triangular','Logtriangular']) != -1)*/ {
+        $.each([param2,param3], function(idx, item) { 
+            item.removeClass('disabled');
+            item.removeAttr('disabled');
+        });         
+    }           	
+}
+function enableDoseParameters(selector) {
+    var selection = $(selector).val();
+    var tr = $(selector).parents('tr');
+    var param2 = tr.find('.dose-param2');
+    var param3 = tr.find('.dose-param3');
+    enableParameters(selection, param2, param3);	
+}
+function enableUdudParameters(selector) {
+    var selection = $(selector).val();
+    var table = $(selector).parents('table');
+    var param2 = table.find('.udud-param2');
+    var param3 = table.find('.udud-param3');
+    enableParameters(selection, param2, param3);
+}
+function onExpiry() {
+    $('#id_estimation_count').html('<div style="margin-top: 5px;">Results are taking longer than expected to generate, please wait ...<img title="Loading" alt="Loading" height="16" width="16" src="{% static 'img/loading_small.gif' %}" /></div>'); 
+}
+function getExecuteEstimation() {
+    /* Estimate time to run ... roughly, it takes 
+         - 10 seconds to do 1000 simulations per each event for a single organ. 
+         - 30 seconds to do 1000 simulations per each event for 2 or more organs. 
+       The number of exposed organs adds a minor constant, while the number of events is the primary multiplicator.
+    */   
+	var dose_events = {};
+	$('.form').filter(':visible').each(function(idx) {
+		var event_id = $(this).find('#id_dose_-' + idx + '-event');
+		
+		if (event_id.val() in dose_events) {
+			dose_events[event_id.val()] = true;
+		} else {
+			var organ = $(this).find('#id_dose_-' + idx + '-organ');
+			dose_events[event_id.val()] = (organ.val() == 'All Organs' ? true : false);
+		}
+	});
+    var estimation = 0;
+    var sample_size = parseInt($('#id_sample_size').val(),10);
+    $.each(dose_events, function (idx, event) {
+    	estimation += ( (event ? 40 : 15) * (isNaN(sample_size) ? 300 : sample_size) ) / 1000;
+    });
+    
+    estimation = Math.ceil(estimation);
+    var minutes = Math.floor(estimation/60);
+    var seconds = estimation - (minutes * 60);
+    var text_estimation = '';
+    if (minutes) {
+    	text_estimation = minutes + ' minute' + (minutes > 1 ? 's' : '')    	
+    } 
+    if (seconds) {
+        text_estimation += (minutes ? ' ' : '') + seconds + ' second' + (seconds > 1 ? 's' : '')            	
+    }
+    return {'text':text_estimation,'seconds':estimation};
+}
+</script>
+{% endblock %}

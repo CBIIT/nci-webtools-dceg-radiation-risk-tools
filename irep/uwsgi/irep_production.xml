@@ -1,0 +1,15 @@
+<uwsgi>
+    <pidfile>--redacted--/pybin/irep.%h.pid</pidfile>
+    <socket>127.0.0.1:15198</socket>
+    <protocol>scgi</protocol>
+    <pythonpath>--redacted--/pybin/irep</pythonpath>
+    <virtualenv>--redacted--/pybin/venv/irep</virtualenv>
+    <module>irep.wsgi</module>
+    <workers>2</workers>
+    <threads>2</threads>
+    <procname-prefix>irep</procname-prefix>
+    <daemonize>--redacted--/logs/irep.%h.log</daemonize>
+    <disable-logging />
+    <master />
+    <vacuum />
+</uwsgi>

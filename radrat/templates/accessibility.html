@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}Learn about the accessibility policy for the RadRAT website, including information about Section 508 of the Rehabilitation Act.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Web Accessibility Feedback" />
+<meta property="og:description" content="Learn about the accessibility policy for the RadRAT website, including information about Section 508 of the Rehabilitation Act." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/accessibility" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Web Accessibility Feedback">
+<meta name="twitter:description" content="Learn about the accessibility policy for the RadRAT website, including information about Section 508 of the Rehabilitation Act.">
+{% endblock %}
+{% block content %}
+<h1 class="page-title">Web Accessibility Feedback</h1>
+<p>This Web site has been designed to be accessible to all users, compliant with the Section 508 standards, and compatible with screen readers and other assistive technologies. However, this is an ongoing process and it is possible that some users may encounter problems accessing some pages.</p>
+<p>For questions about our continuing efforts to make the information on RadRAT accessible to all users, or to report an accessibility problem on any of our pages, please complete the form on our <a href="{% url "contact" %}">Contact Us</a> page.</p>
+{% endblock %}

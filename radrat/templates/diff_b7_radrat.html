@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}Summary of the Differences Between BEIR VII and the NCI RadRAT Risk Assessment Methodologies{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Summary: BEIR VII vs. RadRAT Risk Assessment Methodologies" />
+<meta property="og:description" content="Summary of the Differences Between BEIR VII and the NCI RadRAT Risk Assessment Methodologies" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/diff/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Summary: BEIR VII vs. RadRAT Risk Assessment Methodologies">
+<meta name="twitter:description" content="Summary of the Differences Between BEIR VII and the NCI RadRAT Risk Assessment Methodologies">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="/radrat/about/">About RadRAT</a>
+	<strong>Summary:</strong> BEIR VII vs. RadRAT Risk Assessment Methodologies
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Summary of the Differences Between BEIR VII and the NCI RadRAT Risk Assessment Methodologies</h1>
+<h2>Risk models</h2>
+<div class="rwdtable">
+	<table>
+		<thead>
+			<tr>
+				<th width="50%">BEIR VII</th>
+				<th width="50%">NCI Radiation Risk Assessment Tool</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>11 cancers: stomach, colon, liver, lung, breast, prostate, uterus, ovary, bladder, thyroid and leukemia
+					<p><i>plus</i></p>
+					1 remainder cancer grouping (solid cancers other than the 10 solid cancer modeled individually)</td>
+				<td>11 cancers: stomach, colon, liver, lung, breast, prostate, uterus, ovary, bladder, thyroid and leukemia from BEIR VII
+					<p><i>plus</i></p>
+					7 new cancers: oral cavity and pharynx, esophagus, rectum, gallbladder, pancreas, kidney, central nervous system
+					<p><i>plus</i></p>
+					1 remainder cancer grouping (solid cancers other than the 17 solid cancers ones modeled individually)</td>
+			</tr>
+			<tr>
+				<td>Formulation of breast cancer EAR model adapted from, but not identical to the model by Preston et al. (2002).</td>
+				<td>Formulation of breast cancer EAR model exactly as in Preston et al. (2002).</td>
+			</tr>
+			<tr>
+				<td>Linear-quadratic model for leukemia applied for both acute and chronic exposures.</td>
+				<td>Linear-quadratic model for leukemia applied for acute exposures; for chronic exposures only the linear term of the model is applied.</td>
+			</tr>
+			<!--
+			<tr>
+				<td>Lung model applied for U.S. population. Risk model is insensitive to smoking history.</td>
+				<td>The BEIR VII lung model is applied for all populations. For U.S. population, the risk of lung cancer can be estimated either using the BEIR VII model, or using the Furukawa et al. (2010) model. The Furukawa model is chosen by selecting &#34;Include Smoking History Adjustment&#34;.</td>
+			</tr>
+			-->
+		</tbody>
+	</table>
+</div>
+<div class="rwdtable">
+	<h2>Adjustments for Minimal Latency Period</h2>
+	<table>
+		<thead>
+			<tr>
+				<th width="50%">BEIR VII</th>
+				<th width="50%">NCI Radiation Risk Assessment Tool</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Threshold function of time since exposure causing risk to abruptly change from zero to maximum risk at times since exposure equal to 2 years for leukemia and 5 years for other solid cancers.</td>
+				<td>S-shaped function of time since exposure with a smooth transition from zero to maximum risk. The mid point of the S-shaped function is 2.25 years for leukemia, 5 years for thyroid and 7.5 years for other solid tumors, with non-zero risk value at times since exposure lower than the mid-point.</td>
+			</tr>
+			<tr>
+				<td>No uncertainty associated with assumed latency adjustment.</td>
+				<td>Uncertainty in latency adjustment described by probability distributions for the mid-point of the S-shaped function.</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="rwdtable">
+	<h2>Transfer from the Japanese to the U.S. Population</h2>
+	<table>
+		<thead>
+			<tr>
+				<th width="50%">BEIR VII</th>
+				<th width="50%">NCI Radiation Risk Assessment Tool</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Additive and multiplicative projections of the lifetime risk are weighted in the logarithmic space. The assigned weights are 0.7 to the multiplicative projection and 0.3 to the additive projection, for most cancer types other than lung for which the two weights are reversed (0.3 to multiplicative and 0.7 to additive projections, respectively). No transfer is applied for thyroid cancer for which only the multiplicative projection is used, or for breast cancer for which the additive projection is preferred.</td>
+				<td>Additive and multiplicative projections of annual risk at each attained age are weighted in the linear space. The assigned weights are 0.7 to the multiplicative projection and 0.3 to the additive projection, for most cancer types other than lung for which the two weights are reversed (0.3 to multiplicative and 0.7 to additive projections). No transfer is applied for thyroid cancer for which only the multiplicative projection is used, or for breast cancer for which the additive projection is preferred.</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>No transfer is applied for gallbladder cancer, for which only the multiplicative projection is used.</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>No EAR model could be derived for the central nervous system from the LSS data. An additive projection is determined using the method applied in the IREP risk assessment methodology (Land et al. 2003; Kocher et al. 2008), based on the ratio of the baseline rates in the US and Japan.</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="rwdtable">
+	<h2>Dose and Dose-Rate Effectiveness Factor (DDREF)</h2>
+	<table>
+		<thead>
+			<tr>
+				<th width="50%">BEIR VII</th>
+				<th width="50%">NCI Radiation Risk Assessment Tool</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>The DDREF is described by a lognormal probability distribution with a geometric mean equal to 1.5 and a geometric standard deviation equal to 1.35 and is applied for all cancer sites except leukemia for which the model is linear quadratic. The DDREF is applied for chronic exposures (i.e., exposures to low dose rates), but also for acute exposures, which, in the BEIR VII report, are assumed to consist only of low or very low doses of radiation.</td>
+				<td>The DDREF is described by a lognormal probability distribution with a geometric mean equal to 1.5 and a geometric standard deviation equal to 1.35 and is applied for all cancer sites except leukemia for which the model is linear quadratic. The DDREF is applied for chronic exposures (i.e., exposures to low dose rates). For acute exposure, a DDREF is applied only when a given equivalent dose is less than an uncertain reference dose, DL. At doses > DL, DDREF is assumed to be unity. The uncertain dose, DL, below which a DDREF is applied, is described by a loguniform probability distribution between 0.03 and 0.2 Sv.</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="rwdtable">
+<h2>Propagation of Uncertainties</h2>
+	<table>
+		<thead>
+			<tr>
+				<th width="50%">BEIR VII</th>
+				<th width="50%">NCI Radiation Risk Assessment Tool</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Uncertainties are propagated using analytical methods.</td>
+				<td>Uncertainties are propagated using Monte-Carlo techniques for all cancer types except leukemia, for which a combination of analytical and Monte-Carlo methods is used.</td>
+			</tr>
+			<tr>
+				<td>Estimated lifetime risks incorporate uncertainties in:<ul><li>Risk models</li><li>Transfer between populations</li><li>DDREF</li></ul></td>
+				<td>Estimated lifetime risks incorporate uncertainties in:<ul><li>Radiation doses</li><li>Risk models</li><li>Adjustment for minimal latency period</li><li>Transfer between populations</li><li>DDREF</li><li>Baseline incidence rates</li></ul></td>
+			</tr>
+	</table>
+</div>
+<p>[1] Table adapted from Berrington de Gonzalez et al. (2012)</p>
+<h2>References</h2>
+<ol>
+    <li>Berrington de Gonzalez A., Apostoaei A.I., Veiga L.H.S., Rajaraman P., Thomas B.A., Hoffman F.O., Gilbert E., and Land C.  RadRAT: a radiation risk assessment tool for lifetime cancer risk projection; J. Radiol. Prot. 32 (2012) 205-222. [<a href="http://iopscience.iop.org/0952-4746/32/3/205/article" target="_blank">view</a>]</li>
+    <li>Kocher D.C., Apostoaei A.I., Henshaw R.W., Hoffman F.O., Schubauer-Berigan M.K., Stancescu D.O., Thomas B.A., Trabalka J.R., Gilbert E.S., Land C.E.  Interactive Radioepidemiological Program (IREP): A web-based tool for estimating probability of causation/assigned share of radiogenic cancers. Health Phys. 95(1):119-147. 2008.</li>
+    <li>Land C, Gilbert E, Smith JM, Hoffman FO, Apostoaei I, Thomas B, Kocher DC.  NCI-CDC working group to revise the 1985 NIH radioepidemological tables.  Washington, DC: National Institutes of Health, National Cancer Institute; NIH Publication No. 03-5387; 2003.</li>
+    <li>Preston D.L., Mattson A., Holmberg E., Shore R., Hildreth N.G., Boice J.D. Radiation Effects on Breast Cancer Risk: A Pooled Analysis of Eight Cohorts.  Radiation Research 158:220-235. 2002.</li>
+    <!-- 
+    <li>Furukawa K, Preston DL, Lonn S, Funamoto S, Yonehara S, Matsuo T, Egawa H, Tukuoka S, Ozasa K, Kasagi F, Kodama K, Mabuchi K. 2010. Radiation and smoking effects on lung cancer incidence among Atomic Bomb Survivors. Radiat Res 174; 72-82.</li>
+    -->
+</ol>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}IREP has been designed to accept a preformatted input file. When uploaded into IREP, the input file will populate all input screens and set all system variables.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Upload Saved File" />
+<meta property="og:description" content="IREP has been designed to accept a preformatted input file. When uploaded into IREP, the input file will populate all input screens and set all system variables." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/template/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Upload Saved File">
+<meta name="twitter:description" content="IREP has been designed to accept a preformatted input file. When uploaded into IREP, the input file will populate all input screens and set all system variables.">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-inputs" %}">Information</a>
+	Upload Template
+{% endblock %}
+
+{% block content %}
+<h1>Upload Saved File</h1>
+<p>IREP has been designed to accept a preformatted input file. When uploaded into IREP, the input file will populate all input screens and set all system variables.</p>
+<p><strong>Procedure</strong></p>
+<ul>
+	<li>Click the "Browse" button to locate the input file on your computer.</li>
+	<li>After the path to the file is shown on this screen, click "Upload File" to complete the process.</li>
+</ul>
+<p><i>[Note: The file must be of the proper template format to be usable.]</i></p>
+<form enctype="multipart/form-data" action="{% url "model-template" %}" method="post">{% csrf_token %} 
+	{{form.as_p}}
+	<input type="submit" value="Upload File" class="btn btn-primary">
+	{% if error_message %}<p class="errorlist">{{error_message}}</p>{% endif %}
+	<p>Download a <a href="{% static 'docs/template_nih.xls' %}" target="_blank">template version of the Excel input file</a> (filled with default values).</p>
+</form>
+{% endblock %}

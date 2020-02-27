@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}Please refer to Individual Thyroid Risk and Dose calculator for fallout - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Updates - Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population" />
+<meta property="og:description" content="Please refer to Individual Thyroid Risk and Dose calculator for fallout - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/fallout/update/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Updates - Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population">
+<meta name="twitter:description" content="Please refer to Individual Thyroid Risk and Dose calculator for fallout - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.">
+{% endblock %}
+{% block breadcrumbs %}
+	Updates
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Updates</h1>
+<h2>4.2 Upgrade (January 2020)</h2>
+<dl>
+	<dt>Website Maintenance</dt>
+	<ul>
+		<li>Updated underlying website frameworks. No changes were made to calculations.</li>
+		<li>Site made responsive across all devices.</li>
+	</ul>
+</dl>
+<h2>4.1 Upgrade (February 2017)</h2>
+<p>In 2015, the NCI I-131 fallout dose and risk calculator was taken offline to resolve computer software security issues and to implement significant software upgrades designed to improve the capabilities of the calculator. The last major modification was in 2003, and there was a minor update of the cancer risk model in 2006.</p>
+<p>Six primary areas of improvement in the 2016 calculator have been implemented:</p>
+<ol>
+	<li>Inclusion of information on fallout in the U.S. originating from nuclear tests conducted at other locations in the Northern Hemisphere (not only the Nevada Test Site [NTS]).</li>
+	<li>Estimation of external dose for the first time and other improvements in internal dose estimation.</li>
+	<li>Estimation of thyroid dose for residents of Hawaii, Alaska, and Puerto Rico.</li>
+	<li>Real-time estimation of dose and risk uncertainty by Monte Carlo (numerical simulation) calculations.</li>
+	<li>Use of updated thyroid cancer risk model using data from the most recent analyses and publications (Veiga et al. 2016 <a class="sup" href="#id_references"><sup>**</sup></a>).</li>
+	<li>Interface accessible to users with disabilities and responsive to mobile devices.</li>
+</ol>
+<h2>Addition of Global Fallout</h2>
+<p>The updated dose and risk calculator now accounts not only for radioactive fallout from the Nevada Test Site but from nearly all sources of radioactive fallout that originated outside the U.S. (i.e., from global sources) including the Marshall Islands, Johnston Island and other Pacific sites, all sites located within the former U.S.S.R., including Semipalatinsk, Kazakhstan and Novaya Zemlya, Russia, and other worldwide sites, e.g., China.</p>
+<h2>Improvements to Internal Dose Model and Addition of External Exposure</h2>
+<p>The updated dose and risk calculator now accounts for pathways of exposure other than internal dose from the consumption of milk. In particular, the calculator now estimates external dose arising from exposure to radiation from fallout on contaminated ground and elsewhere in the environment, and also includes improvements in modeling of other pathways, e.g., inhalation and soil ingestion by dairy animals. For internal dose calculations, the updated calculator estimates average concentration of I-131 in milk from all sources contributing dairy products to a given county, including: (i) milk produced and consumed on farms, (ii) milk produced and consumed in the county where an might individual live, (iii) milk consumed in the county of interest but produced in neighboring counties, but within the same milk region, and (iv) milk consumed in the county of interest but produced in other milk regions. The updated calculator now accounts for foods that typically contribute less to internal dose than fresh milk, e.g., from cottage cheese, eggs, and vegetables.</p>
+<h2>Additional exposure locations added</h2>
+<p>Previous versions of the calculator only estimated doses to residents of the contiguous 48 states. The updated calculator now estimates thyroid dose and thyroid cancer risk from radioactive fallout for residents of Hawaii, Alaska, and the territory of Puerto Rico.</p>
+<h2>Improvements in Calculations and Uncertainty Estimation</h2>
+<p>Previous versions of the dose and risk calculator provided estimates from pre-calculated tables of doses and uncertainties that could not account for all variations of user input and all sources of uncertainty related to residence history. The updated calculator now implements real-time Monte Carlo calculations (calculations based on sampling of values from probability density functions, sometimes called numerical simulation) to better estimate doses and uncertainty (confidence limits).</p>
+<p>The updated calculator also allows for multiple residence locations (i.e., multiple exposures) and includes uncertainty resulting from lack of knowledge about actual dates of moves between residences (typically not precisely known by users).</p>
+<h2>Updated Cancer Risk Model</h2>
+<p>Since earlier versions of the fallout dose and risk calculator, information on thyroid cancer and childhood radiation exposure has increased substantially. An updated pooled analysis of data from 12 studies of thyroid cancer in children exposed to radiation (ages at exposure < 20 y) has been published (Veiga et al. 2016). The preferred model for the relationship between thyroid cancer incidence and radiation dose is described as an excess relative risk (ERR) with dependencies on radiation dose to the thyroid (in units of Gy), age at time of exposure and attained age, but no dependency on gender. The updated calculator implements this new thyroid cancer risk model as part of its calculation.  It is assumed that the thyroid cancer risk estimates from external radiation exposure apply to internal I-131 exposure, which is supported by studies from Chernobyl (Brenner et al, 2011).</p>
+<h2>Improvements in Interface</h2>
+<p>The updated calculator meets all Federal requirements for users with disabilities and is responsive on mobile devices.</p>
+<h2 id="id_references">References</h2>
+<ul>
+<li>Veiga LHS, Holmberg E, Anderson H, Pottern L, Sadetzki S, Adams MJ, Sakata R, Schneider A, Inskip P, Bhatti P, Johansson R, Neta G, Shore R, Vathaire F, Damber L, Kleinerman R, Hawkins MM, Tucker M, Lundell M, Lubin JH. 2016 Thyroid cancer after childhood exposure to external radiation: an updated pooled analysis of 12 studies; Radiation Research 185, 2016. DOI: 10.1667/RR14213.1</li>
+<li>Brenner AV, Tronko MD, Hatch M, Bogdanova TI, Oliynik VA, Lubin JH, Zablotska LB, Tereschenko VP, McConnell RJ, Zamotaeva GA, O'Kane P, Bouville AC, Chaykovskaya LV, Greenebaum E, Paster IP, Shpak VM, Ron E. I-131 dose response for incident thyroid cancers in Ukraine related to the Chornobyl accident.   Environ Health Perspect. 2011 Jul;119(7):933-9. doi: 10.1289/ehp.1002674. Epub 2011 Mar 17.</li>	
+</ul>
+{% endblock %}

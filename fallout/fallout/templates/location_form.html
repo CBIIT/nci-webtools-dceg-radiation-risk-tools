@@ -1,0 +1,24 @@
+{% load staticfiles %}
+{% load data_verbose %}
+
+<td header="begin-date" data-label="Begin Date">{{ form.month.label_tag }}{{ form.month }} / {{ form.year.label_tag }}{{ form.year }} {{form.ORDER.as_hidden}} <a class="help-begin-date hide-desktop" href="{% url "help-begin-date" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></td>
+<td header="where-live" data-label="Where did you live?">
+	{{form.state.as_hidden}} {{form.county.as_hidden}}
+	<a class="select-county" href="{% url "select-county" %}" target="_blank">
+		{% if form.state.data %}
+			{{form.state|data_verbose}} {% if form.state.data != 'OU' %}/ {{form.county|data_verbose}}{% endif %}
+		{% else %}
+			Select State and County
+		{% endif %}
+	</a>
+	<a class="help-state-county hide-desktop" href="{% url "help-state-county" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a>
+</td>
+<td header="milk-source" data-label="Milk Source">{{ form.milksource.label_tag }}{{ form.milksource }}</td>
+<td header="milk-amount" data-label="Milk Amount">{{ form.milkamount.label_tag }}{{ form.milkamount }} <a class="help-milk-amount hide-desktop" href="{% url "help-milk-amount" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a>
+</td>
+<td header="delete" data-label="Delete"  class="delete-form">{% if not forloop.first %}<a class="delete-button" href="#"><img src="{% static 'img/delete.png' %}" height="16" width="16" title="Delete Location" alt="Delete Location" style="display:none;"/></a><div class="formset_delete" title="Exclude Location">{{ form.DELETE.label_tag }}{{form.DELETE}}</div>{% endif %}</td>
+		
+		
+		
+
+

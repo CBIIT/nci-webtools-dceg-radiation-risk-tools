@@ -1,0 +1,43 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+				<div class="breadcrumbs">
+					<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+					Internal Exposure
+				</div>				
+				<h2>Internal Exposure</h2>
+				<p>NOTE: Estimates of internal dose generally assume exposure to specific radionuclides.  If you are given an internal dose but no indication of the associated radionuclides and the radiation type is not specified as "alpha," you should return the case to the analyst to obtain more information (preferably the dose from each radiation type used by IREP but, at a minimum, the dose from each important radionuclide separately).</p>
+				<p>CAUTION:  Selection of an appropriate radiation type may be difficult when internal doses are not specified according to the radiation types used by IREP because:</p>
+				<ol type=A>
+					<li>Information on energies and intensities of each radiation emitted by a radionuclide of concern may be needed when the radionuclide emits more than one radiation type that contributes significantly to the dose and <a class="help_note2-button" href="{% url "model-help_note2" %}">the various radiation types differ in biological effectiveness</a>.   However, this is not a concern when a radionuclide is a beta emitter with an average energy of beta particles greater than 15 keV and the average energy of emitted photons is greater than 250 keV, because these two radiation types have the same biological effectiveness.</li>
+					<li>Knowledge of sites of deposition or transit of a radionuclide in the body, including the respiratory tract in cases of inhalation, may be important because alpha particles and electrons mainly irradiate sites of deposition (and red bone marrow when bone is a site of deposition) and transit (GI tract and kidneys) but photons irradiate all organs and tissues.</li>
+					<li>When a radionuclide is deposited mainly at a few sites in the body, the importance of doses to other organs or tissues and the radiation types that deliver the dose can depend on the <a class="help_note3-button" href="{% url "model-help_note3" %}">internal dosimetry model that was used to estimate dose</a>, and knowledge of the model used may be helpful in selecting the radiation type.</li>
+					<li>Knowledge of radioactive decay products produced in the body after intake of a parent radionuclide may be important, because the principal radiation types and sites of deposition may be different for a parent and its decay products.</li>
+				</ol>
+				<p>If you are uncertain about how to select the radiation type, you should consult experts in radioactive decay and internal dosimetry models.</p>
+				<ol>
+					<li>Guidance for selecting radiation type when you are given the <a class="help_totaldose-button" href="{% url "model-help_totaldose" %}">total dose from all radiations combined</a> from internal exposure to specific radionuclides.</li>
+					<li>Guidance for selecting radiation type when you are given <a class="help_separatedoses-button" href="{% url "model-help_separatedoses" %}">separate doses for named radiations</a> (doses from photons, electrons, and alpha particles separately) from internal exposure to specific radionuclides, but no information on the energy of the radiations (this situation should not normally occur).</li>
+				</ol>
+			</div>
+		</main>
+	</body>
+</html>

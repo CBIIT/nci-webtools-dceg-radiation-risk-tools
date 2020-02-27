@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center;">
+	<h1 class="page-title"><span style="font-size: 4em;">404</span><br/> Error Page</h1>
+	<p>We're sorry but the page you requested does not exist.</p> 
+	<p>You may have have entered an invalid address or followed a link to a page that no longer exists.</p>
+	<p>Check out the <a href="{% url "get-started" %}">Radiation Risk Assessment Tool (RadRAT) online calculator</a><br/> for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries<br/> (or countries with similar cancer incidence rates) from exposure to ionizing radiation for doses below 1 Gy.</p> 
+</div>
+{% endblock %}

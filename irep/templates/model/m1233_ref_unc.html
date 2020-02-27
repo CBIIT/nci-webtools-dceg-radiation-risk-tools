@@ -1,0 +1,25 @@
+{% extends "model/model_base.html" %}
+
+{% block siteDescription %}The term 'radiation effectiveness factor (REF)' is used to describe the biological effectiveness of different radiation types for the purpose of estimating cancer risks and probability of causation.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="radiation effectiveness factor (REF)" />
+<meta property="og:description" content="The term 'radiation effectiveness factor (REF)' is used to describe the biological effectiveness of different radiation types for the purpose of estimating cancer risks and probability of causation." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/other/dose/ref/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="radiation effectiveness factor (REF)">
+<meta name="twitter:description" content="The term 'radiation effectiveness factor (REF)' is used to describe the biological effectiveness of different radiation types for the purpose of estimating cancer risks and probability of causation.">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	<a href="{% url "model-m121_err_other" %}">ERR Other Sources</a>
+	<a href="{% url "model-m123_Dose_sv" %}">Dose (Sv)</a>
+	Radiation Effectiveness Factor
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Radiation Effectiveness Factor (REF)</h1>
+<p>The term &quot;radiation effectiveness factor (REF)&quot; is used to describe the biological effectiveness of different radiation types for the purpose of estimating cancer risks and probability of causation. Other terms that have been used to describe differences in biological effectivenss of different radiation types include &quot;relative biological effectiveness (RBE)&quot; and &quot;radiation weighting factor (w_r).&quot; The term REF is preferred over RBE because RBE is strictly used to describe the results of specific radiobiological studies. The term  REF is also preferred over w_r because w_r is a  point quantity defined by the International Commission on Radiological Protection (ICRP) for  calculating equivalent doses and determining compliance with dose limits.</p>
+<p>REF values used for specific radiation types are described in detail in:</p>
+<blockquote>Section IV.H. Radiation effectiveness factors for different radiation types (PDF) from the 2003 Report of the NCI-CDC Working Group to Revise the 1985 NIH Radioepidemiological Tables.</blockquote>
+{% endblock %}

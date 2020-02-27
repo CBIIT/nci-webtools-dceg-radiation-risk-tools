@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+				
+		<div class="breadcrumbs">
+			<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+			<a class="internal-help-button" href="{% url "model-help_internal" %}">Internal Exposure</a> &#187;
+			Total Dose
+		</div>				
+				
+				<h2>When You Are Given the Total Dose From All Raditations Combined</h2>
+				<h3>Alpha-emitting radionuclides</h3>
+				<p>You can normally select "alpha" whenever internal exposure to an alpha-emitting radionuclide occurs.  Significant doses from alpha emitters usually should occur mainly at sites of deposition in the body, and the total dose in such cases should be determined almost entirely by the dose due to alpha particles.</p>
+				<h3>Beta-emitting radionuclides</h3>
+				<ol type=A>
+					<li>Select either photons > 250 keV or electrons > 15 keV when a radionuclide emits mainly beta particles and photons (gamma rays) with average energies in these ranges (both radiation types have the same biological effectiveness).  There are many such beta/gamma emitters, and common examples include <sup>60</sup>Co,<sup> 131</sup>I, <sup>132</sup>I, <sup>133</sup>I, and <sup>137</sup>Cs (including <sup>137m</sup>Ba decay product).</li>
+					<li>You may select either photons > 250 keV or electrons > 15 keV when the dose is due to primarily to mixed fission or activation products and many radionuclides are involved, without the need to consider the dose from each radionuclide separately.  However, this choice is appropriate only if significant doses from alpha-emitting radionuclides (if any) are given separately.</li>
+					<li>Select electrons > 15 keV when a radionuclide is a pure beta emitter with an average energy of beta particles in this range.  Examples of such radionuclides include <sup>14</sup>C, <sup>32</sup>P, <sup>63</sup>Ni, <sup>89</sup>Sr, <sup>90</sup>Sr (including <sup>90</sup>Y decay product), <sup>99</sup>Tc, and <sup>147</sup>Pm.</li>
+					<li>Select electrons < 15 keV when the dose is due to <sup>3</sup>H or any other pure beta emitter with an average energy of beta particles in this range (such as <sup>107</sup>Pd).  However, this choice is not appropriate when a low-energy beta emitter has radioactive decay products that emit other radiation types that contribute most of the dose (examples include <sup>106</sup>Ru, which decays to the high-energy beta/gamma emitter <sup>106</sup>Rh, and <sup>241</sup>Pu, which decays to the alpha emitter <sup>241</sup>Am).</li>
+				</ol>
+				<h3>Other radionuclides</h3>
+				<p>You may encounter radionuclides that are not beta or alpha emitters.  These radionuclides often decay mainly by electron-capture decay (for example, <sup>51</sup>Cr, <sup>57</sup>Co, <sup>65</sup>Zn, and <sup>125</sup>I) or by isomeric transitions (for example, <sup>99m</sup>Tc and <sup>103m</sup>Rh).  Decay schemes of these radionuclides often include <a class="help_note2a-button" href="{% url "model-help_note2a" %}">various radiation types that differ in biological effectiveness</a>.  Therefore, unless you have knowledge of the decay schemes of any such radionuclides you encounter and the associated internal dosimetry models (that is, the particular radiation types that contribute most of the dose), you should seek advice from experts in these areas in selecting the most appropriate radiation type.</p>
+				<p>Radionuclides that decay by electron capture or an isomeric transition usually emit high intensities of low-energy (&lt; 15 keV) Auger electrons, and the dose may be due primarily to these electrons.  However, electrons &lt; 15 keV should not be selected as the radiation type when an Auger-emitting radionuclide is known to be incorporated into DNA; in these cases, assistance from experts in techniques of microdosimetry should be sought.</p>
+				<p>CAUTION: If an internal dose is not specified according to the radiation types used by IREP and you are not confident that selection of the radiation type is straightforward (as it normally should be for many beta- and alpha-emitting radionuclides), you should seek assistance from experts in radioactive decay and internal dosimetry before selecting a radiation type.  Knowledge of decay schemes of radionuclides, sites of deposition in the body, radioactive decay chains, and internal dosimetry models may be required to select the radiation type when only the total dose from all radiations emitted by specific radionuclides is given.</p>
+			</div>
+		</main>
+	</body>
+</html>

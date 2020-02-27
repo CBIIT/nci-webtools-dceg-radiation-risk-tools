@@ -1,0 +1,4 @@
+
+tr.more_percentiles {display:table-row;}
+#nci_banner, #header, #navigation, footer, .breadcrumbs, #id_percentiles_toggle, .javascript, #id_print_report {display:none;}
+.rwdtable {overflow-x: unset; overflow-y: unset;}

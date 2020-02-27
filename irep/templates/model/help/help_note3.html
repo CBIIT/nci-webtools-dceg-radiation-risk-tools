@@ -1,0 +1,34 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+
+	    <div class="breadcrumbs">
+			<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+			<a class="internal-help-button" href="{% url "model-help_internal" %}">Internal Exposure</a> &#187;
+			Dosimetry Model
+		</div>
+				
+				<h2>Importance of Internal Dosimetry Model Used to Estimate Dose</h2>
+				<p>For example, for some alpha-emitting radionuclides (such as plutonium and americium), older internal dosimetry models developed by the International Commission on Radiological Protection (ICRP) and documented in ICRP Publication 30 assume that deposition occurs at only a few sites (bone, liver, gonads, and, in cases of inhalation, the respiratory tract), and doses to other organs or tissues, which are not irradiated by alpha particles, are much lower than doses at sites of deposition.  However, the newer internal dosimetry models for these radionuclides, as documented in ICRP Publication 67, also assume that a fraction of the activity absorbed into blood is deposited in soft tissues throughout the body, and this results in higher doses from alpha particles in organs or tissues other than the primary sites of deposition.  The ICRP's newer internal dosimetry models are documented in ICRP Publications 67, 69, and 71.</p>
+			</div>
+		</main>
+	</body>
+</html>

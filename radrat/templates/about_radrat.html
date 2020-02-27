@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}Based on the risk models for the 7 cancers included in the 2006 report of the National Academies of Sciences' BEIR VII Committee and on the risk models for an additional 8 cancers, developed by the NCI after the publication of the BEIR VII report.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="About the Radiation Risk Assessment Tool (RadRAT)" />
+<meta property="og:description" content="Based on the risk models for the 7 cancers included in the 2006 report of the National Academies of Sciences' BEIR VII Committee and on the risk models for an additional 8 cancers, developed by the NCI after the publication of the BEIR VII report." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/about/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="About the Radiation Risk Assessment Tool (RadRAT)">
+<meta name="twitter:description" content="Based on the risk models for the 7 cancers included in the 2006 report of the National Academies of Sciences' BEIR VII Committee and on the risk models for an additional 8 cancers, developed by the NCI after the publication of the BEIR VII report.">
+{% endblock %}
+{% block breadcrumbs %}
+	About RadRAT
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">About the Radiation Risk Assessment Tool (RadRAT)</h1>
+<p>The reported lifetime risks are based on the risk models for the eleven cancers included in the <a href="https://www.nap.edu/openbook.php?isbn=030909156X">2006 report of the National Academies of Sciences' BEIR VII Committee</a> and on the risk models for an additional eight cancers, developed by the <a href="https://iopscience.iop.org/0952-4746/32/3/205/article">NCI after the publication of the BEIR VII report</a>.</p>	
+<p>The eleven cancer sites included in the BEIR VII report are:
+   <ul>
+	   <li>stomach</li>
+	   <li>colon</li>
+	   <li>liver</li>
+	   <li>lung</li>
+	   <li>breast</li>
+	   <li>prostate</li>
+	   <li>uterus</li>
+	   <li>ovary</li>
+	   <li>bladder</li>
+	   <li>thyroid, and</li>
+	   <li>leukemia.</li>
+   </ul>
+</p>
+<p>The eight cancer types for which NCI developed risk models after the publication of the BEIR VII report are:
+   <ul>
+		<li>oral cavity and pharynx</li>
+		<li>esophagus</li>
+		<li>rectum</li>
+		<li>gallbladder</li>
+		<li>pancreas</li>
+		<li>kidney</li>
+		<li>brain/central nervous system, and</li>
+		<li>remainder (including solid cancers other than the ones listed above, but excluding non-melanoma skin cancer).</li>
+   </ul>
+</p>            
+<p>The risk models for thyroid and breast cancer are obtained from follow-up studies of several cohorts including data from the Life Span Study (LSS) cohort of the Japanese atomic bomb survivors, while the risk models for the other cancers are based solely on data from the LSS cohort. Some minor modifications were made to the BEIR VII methodology. <a href="{% url "difference" %}">A summary of the methods used including the differences between BEIR VII and the NCI RadRAT methodologies is presented here.</a></p>
+<p>This online Radiation Risk Assessment Tool allows the calculation of risk from complex histories of acute or chronic exposures to high-energy gamma or beta radiation. The lifetime risk estimates are based on the incidence rates for the U.S. 2000-2005 population, combined with survival data from U.S. Decennial Life Tables for 1999-2001.</p>
+<p>The calculator reports lifetime risks by cancer type (i.e., for one or multiple exposed organ(s)) or the total risk (summed across all exposed organs). The reported lifetime risks from exposure to radiation include the excess risk from exposure until the end of the expected lifetime, and the future risk from present day until the end of the expected lifetime (assuming no cancer has been observed from exposure until the present day). The calculator, developed using the Analytica programming software, employs Monte Carlo simulation methods with Latin Hypercube Sampling (LHS) to estimate a distribution of potential lifetime risk estimates, by taking into account statistical uncertainties in the risk parameters and subjective uncertainties in a number of the assumptions. The calculator reports the mean risk and 90% uncertainty interval from the resulting distribution.</p>
+{% endblock %}

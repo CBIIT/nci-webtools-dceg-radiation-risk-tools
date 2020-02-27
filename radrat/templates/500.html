@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center;">
+	<h1 class="page-title"><span style="font-size: 4em;">500</span><br/> Internal Server Error</h1>
+	<p>The server encountered an internal error or misconfiguration and was unable to complete your request.</p>
+	<p>Please contact the administrator at <a href="mailto:{{contact_email}}?Subject=RadRAT Web site">RadRAT Web staff</a> and inform them of the time the error occurred, and anything you might have done that may have caused the error.</p>
+	<p>Check out the <a href="{% url "get-started" %}">Radiation Risk Assessment Tool (RadRAT) online calculator</a><br/> for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries<br/> (or countries with similar cancer incidence rates) from exposure to ionizing radiation for doses below 1 Gy.</p> 
+</div>
+{% endblock %}

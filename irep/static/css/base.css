@@ -1,0 +1,649 @@
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GENERAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+body {
+    color: #353535;
+    font-size: 1em;
+    font-family: Verdana,sans-serif;
+	margin-top: 0;
+    margin: 0 auto;
+    width: 100%;
+	counter-reset: section;
+}
+body .container {
+	padding-left:23px;
+	padding-right: 23px;
+	max-width: 1400px;
+    margin: 0 auto;
+}
+.offscreen {
+    font-size: 1px;
+    left: -200em;
+    position: absolute;
+    top: -100em;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', Arial, sans-serif; }
+h1 {
+    color: #000000;
+    font-size: 1.6em;
+    font-weight: normal;
+    margin-top: 0;
+}
+h2 {
+    color: #333333;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+h3 {
+    color: #333333;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+a { color: #096598; }
+
+.small {
+    color: #666666;
+    font-size: 0.8em;
+}
+img {
+    border: 0 none;
+    max-width: 100%;
+    height: auto;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SPACING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.mb-0 { 	margin-bottom: 0; }
+.mb-1 { 	margin-bottom: 1em; }
+.mt-0 { 	margin-top: 0; }
+.mt-1 { 	margin-top: 1em; }
+.ml-0 { 	margin-left: 0; }
+.ml-1 { 	margin-left: 1em; }
+.mr-0 { 	margin-right: 0; }
+.mr-1 { 	margin-right: 1em; }
+.fltLeft, .left {     	float: left;}
+.fltRight, .right {     float: right;}
+.clear {     	clear: both;}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HEADER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.nciLogo { 
+	padding: 23px 0;
+	display: block;
+}
+.nciLogo img {
+    max-height: 54px;
+    max-width: 560px;
+    height: 100%;
+    width: 100%;
+}
+#skip, 
+#skip:hover, 
+#skip:visited { 
+	position: absolute; 
+	top: -20em; 
+	right: 44%; 
+	padding: .7em 1.5em; 
+	font-weight: bold; 
+	border: 2px solid #ccc; 
+	border-top: none; 
+	border-radius: 0 0 3px 3px; 
+	transition: all .2s ease-in-out; 
+}
+#skip:active, 
+#skip:focus { 
+	position: absolute; 
+	top: 0; 
+	color: #a90101; 
+	background: #fff; 
+	box-shadow: 0 1px 5px rgba(0,0,0,.7); 
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RIBBON ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.ribbon {
+    background: #606060;
+}
+.ribbon * {
+    padding: 0.25em 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #ffffff;
+    font-size: 1.2em;
+    margin: 0;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ NAVIGATION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+nav {
+    background-color: #046380;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+	flex-wrap: wrap;
+}
+nav * {
+    color: #ffffff;
+}
+nav li a {
+    padding: 0.5em 1em;
+    display: block;
+    background-color: #044b61;
+    border-left: 1px solid #7ca1ad;
+    border-right: 1px solid #7ca1ad;
+    text-decoration: none;
+    transition: 0.5s ease all;
+}
+nav li a:hover {
+    background-color: #033848;
+}
+nav li.rightside:last-of-type {
+    margin-left: auto;
+}
+@media only screen and (max-width: 500px) {
+	footer {
+		text-align: left;
+	}
+	nav li:last-of-type {
+		margin-left: 0;
+	}
+}
+/*~~~~~~~ LEFT NAVIGATION ~~~~~~~*/
+.leftnav {
+    padding-right: 2em !important;
+}
+.leftnav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.leftnav ul a {
+    text-decoration: none;
+    padding: 0.5em;
+    display: block;
+    color: #444;
+    border-bottom
+}
+.leftnav ul a.active {
+    border-left: 8px solid #046380;
+    background-color: #ebf6ff;
+}
+.leftnav ul ul {
+    padding-left: 2em;
+}
+.leftnav ul a:hover {
+    background-color: #ebf6ff;
+}
+.leftnav ul a.active:hover {
+    background-color: #eaeaea;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MAIN CONTENT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+main {
+    padding: 23px 0;
+}
+/*~~~~~ Breadcrumbs ~~~~~*/
+.breadcrumbs .container p {
+    background: #e6e6e6;
+    width: auto;
+    display: inline-block;
+    padding: 0.25em 0.75em 0.5em;
+    border-radius: 0 0 5px 5px;
+    margin: 0;
+	font-size: 0.9em;
+}
+/*~~~~~ Smoking History ~~~~~*/
+#id_smoking_history {
+	display: none;
+}
+#id_smoking_history_data {
+	display: none;
+}
+/*~~~~~ County and State ~~~~~*/
+label[for="id_county"]:before {
+    content: "\A";
+    white-space: pre;
+}
+/*~~~~~ Colorbox ~~~~~*/
+#colorbox {
+	width: 100% !important;
+	height: 90% !important;
+	max-width: 1200px !important;
+	max-height: 90% !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: auto;
+}
+div#cboxWrapper {
+    width: 96% !important;
+    height: 96% !important;
+    position: relative;
+	overflow: auto !important;
+	margin: 2% !important;
+}
+#cboxContent, #cboxLoadedContent {
+	max-width: 100% !important;
+	height: 100% !important;
+	width: 100% !important;
+	min-height: 375px !important;
+}
+div#cboxMiddleLeft, div#cboxMiddleRight, div#cboxTopLeft, div#cboxTopCenter, div#cboxTopRight, div#cboxBottomLeft, div#cboxBottomCenter, div#cboxBottomRight {
+    display: none;
+}
+div#cboxContent {
+    max-height: 100% !important;
+    max-width: calc(100% - 2em) !important;
+    height: 100% !important;
+    width: 100% !important;
+    float: none !important;
+    border-radius: 0px;
+    padding: 1em;
+}
+#cboxLoadedContent {
+	overflow: auto !important;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FOOTER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+footer {
+    padding: 23px 0;
+    border-top: 1px solid #cccccc;
+    text-align: center;
+    font-size: 0.9em;
+}
+footer > *{
+    margin-top: 0;
+}
+@media only screen and (max-width: 500px) {
+	footer {
+		text-align: left;
+	}
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ACCORDIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.accordion {
+    border: 1px solid rgba(0,0,0,.125);
+	margin-bottom: 1em;
+}
+.accordion .accordion-header {
+	padding: .75rem 1.25rem;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.accordion .accordion-header * {
+	text-decoration: none;
+}
+.accordion .accordion-body {
+    padding: 0 1.25rem 1.25rem;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+table.radon-history .hide-desktop,
+table.dose-history .hide-desktop {
+	display: none;
+}
+.rwdtable {
+	/*add scroll once table is wider than screen*/
+    width: 100%;
+    overflow: auto;
+	margin-bottom: 1em;
+}
+table {
+    border-collapse: collapse;
+	max-width: 100%;
+}
+table caption {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-align: left;
+}
+table th, table td {
+    border: 1px solid #606060;
+    padding: 0.5em;
+    vertical-align: top;
+}
+table th {
+    background-color: #bcd3da;
+}
+table tbody th {
+	text-align: right;
+}
+table tr:hover {
+	background-color:#e4e4e4 ;
+}
+table .highlight {
+	background-color: #dce9ec;
+}
+@media only screen and (max-width: 1000px) {
+	table.dose-history .hide-desktop,
+	table.radon-history .hide-desktop {
+		display: inline-block;
+	}	
+	/* requires data-label attribute on td tag */
+	.removeTableRWD {
+		width: 100%;
+	}
+	.removeTableRWD th {
+		display: none;
+	}
+	.removeTableRWD tbody td {
+		display: block;
+		border: none;
+		padding: 0.25em;
+	}
+	.removeTableRWD td[data-label]:before {
+		content: attr(data-label) ": ";
+	}
+	.removeTableRWD tr {
+        border: 1px solid #606060;
+        overflow: auto;
+    }
+	.removeTableRWD.counterRow tbody tr:before{
+		counter-increment: section;
+		content: "Row: " counter(section);
+        background-color: #bcd3da;
+        display: block;
+        padding: 2px;
+        margin-bottom: 2px;
+	}
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EQUATIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.equation {
+    font-size: 0.9em;
+}
+.equation * {
+    text-align: center;
+    vertical-align: middle;
+}
+.equation .equation-box {
+    border: 1px solid #044b61;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+    padding: 0.5em;
+    display: inline-block;
+    max-width: 125px;
+}
+.equation .equation-operators {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.equation .large {
+    font-size: 3.5em;
+    font-weight: normal;
+}
+.equation .equation-operator-box {
+    display: inline-block;
+}
+.equation .equation-operators.divide {
+    display: block;
+    margin: 0.5em 0;
+    border-bottom: 3px solid #444;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ALERTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.alert {
+	position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+.alert-secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+    border-color: #d6d8db;
+}
+.alert-error, .errorlist {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}   
+.alert-info {
+   color: #31708f;
+   background-color: #d9edf7;
+   border-color: #bce8f1;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BUTTONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.btn, .button {
+	display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	text-decoration: none;
+	cursor: pointer;
+	color: #353535;
+}
+.btn.focus, .btn:focus, .button.focus, .button:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem #9dc19e;
+}
+.button[disabled] {
+    background-color: #666666;
+    background-image: url("../img/button_background_disabled.png");
+    border: 1px solid #999999;
+    color: #BBBBBB;
+    cursor: default;
+}
+@media only screen and (max-width: 500px) {
+	.btn.left, .button.left, .btn.fltLeft, .button.fltLeft, .btn.right, .button.right, .btn.fltRight, .button.fltRight {
+		float: none;
+	}
+}
+/*~~~~~ Button Primary ~~~~~*/
+.btn-primary, .button-primary {
+    color: #fff;
+    background-color: #1b801f;
+    border-color: #1b801f;
+}
+.btn-primary:hover, .btn-primary:hover {
+    color: #fff;
+    background-color: #135815;
+    border-color: #36ad3a;
+}
+.btn-primary.focus, .btn-primary:focus {
+    color: #fff;
+    background-color: #135815;
+    border-color: #36ad3a;
+    box-shadow: 0 0 0 0.2rem #9dc19e;
+}
+/*~~~~~ Button Secondary ~~~~~*/
+.btn-secondary, .button-secondary {
+    background-color: #d2d2d2;
+    border-color: #d2d2d2;
+}
+.btn-secondary:hover, .btn-secondary:hover {
+    background-color: #b1b1b1;
+    border-color: #d2d2d2;
+}
+.btn-secondary.focus, .btn-secondary:focus {
+    background-color: #b1b1b1;
+    border-color: #d2d2d2;
+    box-shadow: 0 0 0 0.2rem #d2d2d2;
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FLEXBOX ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+.flexBox {
+	display: flex;
+}
+.flexBox .flexItem {
+	flex: 1;
+}
+.flexBox .flexItem.flexbody {
+	flex: 3;
+}
+@media only screen and (max-width: 550px) {
+.flexBox {
+	display: block;
+}
+}
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FORMS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+select, input {
+    font-size: 1em;
+    font-family: Verdana,sans-serif;
+}
+input[type="checkbox"], input[type="checkbox"] > label {
+	cursor: pointer;
+}
+input, textarea {
+	max-width: 100%;
+}
+input[type*="text"], select {
+	/* mimics selectize dropdown styling */
+    height: 26px;
+    padding: 0 0 0 8px;
+    border: 1px solid #aaa;
+    line-height: 26px;
+    color: #444;
+    text-decoration: none;
+    border-radius: 4px;
+    background-clip: padding-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #fff;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(0.5, #fff));
+    background-image: -webkit-linear-gradient(center bottom, #eee 0%, #fff 50%);
+    background-image: -moz-linear-gradient(center bottom, #eee 0%, #fff 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(to top, #eee 0%, #fff 50%);	
+}
+
+
+
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ OLD STYLING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*#cboxClose {
+    color: #999999;
+    line-height: 25px;
+    text-indent: -35px;
+    border: 0;
+}*/
+.disclaimer {margin-top: 20px;}
+dt {
+	font-weight: bold;
+	margin: 10px 0px 0px 10px;
+}
+dd {margin: 5px 0px 0px 20px;}
+dd ul {padding-left: 20px;}
+.empty-form {display:none;}
+.delete-form-link {
+    display: inline;
+    margin: 1em 0px;
+    padding: 0px 0px 0px 20px;
+    background-image: url('../img/delete.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.hover {background-color: #F2D0D0;}
+.left_content {
+	float:left;
+	width: 100%;
+}
+.right_content {
+	float: left;
+	margin: 0 0 0 20px;
+}
+.right_content h2 {
+	padding: 5px 0 0 5px;
+	margin-bottom: 5px;
+}
+.right_content ul {
+	margin-top: 5px;
+	padding-left: 10px;
+	list-style-type: none;
+}
+.right_content li {
+	background-image: url("../img/arrow_bullet.jpg");
+	background-repeat: no-repeat;
+	background-position: 0 .4em;
+	padding-left: 15px;
+}
+#parameters {
+	width: 100%;
+	white-space: nowrap;
+	margin-bottom: 10px;
+}
+#id_collapse_adv {
+	position: relative;
+	/*top: 3px;*/
+}
+/*.colapse{
+	background-image:url('../img/contract.gif');
+}
+.expand{
+	background-image:url('../img/expand.gif');
+}*/
+.rpt_option {
+  margin-left: 25px;
+  margin-right: 5px;
+  white-space: nowrap;
+}
+#contact_information label {
+    display: block;
+    margin-bottom: 6px;
+}
+#contact_information label:after {
+    content: ": ";
+}
+.formset_delete label, #id_dose_exosure_formset tbody label, #id_radon_exosure_formset tbody label {
+	/*off screen*/
+    font-size: 1px;
+    left: -200em;
+    position: absolute;
+    top: -100em;
+	/*display: none;*/
+}
+#id_optional_results {
+   display: none;
+}
+table.initial-hidden tr, div.initial-hidden {
+    display:none;
+}
+
+/**************************************/
+
+
+.help-dialog {
+   background: #fff;
+}
+
+.error, .errorMessage {
+    color: #A90101;
+    font-weight: bold;
+    margin: 6px 0;
+}
+.errorField {
+    color: #A90101;
+}
+.nowrap {
+    white-space: nowrap;
+}
+#skip, #skip:hover, #skip:visited { position: absolute; top: -200px; right: 44%; padding: 8px 15px; font-weight: bold; border: 2px solid #ccc; border-top: none; border-radius: 0 0 3px 3px; transition: all .2s ease-in-out; }
+#skip:active, #skip:focus { position: absolute; top: 0; color: #a90101; background: #fff; box-shadow: 0 1px 5px rgba(0,0,0,.7); }
+#pdf_info {
+    border: 1px solid #797979;
+    border-radius: 3px 3px 3px 3px;
+    font-size: 0.9em;
+    padding: 5px;
+}
+.flow_diagram {
+    float: right;
+    margin: 0 0 10px 10px;
+}
+#id_generate_results, #id_clear {
+	padding: 6px 8px 6px 8px;
+}
+.disabled {
+    background-color: #D4D4D4;
+    /*border: 1px solid #999999;*/
+    cursor: default;
+}
+@media only screen and (max-width: 500px) {
+	ul {
+	    padding-left: 2em;
+	}
+}

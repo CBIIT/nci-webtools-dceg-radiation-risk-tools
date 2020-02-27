@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Thyroid Dose and Risk Calculator" />
+<meta property="og:description" content="This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/fallout/inputs/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Thyroid Dose and Risk Calculator">
+<meta name="twitter:description" content="This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.">
+{% endblock %}
+{% block breadcrumbs %}
+	Thyroid Dose and Risk Calculator
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Thyroid Dose and Risk Calculator</h1>
+<form id="personal_information" name="personal_information" action="." method="post" novalidate autocomplete="off">
+	{% csrf_token %}
+	<input type="hidden" id="id_action" name="action" value="">
+	<div id="id_personal_information">
+		<h2>Demographic Information</h2> 
+		<table class="removeTableRWD">
+			<tbody>
+				<tr>
+					<th><label for="id_dob">What is your date of birth?</label></th>
+					<td data-label="Date of birth">{{ form.dob }}{{ form.dob.errors }}</td>
+				</tr>
+				<tr>
+					<th><label for="id_gender">What is your gender?</label></th>
+					<td data-label="Gender">{{ form.gender }}{{ form.gender.errors }}</td>
+				</tr>
+				<tr>
+					<th style="max-width: 250px;"><label for="id_hours_outdoors">On average, approximately how many hours per day did you spend outdoors during the 1950s and 1960s (when most fallout occurred)?</label></th>
+					<td data-label="On average, approximately how many hours per day did you spend outdoors during the 1950s and 1960s (when most fallout occurred)?">{{ form.hours_outdoors }} {{ form.spent_hours_outdoors }} {{ form.spent_hours_outdoors.label_tag }}{{ form.hours_outdoors.errors }}</td>
+				</tr>
+				<tr>
+					<th><label for="id_mothers_milk_toggle">Did you consume mother's milk as an infant?</label></th>
+					<td data-label="Did you consume mother's milk as an infant?">{{ form.mothers_milk_toggle }}{{ form.mothers_milk_toggle.errors }}</td>
+				</tr>
+				<tr>
+					<th><label for="id_diagnosed_cancer">Have you been diagnosed with thyroid cancer?</label></th>
+
+					<td data-label="Have you been diagnosed with thyroid cancer?">{{ form.diagnosed_cancer }} <span>{{ form.diag_year.label_tag }}</span> {{ form.diag_year }} {{ form.diagnosed_cancer.errors }} {{ form.diag_year.errors }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="id_location_exosure_formset" data-add-label="Add Additional County Residence and Milk Consumption">
+		<h2>County Residence and Milk Consumption History</h2>
+		<p>For the time period from January 1951 through the end of 1982, specify where you lived as well as the type and amount of milk that you consumed. If your birthday is after January 1951, start with your birth month and year.</p>
+		{{ location_formset.management_form }}
+		{% if location_formset.non_form_errors %}
+			<div class="errorlist"><ul>{% for error in location_formset.non_form_errors %}<li>{{ error|striptags }}</li>{% endfor %}</ul></div>
+		{% endif %}
+		<table class="milk-history removeTableRWD counterRow">
+			<thead>
+				<th>Begin Date <a class="help-begin-date" href="{% url "help-begin-date" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th>Where did you live? <a class="help-state-county" href="{% url "help-state-county" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th>Milk Source</th>
+				<th>Milk Amount <a class="help-milk-amount" href="{% url "help-milk-amount" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th id="delete-action"><span class="offscreen">Delete Action</span></th>
+			</thead>
+			<tbody>
+			{% for form in location_formset.forms %}    
+				<tr class="form">
+				{% include "location_form.html" %}</tr>
+				{% if form.errors %}
+					<tr class="errorlist"><td colspan=10><ul>{% for field in form %}{% if field.errors %}<li>{{ field.errors|striptags }}</li>{% endif %}{% endfor %}</ul></td></tr>
+				{% endif %}
+			{% endfor %}
+			{% with location_formset.empty_form as form %}
+				<tr class="empty-form">{% include "location_form.html" %}</tr>
+			{% endwith %}
+			</tbody>
+		</table>
+		<div id="id_add_location_exposure">
+			<input type="submit" class="btn btn-primary" value="Add Location" id="id_add_location" name="id_add_location">
+		</div>      
+	</div>		
+	<input type="submit" class="btn btn-primary" value="Generate Results" id="id_generate_results" name="id_generate_results">
+	<a href="{% url 'clear-inputs' %}" class="btn btn-secondary" id="id_clear">Clear</a>
+	<img style="display:none;" title="Loading" alt="Loading" height="16" width="16" src="{% static 'img/loading_small.gif' %}" />
+</form>
+{% endblock %}
+
+{% block css %}
+<link href="{% static 'css/jquery.countdown.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'select2/select2.css' %}" type="text/css" rel="stylesheet">
+	<style>
+	.hasCountdown {
+		background-color: #FFF;
+		border: 0px solid;
+	}
+	.countdown_amount {
+		font-size: 100%;
+	}
+	</style>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.countdown.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'select2/select2.js' %}" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+var color_box;
+$(document).ready( function() {
+   first=true;
+   // Add aria attribute to error divs to alert screen reader.
+   $('.errorlist').each(function( index ) {
+        $(this).attr('aria-live', 'polite');
+   });
+   $( "#id_dob" ).datepicker({
+      showOn: "button",
+      buttonImage: "{% static 'img/calendar.gif' %}",
+      buttonImageOnly: true,
+      buttonText: "Select date of birth",
+      changeMonth: true,
+      changeYear: true,
+      minDate: new Date({{min_dob.year}}, {{min_dob.month|add:"-1"}}, {{min_dob.day}}),
+      maxDate: new Date({{max_dob.year}}, {{max_dob.month|add:"-1"}}, {{max_dob.day}}),
+      defaultDate: new Date({{default_dob.year}}, {{default_dob.month|add:"-1"}}, {{default_dob.day}}),
+      yearRange: "{{min_dob.year}}:{{max_dob.year}}",
+      showOn: "both"
+    });
+    $('#id_spent_hours_outdoors').on( 'click', function() {
+        $('#id_hours_outdoors').attr('disabled', $(this).is(':checked'));    
+    });
+    $('#id_hours_outdoors').attr('disabled', $('#id_spent_hours_outdoors').is(':checked'));   
+    $('#id_diagnosed_cancer').on( 'change', function() {
+        $('#id_diag_year').attr('disabled', $(this).val() != 'Yes');    
+    }).trigger('change');   
+   $(":input:not(textarea):not([type=submit])").keypress(function(event) {
+	    if (event.keyCode == 13)
+	        event.preventDefault();
+	    
+   });
+   $('.formset_delete').css("display","none");  
+   $('.delete-button img').css("display","inline");        
+   $('#id_add_location_exposure').css("display","none");
+   // dose exposure javascript
+   new FormSet('id_location_exosure_formset', 200, "{% static 'img/add.png' %}");
+    $(document).on( 'click', 'a.help-milk-amount', function() {
+        $.colorbox( {
+            href: "{% url "help-milk-amount" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: ''
+        } );
+        return false;
+    } );    
+    $(document).on( 'click', 'a.help-state-county', function() {
+        $.colorbox( {
+            href: "{% url "help-state-county" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: ''
+        } );
+        return false;
+    } );
+    
+    console.log('screen width = ' + window.screen.width);
+    $(document).on( 'click', 'a.help-begin-date', function() {
+        $.colorbox( {
+            href: "{% url "help-begin-date" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: 'Close'
+        } );
+        return false;
+    } );  
+    $(document).on( 'click', 'a.select-county', function() {
+        var href = $(this).attr('href');
+        // get selected state and county
+        var state = $(this).siblings('input[name$="-state"]');
+        var county = $(this).siblings('input[name$="-county"]');
+        href += '?id_state=' + state.attr('id') + '&id_county=' + county.attr('id');
+        if (state.val() != '') {
+            href += '&state=' + state.val();
+        }         
+        if (county.val() != '') {
+            href += '&county=' + county.val();
+        }         
+        href = href.replace(' ', '%20');
+        $.colorbox( {
+            href: href,
+            width: "1200px", //window.screen.width < 600 ? ((window.screen.width - 20) + "px") : "600px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: '',
+            overlayClose: true,
+            escKey: false,
+            scrolling: false
+        } );
+        return false;
+    } );                        
+    $('#id_generate_results').on( 'click', function(event) {
+        var execution_task_id = 0;
+        $.ajax({
+            url: "{% url 'queue-report' %}",
+            async: false,
+            type: "POST",
+            data: $('form').serialize(),
+            success: function( response ) {
+                if (response.is_valid) {
+                   execution_task_id = response.execution_task_id;
+                }
+            }
+        });
+        
+        if (!execution_task_id) {
+            /* Ajax call to queue analysis indicated that parameters are not valid, reload page to see errors. */
+            return true;
+        } else {
+            /* Form is valid -- cancel form submission and start process of periodically polled execution status. */  
+            event.preventDefault();
+            var estimation = getExecuteEstimation();
+            setTimeout( function() {
+                $.colorbox( {
+                    html: '<p>Do not close this webpage or browser, results are being generated.</p><p>This may take as long as ' + estimation['text'] + '.</p><div id="id_estimation_count"><p>Approximate time to complete: <span id="id_countdown"></span></p></div>',
+                    width: "1200px",
+                    maxwidth: "1200px",
+                    height: "1200px",
+                    overlayClose: false,
+                    escKey: false,
+                    opacity: 0.6,
+                    close: ''
+                } );
+                $('#id_countdown').countdown({until: +estimation['seconds'], format: 'MS', timeSeparator: ' : ',compact: true, onExpiry: onExpiry});
+            }, 0 ); 
+
+            function pollStatus() {
+                $.ajax({
+                    url: "{% url 'poll-execution' %}?execution_task_id=" + execution_task_id,
+                    cache: false,
+                    success:function(response) {
+                        if (response.completed) {
+                            window.location.href = "{% url 'summary-report' %}?execution_task_id=" + execution_task_id;
+                        } else if ($('#colorbox').is(':visible')) {                   
+                            setTimeout(pollStatus, 5000);
+                        }
+                    }
+                });
+            }
+            
+            pollStatus();
+                
+            return false;
+        }        
+    } );
+    
+    $(window).unload(function() {
+        $.colorbox.close();
+    });
+
+    {% for form in location_formset.forms %} 
+    //$("#id_location_-{{forloop.counter0}}-year").select2({width: "100px"});
+    {% endfor %}
+    
+    //Remove the HTML5 required attribute - I don't like this feature.
+    $(":input").removeAttr('required');
+            
+    first=false;
+});
+function setLocation(id_state, state_val, state_name, id_county, county) {
+    $('#' + id_state).val(state_val);    
+    $('#' + id_county).val(county);
+    $('#' + id_state).siblings('.select-county').html(state_name + (county != '' ? ' / ' + county.replace('_', ' ') : ''));
+}
+function onExpiry() {
+    $('#id_estimation_count').html('<div class="alert alert-secondary">Results are taking longer than expected to generate, please wait ...<img title="Loading" alt="Loading" height="16" width="16" src="{% static 'img/loading_small.gif' %}" /></div>'); 
+}
+function getExecuteEstimation() {
+    var estimation = Math.ceil($('.form').filter(':visible').length * 100);
+    var minutes = Math.floor(estimation/60);
+    var seconds = estimation - (minutes * 60);
+    var text_estimation = '';
+    if (minutes) {
+    	text_estimation = minutes + ' minute' + (minutes > 1 ? 's' : '')    	
+    } 
+    if (seconds) {
+        text_estimation += (minutes ? ' ' : '') + seconds + ' second' + (seconds > 1 ? 's' : '')            	
+    }
+    return {'text':text_estimation,'seconds':estimation};
+}
+</script>
+{% endblock %}

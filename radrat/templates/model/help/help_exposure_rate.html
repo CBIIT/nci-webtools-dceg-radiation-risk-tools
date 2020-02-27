@@ -1,0 +1,34 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>NCI Radiation Risk Assessment Tool</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance for Selecting Exposure Rate</h1>
+				<p>Each exposure can be defined as acute or chronic. Based on this input information, the calculator determines whether to adjust the risk estimates by a "dose and dose-rate effectiveness factor" (DDREF). Since most underlying risk models in NCI RadRAT are based on studies of the Japanese atomic bomb survivors who were exposed to a short-term/acute radiation dose, the models are adjusted by the DDREF when applied to longer-term (chronic) exposures. This adjustment accounts for the possibility that the risk from chronic exposures is different than the risk observed from acute exposures.</p>		
+				<p>To classify each exposure as acute or chronic, one can rely on the criteria recommended by the UNSCEAR (2003): chronic exposures are those where the dose rate is lower than 6 mGy per hour averaged over the first few hours. This recommendation was adopted by Land et al., (2003) and is similar to that of EPA (1999).</p>        
+				<p><b>In general, an exposure received over a short period of time (less than 1 day) may be considered acute, while prolonged (or repeated) exposures that span more than 1 day may be considered chronic.</b></p>        
+				<h2>References:</h2>
+				<ol>
+					<li>EPA (Environmental Protection Agency). Estimating Radiogenic Cancer Risks. EPA Report 402-R-00-003. Washington, DC: Environmental Protection Agency, May 1999.</li>
+					<li>Land C, Gilbert E, Smith JM, Hoffman FO, Apostoaei I, Thomas B, Kocher DC. NCI-CDC working group to revise the 1985 NIH radioepidemiological tables. Washington, DC: National Institutes of Health, National Cancer Institute; NIH Publication No. 03-5387; 2003.</li>
+					<li>UNSCEAR. Sources, Effects and Risks of Ionizing Radiation. No. E.94.IX.2. New York: United Nations, 1993.</li>
+				</ol>
+			</div>
+		</main>
+	</body>
+</html>

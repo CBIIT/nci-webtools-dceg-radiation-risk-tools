@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+		        <div class="breadcrumbs">
+                   <a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+                   <a class="external-help-button" href="{% url "model-help_external" %}">External Exposure</a> &#187;
+                   Emitted Photons
+		</div>
+				<h2>Average Energy of Emitted Photons</h2>
+				<p>If <i>E<sub><font face="symbol">g</font>,i</i></sub> and <i><font face="times new roman">I</font><sub><font face="symbol">g</font>,i</i></sub> denote the energy and intensity of the <i>i</i>th photon in the spectrum of photons, including gamma rays and x rays, emitted in decay of a radionuclide, the average energy is given by:</p>
+				<blockquote>
+					<p><i>E<sub><font face="symbol">g</font>,avg</i></sub> = [<font face="symbol">S</font><i>E<sub><font face="symbol">g</font>,i</i></sub> x <i><font face="times new roman">I</font><sub><font face="symbol">g</font>,i</i></sub>] / [<font face="symbol">S</font><i><font face="times new roman">I</font><sub><font face="symbol">g</font>,i</i></sub>]</p>
+				</blockquote>
+				<p>Photon spectra in decay of radionuclides are given, for example, in refs. [1] and [2].</p>
+				<h3>References:</h3>
+				<ol>
+					<li>International Commission on Radiological Protection (ICRP), Radionuclide Transformations:  Energy and Intensity of Emissions, ICRP Publication 38, Ann. ICRP 11-13, Pergamon Press, Oxford, U.K. (1983).</li>
+					<li>D. C. Kocher, Radioactive Decay Data Tables, DOE/TIC-11026, U.S. Department of Energy, Oak Ridge, Tennessee (available through National Technical Information Service, Springfield, Virginia) (1981).</li>
+				</ol>
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+			<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+			
+		<div class="breadcrumbs">
+			<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+			<a class="internal-help-button" href="{% url "model-help_internal" %}">Internal Exposure</a> &#187;
+			Separate Doses
+		</div>			
+			
+			<h2>When You Are Given the Separate Doses For Named Radiations</h2>
+			<p>CAUTION: If you are uncertain about how to select the radiation type, you should consult experts in radioactive decay and internal dosimetry models.</p>
+			<h3>Photons</h3>
+			<p>For each radionuclide separately, the energy range can be selected on the basis of the <a class="help_note1a-button" href="{% url "model-help_note1a" %}">average energy of emitted photons</a>.</p>
+			<OL type=A>
+				<li>E &gt; 250 keV - Applies to decay of mixed fission or activation products and many common photon-emitting radionuclides including, for example, <sup>58</sup>Co, <sup>60</sup>Co, <sup>65</sup>Zn, <sup>106</sup>Ru+<sup>106</sup>Rh, <sup>131</sup>I, <sup>132</sup>I, <sup>133</sup>I, <sup>134</sup>Cs, and <sup>137</sup>Cs+<sup>137m</sup>Ba.</li>
+				<li>E = 30-250 keV - Radionuclides that emit photon energies in this range include, for example, <sup>57</sup>Co, <sup>144</sup>Ce+<sup>144</sup>Pr decay products, <sup>155</sup>Eu, <sup>235</sup>U, and <sup>241</sup>Am.</li>
+				<li>E &lt; 30 keV - Radionuclides that emit photon energies in this range include, for example, <sup>55</sup>Fe, <sup>59</sup>Ni, <sup>93m</sup>Nb, and <sup>103m</sup>Rh.
+			</ol>
+			<h3>Electrons</h3>
+			<p>For each radionuclide separately, the energy range can be selected on the basis of the average energy of emitted electrons, including the continuous spectrum of beta particles or positrons and discrete internal conversion and Auger electrons.</p>
+			<ol type=A>
+				<li>E &gt; 15 keV - Radionuclides that emit electrons with average energies in this range include, for example, <sup>14</sup>C, <sup>60</sup>Co, <sup>89</sup>Sr, <sup>90</sup>Sr+<sup>90</sup>Y, <sup>131</sup>I, <sup>132</sup>I, <sup>133</sup>I, and <sup>137</sup>Cs.</li>
+				<li>E &lt; 15 keV - Radionuclides that emit electrons with average energies in this range include, for example, <sup>3</sup>H, <sup>51</sup>Cr, <sup>55</sup>Fe, <sup>57</sup>Co, <sup>65</sup>Zn, <sup>107</sup>Pd, and <sup>125</sup>I.  However, this energy range should not be selected when the radionuclide emits low-energy Auger electrons and the radionuclide is known to be incorporated into DNA; in these cases, assistance from experts in microdosimetry should be sought.</li>
+			</ol>
+			<h3>Alpha Particles</h3>
+			<p>Select "alpha" in all cases.</p>
+			</div>
+		</main>
+	</body>
+</html>

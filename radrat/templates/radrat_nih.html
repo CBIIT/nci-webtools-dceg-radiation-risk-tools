@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Radiation Risk Assessment Tool - Lifetime Cancer Risk from Ionizing Radiation" />
+<meta property="og:description" content="RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Radiation Risk Assessment Tool - Lifetime Cancer Risk from Ionizing Radiation">
+<meta name="twitter:description" content="RadRAT is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries from exposure to ionizing radiation for doses below 1 Gy.">
+{% endblock %}
+{% block content %}
+<h1 class="page-title offscreen">Homepage</h1>
+<p>The Radiation Risk Assessment Tool (RadRAT) is an online calculator for estimating the lifetime risk of cancer incidence for members of the U.S. population and other selected countries (or countries with similar cancer incidence rates) from exposure to ionizing radiation for doses below 1 Gy.</p> 
+<p>The calculator works using organ-specific dose estimates according to age at exposure and sex. Lifetime total cancer risk and organ-specific risk estimates are reported along with a 90% uncertainty range.</p> 
+<p>The reported lifetime risks are based on the risk models for the eleven cancers included in the 2006 report of the National Academies of Sciences' BEIR VII Committee and on the risk models for an additional eight cancers, developed by the NCI after the publication of the BEIR VII report. Read more <a href="{% url "about-radrat" %}">about RadRAT risk models and methodologies</a>.</p>
+<p><a class="btn btn-primary" role="button" href="{% url "get-started" %}">Get Started &raquo;</a></p>
+<div class="alert alert-secondary" role="alert">
+	<p>RadRAT version 4.2 was released in January 2020. Please refer to the <a href="{% url "radrat-updates" %}">upgrade history</a> for the modifications included in various versions of the code.</p>
+</div>
+{% endblock %}

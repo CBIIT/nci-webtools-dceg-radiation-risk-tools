@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+{% load data_verbose %}
+{% load normalize_dose_parameter %}
+{% load chances %}
+{% load render_risks %}
+{% load staticfiles %}
+
+{% block siteDescription %}RadRAT {{version}} using Analytica/ADE {{ade_version}} 64-bit{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Summary Report - Radiation Risk Assessment Tool" />
+<meta property="og:description" content="RadRAT {{version}} using Analytica/ADE {{ade_version}} 64-bit" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/results/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Summary Report - Radiation Risk Assessment Tool">
+<meta name="twitter:description" content="RadRAT {{version}} using Analytica/ADE {{ade_version}} 64-bit">
+{% endblock %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/print.css' %}" media="print" >
+{% endblock %}
+
+{% block breadcrumbs %}
+	<a href="{% url "model-inputs" %}">RadRAT Information</a>
+	Summary Report
+{% endblock %}
+
+{% block content %}
+<a onclick="window.print(); return false;" href="#" id="id_print_report" class="btn btn-primary right">&#128438; Print</a>
+<h1 class="page-title">Radiation Risk Assessment Tool - Summary Report</h1>
+<div id="id_report_content">
+	<p>RadRAT {{version}} using Analytica/ADE {{ade_version}} 64-bit <span class="right">Report Date: {% now "m/d/Y h:i:s A e" %}</span></p>
+	{% if debug and total_time %}
+		<p>Total Time: {{total_time.0}} minutes {{total_time.1}} seconds</p>
+	{% endif %}	
+	{% if debug and response_data.messages %}
+		<div class="alert alert-error">
+			<p><strong>Analytica ADE Warnings and Errors</strong></p>
+			<ul>
+				{% for message in response_data.messages %}
+				<li>{{message}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	<h2>Information Used In Lifetime Risk Calculation</h2>
+	<div class="rwdtable">
+		<table id="id_table_personal">
+			<tbody>
+				<tr>
+					<th>Gender</th>
+					<td>{{personal.gen_choice|data_verbose}}</td>
+				</tr>
+				<tr>
+					<th>Birth Year</th>
+					<td>{{personal.by.data}}</td>
+				</tr>
+				<tr>
+					<th>Population</th>
+					<td>{{personal.baseline|data_verbose}}</td>
+				</tr> 
+			</tbody>       
+		</table>
+	</div>
+
+    {% if personal.baseline.data == 'usseer00_05' and smoking_history.include_history.data %}
+    <h2>Smoking History Used In Lifetime Risk Calculation</h2>
+	<div class="rwdtable">
+		<table id="id_table_smoking_history">
+			{% if smoking_history.cpd_intensity_inp.data == '0' %}
+				<tbody>
+					<tr>
+						<th>Smoking History</th>
+						<td>Non-smoker</td>
+					</tr>
+					{% else %}
+					<tr>
+						<th>Smoking Intensity (Cigarettes/Day)</th>
+						<td>{{smoking_history.cpd_intensity_inp.data}}</td>
+					</tr>
+					<tr>
+						<th>Start Smoking Year</th>
+						<td>{{smoking_history.start_smk_yr_inp.data}}</td>
+					</tr>
+					<tr>
+						<th>Quit Smoking Year</th>
+						<td>{{smoking_history.quit_smk_p_inp.data}}</td>
+					</tr>
+				</tbody>
+			{% endif %}
+		</table>
+	</div>
+    {% endif %}
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> Assumptions and Settings</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table id="id_table_assumptions">
+					<tbody>
+						<tr>
+							<th>Number of Iterations</th>
+							<td>{{advanced.sample_size.data}}</td>
+						</tr>
+						<tr>
+							<th>Random Number Seed</th>
+							<td>{{advanced.random_seed.data}}</td>
+						</tr>
+						{% if advanced.ududtype.data == 'Lognormal' and advanced.ududparm1.data == 1 and advanced.ududparm2.data == 1 %}
+						{% else %}
+							<tr>
+								<th>User Defined Uncertainty Distribution</th>
+								<td>{{advanced.ududtype.data}}
+												{% ifequal advanced.ududtype.data 'Lognormal' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Normal' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Triangular'%}({{advanced.ududparm1.data}},{{advanced.ududparm2}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Logtriangular'%}({{advanced.ududparm1.data}},{{advanced.ududparm2}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Uniform' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Loguniform' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+												{% else %}{% ifequal advanced.ududtype.data 'Fixed Value' %}({{advanced.ududparm1.data}})
+												{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+								</td>
+							</tr>
+							<tr>
+								<th>Current Year Setting</th>
+								<td>{{advanced.year_today.data}}</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> General Exposure Information</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table border="1">
+					<thead>
+						<tr>
+							<th>Event #</th>
+							<th>Exposure Year</th>
+							<th>Organ</th>
+							<th>Organ Dose ({{dose_units.dose_units|data_verbose}})</th>
+							<th>Exposure Rate</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for form in dose_exposure.forms %}
+						<tr>
+							<td>{{form.event.data}}</td>
+							<td>{{form.yoe.data}}</td>
+							<td>{{form.organ|data_verbose}}</td>
+							<td>{{form.dosetype.data}}
+							{% if form.dosetype.data == "Lognormal" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Normal" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Triangular" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}}, {{form.doseparm3|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Logtriangular" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}}, {{form.doseparm3|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Uniform" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Loguniform" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+							{% else %}{% if form.dosetype.data == "Fixed Value" %}({{form.doseparm1|normalize_dose_parameter}})
+							{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}</td>
+							<td>{{form.exprate|data_verbose}}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<h2>Risk Estimates</h2>
+	<div class="rwdtable">
+		<table>
+			<caption>
+			   Lifetime Risk of Developing {{response_data.risk_tab.4}} (chances in 100,000) with a 90% Uncertainty Range
+			   {% if response_data.risk_tab.9|is_chances_100000 or response_data.risk_tab.21|is_chances_100000 or response_data.risk_tab.27|is_chances_100000 %}
+				 <br/>The combination of doses used for this exposure situation have generated risks greater than 100,000 chances in 100,000. Please check the input doses. Doses of this magnitude are outside of the range for which this calculator is intended. The risks have been truncated to 100,000 chances in 100,000.
+			   {% endif %}
+			</caption>
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>Lower Bound</th>
+					<th>Mean</th>
+					<th>Upper Bound</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Excess Lifetime Risk*</th>
+					<td>{{response_data.risk_tab.7|chances_100000|smart_round}}</td>
+					<td>{{response_data.risk_tab.8|chances_100000|smart_round}}</td>
+					<td>{{response_data.risk_tab.9|chances_100000|smart_round}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="footnote"><p>* Risk from the time of exposure to the end of the expected lifetime</p></div>
+
+    {% ifequal response_data.risk_tab.4 'Cancer of the Exposed Organs' %}
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;" id="id_life_site"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> Excess Lifetime Risk per Cancer Site* with a 90% Uncertainty Range</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table>			
+					<thead>
+						<tr>
+							<th>Cancer Site</th>
+							<th>Lower Bound</th>
+							<th>Mean</th>
+							<th>Upper Bound</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% render_organ_risks response_data.elr_organ_tab 'Oral Cavity & Pharynx' 0 19 38 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Esophagus' 1 20 39 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Stomach' 2 21 40 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Colon' 3 22 41 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Rectum' 4 23 42 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Liver' 5 24 43 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Gallbladder' 6 25 44 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Pancreas' 7 26 45 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Lung' 8 27 46 %}
+						{% ifequal personal.gen_choice.data 'Female' %}
+						{% render_organ_risks response_data.elr_organ_tab 'Breast' 9 28 47 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Ovary' 10 29 48 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Uterus' 11 30 49 %}
+						{% endifequal %}
+						{% ifequal personal.gen_choice.data 'Male' %}
+						{% render_organ_risks response_data.elr_organ_tab 'Prostate' 12 31 50 %}
+						{% endifequal %}
+						{% render_organ_risks response_data.elr_organ_tab 'Bladder' 13 32 51 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Kidney' 14 33 52 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Nervous System' 15 34 53 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Thyroid' 16 35 54 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Other & Ill-defined Sites' 18 37 56 %}
+						{% render_organ_risks response_data.elr_organ_tab 'Leukemia' 17 36 55 %}
+					</tbody>
+				</table>
+			</div>
+    		<div class="initial-hidden footnote"><p>* Risk from the time of exposure to the end of the expected lifetime</p></div>
+		</div>
+	</div>
+    {% endifequal %}
+	<h2>Future Risk of Developing {{response_data.risk_tab.4}} (chances in 100,000) with a 90% Uncertainty Range</h2>
+	<div class="rwdtable">
+		<table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>Lower Bound</th>
+					<th>Mean</th>
+					<th>Upper Bound</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% render_future_risks response_data.risk_tab %}
+			</tbody>
+		</table>
+	</div>
+    <div class="footnote"><p>** Risk from {{advanced.year_today.data}} to the end of the expected lifetime</p></div>
+
+    {% ifequal response_data.risk_tab.4 'Cancer of the Exposed Organs' %}	
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;" id="id_future_site"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> Excess Future Risk per Cancer Site** with a 90% Uncertainty Range</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table>		
+					<thead>
+						<tr>
+							<th>Cancer Site</th>
+							<th>Lower Bound</th>
+							<th>Mean</th>
+							<th>Upper Bound</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% render_organ_risks response_data.eflr_organ_tab 'Oral Cavity & Pharynx' 0 19 38 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Esophagus' 1 20 39 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Stomach' 2 21 40 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Colon' 3 22 41 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Rectum' 4 23 42 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Liver' 5 24 43 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Gallbladder' 6 25 44 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Pancreas' 7 26 45 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Lung' 8 27 46 %}
+						{% ifequal personal.gen_choice.data 'Female' %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Breast' 9 28 47 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Ovary' 10 29 48 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Uterus' 11 30 49 %}
+						{% endifequal %}
+						{% ifequal personal.gen_choice.data 'Male' %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Prostate' 12 31 50 %}
+						{% endifequal %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Bladder' 13 32 51 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Kidney' 14 33 52 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Nervous System' 15 34 53 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Thyroid' 16 35 54 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Other & Ill-defined Sites' 18 37 56 %}
+						{% render_organ_risks response_data.eflr_organ_tab 'Leukemia' 17 36 55 %}
+					</tbody>
+				</table>
+			</div>
+    		<div class="initial-hidden footnote"><p>** Risk from {{advanced.year_today.data}} to the end of the expected lifetime</p></div>
+		</div>
+	</div> 
+    {% endifequal %}
+    
+    {% ifequal response_data.risk_tab.4 'Cancer of the Exposed Organs' %}
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;" id="id_baseline_future_site"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> Baseline Future Risk per Cancer Site** with a 90% Uncertainty Range</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table>		
+					<thead>
+						<tr>
+							<th>Cancer Site</th>
+							<th>Lower Bound</th>
+							<th>Mean</th>
+							<th>Upper Bound</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% render_organ_risks response_data.bflr_organ_tab 'Oral Cavity & Pharynx' 0 19 38 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Esophagus' 1 20 39 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Stomach' 2 21 40 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Colon' 3 22 41 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Rectum' 4 23 42 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Liver' 5 24 43 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Gallbladder' 6 25 44 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Pancreas' 7 26 45 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Lung' 8 27 46 %}
+						{% ifequal personal.gen_choice.data 'Female' %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Breast' 9 28 47 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Ovary' 10 29 48 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Uterus' 11 30 49 %}
+						{% endifequal %}
+						{% ifequal personal.gen_choice.data 'Male' %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Prostate' 12 31 50 %}
+						{% endifequal %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Bladder' 13 32 51 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Kidney' 14 33 52 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Nervous System' 15 34 53 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Thyroid' 16 35 54 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Other & Ill-defined Sites' 18 37 56 %}
+						{% render_organ_risks response_data.bflr_organ_tab 'Leukemia' 17 36 55 %}
+					</tbody>
+				</table>
+			</div>
+    		<div class="initial-hidden footnote"><p>** Risk from {{advanced.year_today.data}} to the end of the expected lifetime</p></div>
+		</div>
+	</div> 
+    {% endifequal %}
+</div>
+{% endblock %}
+
+{% block footerjs %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {   
+   $('.accordion .accordion-header').click(function(){   		
+        $(this).next().toggle();
+        if ($(this).children('.expandIcon').attr("src") == "{% static 'img/plus_icon.gif' %}") {
+            $(this).children('.expandIcon').attr("src", "{% static 'img/minus_icon.gif' %}");
+            $(this).children('.expandIcon').attr("title", "Collapse");
+        } else {
+            $(this).children('.expandIcon').attr("src", "{% static 'img/plus_icon.gif' %}");
+            $(this).children('.expandIcon').attr("title", "Expand");
+        }                 
+   });
+});
+</script>
+{% endblock %}

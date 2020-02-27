@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}RadRAT version 4.2 was released in January 2020. Please refer to the upgrade history for the modifications included in various versions of the code.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Updates - Radiation Risk Assessment Tool" />
+<meta property="og:description" content="<strong>Please refer to Interactive RadioEpidemiological Program - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.</strong>" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/radrat/update/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Updates - Radiation Risk Assessment Tool">
+<meta name="twitter:description" content="<strong>Please refer to Interactive RadioEpidemiological Program - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.</strong>">
+{% endblock %}
+{% block breadcrumbs %}
+	Updates
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Updates</h1>
+<h2>4.2 Upgrade (January 2020)</h2>
+<dl>
+	<dt>Website Maintenance</dt>
+	<ul>
+		<li>Updated underlying website frameworks. No changes were made to calculations.</li>
+		<li>Site made responsive across all devices.</li>
+	</ul>
+</dl>
+<h2>4.1.1 (September 2015)</h2>
+<dl>
+	<dt>Population Baseline</dt>
+	<ul>
+		<li>The lifetime risk is calculated using baseline cancer incidence rates and corresponding survival functions.</li>
+	</ul>
+	<!--        
+	<dt>Smoking History</dt>
+	<ul>
+		<li>The lifetime risk can incorporate smoking history for the 'U.S. 2000-2005' baseline cancer incidence rates and asurvival functions.</li>
+	</ul>
+	-->       
+</dl>
+<h2>3.7.2 (March 2015)</h2>
+<dl>
+	<dt>Analytica Software Upgrade</dt>
+	<dd>
+		<ul>
+			<li>RadRAT was upgraded to Analytica/ADE version 4.5.</li>
+			<li>A small undesirable bias was discovered in the random shuffling algorithm for Analytica/ADE version 4.2. The bias is extremely small at large sample size, but can become significant at sample sizes under 10. As a consequence, this update could cause relatively insignificant changes to results when compared to previous versions.</li>
+		</ul>
+	</dd>
+</dl>
+<h2>3.7.1 (August 2013)</h2>
+<dl>
+	<dt>Exposure Information</dt>
+	<ul>
+		<li>"Constant" distribution type renamed to "Fixed Value".</li>
+		<li>Organ dose units for exposures are user selectable.</li>
+	</ul>       
+	<dt>Summary Report</dt>
+	<ul>
+		<li>Revised reporting for very small doses.</li>
+		<li>Report 'Current Year' in footer of future risk sections.</li>
+	</ul>       
+</dl>
+<h2>3.7 (June 2012)</h2>
+<dl>
+	<dt>Public Release</dt>
+	<dt>Website Redesign</dt>
+	<dd>The RadRAT site was redesigned to improve usability and to comply with Section 508 of the Rehabilitation Act. Other changes include: 
+		<ul>
+			<li>Input forms now present all input parameters on a single page and input validation is improved.</li>
+		</ul>       
+	</dd>
+	<dt>Hosting</dt>
+	<dd>RadRAT website was transferred to a new datacenter and is now secured with HTTPS encryption.</dd> 
+</dl>	
+{% endblock %}

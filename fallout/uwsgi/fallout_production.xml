@@ -1,0 +1,15 @@
+<uwsgi>
+    <pidfile>--redacted--/pybin/fallout.%h.pid</pidfile>
+    <socket>127.0.0.1:17198</socket>
+    <protocol>scgi</protocol>
+    <pythonpath>--redacted--/pybin/fallout</pythonpath>
+    <virtualenv>--redacted--/pybin/venv/fallout</virtualenv>
+    <module>fallout.wsgi</module>
+    <workers>2</workers>
+    <threads>2</threads>
+    <procname-prefix>fallout</procname-prefix>
+    <daemonize>--redacted--/logs/fallout.%h.log</daemonize>
+    <disable-logging />
+    <master />
+    <vacuum />
+</uwsgi>

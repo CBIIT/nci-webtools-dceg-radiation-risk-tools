@@ -1,0 +1,99 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> -->
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+		<title>NCI Radiation Risk Assessment Tool</title>
+		<meta content="{% block siteDescription %}{% endblock %}" name="description">
+		<meta property="og:type" content="website" />
+		{% block ogtags %}
+		{% endblock %}
+		<meta property="og:image" content="{% static 'img/dceg-logo.svg' %}" />
+		<meta property="og:site_name" content="Radiation Risk Assessment Tool - Lifetime Cancer Risk from Ionizing Radiation" />
+		{% block twittertags %}
+		{% endblock %}
+		<meta name="twitter:image" content="{% static 'img/dceg-logo.svg' %}">
+		{% compress css %}
+		<link href="{% static 'css/jquery-ui-1.9.2.custom.min.css' %}" type="text/css" rel="stylesheet" />
+		<link href="{% static 'css/base.css' %}" type="text/css" rel="stylesheet" />
+		<link href="{% static 'css/colorbox.css' %}" type="text/css" rel="stylesheet" />
+		{% block css %}{% endblock %}
+		{% endcompress %}
+		{% block head %}{% endblock %}
+		{% compress js %}
+		<script src="{% static 'js/jquery-1.8.3.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/jquery-ui-1.9.2.custom.min.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/jquery.colorbox.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/jquery.class.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/calculator.js' %}" type="text/javascript"></script>
+		<script src="{% static 'js/seedrandom.js' %}" type="text/javascript"></script>
+		<script type="text/javascript">
+		$(document).ready( function() {
+			$('.breadcrumbs a').after(' &#187; ');
+			$('a.new-window').click(function(event ){
+				event.preventDefault();
+				popupWindow = window.open($(this).attr('href'),'popUpWindow','height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+			});
+		});
+		</script>
+		{% block js %}{% endblock %}
+		{% endcompress %}
+	</head>
+	<body>
+		<noscript>
+			<div class="alert alert-info">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<header class="header" role="banner">
+		  <a id="skip" href="#content">Skip to Main Content</a>
+		  <div class="container">
+			<a class="nciLogo" href="http://dceg.cancer.gov/" title="Division of Cancer Epidemiology & Genetics">
+			  <img src="{% static 'img/dceg.png' %}" alt="National Cancer Institute - Division of Cancer Epidemiology & Genetics" />
+			</a>
+		  </div>
+		</header>
+		<div class="ribbon">
+			<div class="container">
+				<p>Radiation Risk Assessment Tool - Lifetime Cancer Risk from Ionizing Radiation</p>
+			</div>
+		</div>
+		<nav id="navigation">
+			<div class="container">
+				<ul>
+					<li class="home"><a href="{% url "index" %}">home</a></li>
+					<li class="about"><a href="{% url "about-radrat" %}">about</a></li>
+					<li class="tutorials rightside" title="These are the tutorials. [PDF - 10MB]"><a class="new-window" href="{% static "docs/RadRAT3.7Tutorials.pdf" %}">tutorials [PDF - 2 MB]</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="breadcrumbs">
+			<div class="container">
+				<p>
+					<a href="{% url "index" %}" clas="homeBC">Home</a>
+					{% block breadcrumbs %}{% endblock %}
+				</p>
+			</div>
+		</div>
+		<main id="content" class="home">
+			<div class="container">
+				{% block content %}{% endblock %}
+			</div>
+		</main>
+		<footer>
+			<div class="container">
+				<p>This website is a service of the <a href="https://dceg.cancer.gov/about/organization/programs-ebp/reb">Radiation Epidemiology Branch, NCI</a></p>
+				<p><a href="http://www.cancer.gov/policies/accessibility">Accessibility</a> | <a href="http://www.cancer.gov/viewing-files">File Formats</a> | <a href="http://www.cancer.gov/policies/disclaimer">Disclaimer Policy</a> | <a href="http://nih.gov/icd/od/foia/">FOIA</a></p>
+				<p class="flinks"><a href="http://www.hhs.gov/">U.S. Department of Health and Human Services</a> | <a href="http://www.nih.gov/">National Institutes of Health</a> | <a href="http://www.cancer.gov/">National Cancer Institute</a> | <a href="http://www.usa.gov/">USA.gov</a></p>
+				<p><em>NIH... Turning Discovery Into Health&#174;</em></p>
+			</div>
+		</footer>
+		{% if INCLUDE_WEB_ANALYTICS %}
+		<script language="JavaScript" type="text/javascript" src="//static.cancer.gov/webanalytics/wa_dceg_pageload.js"></script>
+		{% endif %}
+	{% block footerjs %}{% endblock %}
+	</body>
+</html>

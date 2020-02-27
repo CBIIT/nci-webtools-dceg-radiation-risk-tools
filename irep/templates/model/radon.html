@@ -1,0 +1,24 @@
+{% extends "model/model_base.html" %}
+
+{% block siteDescription %}The risk from exposure to radon derived from uranium miners data is calculated as: ERR = alpha x WLM^0.8194{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Equation to Estimate Excess Relative Risk (ERR) from Exposures to Radon" />
+<meta property="og:description" content="The risk from exposure to radon derived from uranium miners data is calculated as: ERR = alpha x WLM^0.8194" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/radon/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Equation to Estimate Excess Relative Risk (ERR) from Exposures to Radon">
+<meta name="twitter:description" content="The risk from exposure to radon derived from uranium miners data is calculated as: ERR = alpha x WLM^0.8194">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	ERR Radon Exposures
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Equation to Estimate Excess Relative Risk (ERR) from Exposures to Radon</h2>
+<p>The risk from exposure to radon derived from uranium miners data is calculated as:</p>
+<p>ERR = alpha x WLM^0.8194</p>
+<p>The coefficient <i>alpha</i> decreases with age at diagnosis (AAD) for 44 &lt; AAD &lt; 76 and time since last exposure (TSLE) for 4 &lt; TSLE &lt; 26. Outside these limits, <i>alpha</i> is constant and equal to the <i>alpha</i> at the respective limit.</p>
+<p><i>WLM</i> is the total number of working level months from exposure to radon (total exposure). The user provides exposure on an annual basis. The total exposure is obtained by summing all annual exposures. The effect of latency for lung cancer induction is taken into account by correcting the exposures within 14 years from the date of diagnosis.</p>
+{% endblock %}

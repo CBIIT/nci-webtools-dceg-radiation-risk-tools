@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance for Entering Distributions in IREP</h1>
+				<p>This page provides guidance for entering distribution parameters for dose probability distributions. Depending on the type of distribution selected, the user is required to enter either 1, 2 or 3 parameters to describe the distribution. In cases where less than 3 parameters are required, any values entered in fields for the other parameters are ignored.</p>	
+				<div class="rwdtable">	
+					<table id="parameters">
+						<thead>
+							<tr>
+								<th>Dose Type</th>
+								<th>Parameter 1</th>
+								<th>Parameter 2</th>
+								<th>Parameter 3</th>
+							</tr>
+						<thead>
+						<tbody>
+							<tr><td>Lognormal</td><td>median</td><td>geometric standard deviation</td><td>N/A</td></tr>
+							<tr><td>Normal</td><td>mean</td><td>standard deviation</td><td>N/A</td></tr>
+							<tr><td>Triangular or LogTriangular</td><td>minimum</td><td>mode</td><td>maximum</td></tr>
+							<tr><td>Uniform or LogUniform</td><td>minimum</td><td>maximum</td><td>N/A</td></tr>
+							<tr><td>Constant</td><td>value</td><td>N/A</td><td>N/A</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,5 @@
+
+#nci_banner, #header, #navigation, footer, .breadcrumbs, .javascript, #id_print_report, .toggle-table-link img {display:none;}
+table.initial-hidden tr {display:table-row;}
+div.initial-hidden {display:block;}
+.rwdtable {overflow-x: unset; overflow-y: unset;}

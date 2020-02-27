@@ -1,0 +1,44 @@
+{% extends "model/model_base.html" %}
+
+{% block breadcrumbs %}
+		<a href="{% url "model-details" %}">Causation</a>
+	    <a href="{% url "model-m121_err_other" %}">ERR Other Sources</a>
+	    <a href="{% url "model-m124_fin_adj_err" %}">Risk Coefficients</a>
+	    {{crumb_title}}
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">{{header_title}}</h1>
+<div class="model_content">
+	{% if debug and response_data.messages %}
+	<ul class="errorlist">
+	{% for message in response_data.messages %}
+		<li>{{message}}</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	<div class="rwdtable">
+	<table>
+		<thead>
+			<th>Exp #</th><th>1st</th><th class="more_percentiles">2.5th</th><th>5th</th><th class="more_percentiles">10th</th><th class="more_percentiles">25th</th><th>50th</th><th class="more_percentiles">75th</th><th class="more_percentiles">90th</th><th>95th</th><th class="more_percentiles">97.5th</th><th>99th</th>
+		</thead>
+		{% for rec in response_data.summ_tab %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{rec.0}}</td>
+			<td class="more_percentiles">{{rec.1}}</td>
+			<td>{{rec.2}}</td>
+			<td class="more_percentiles">{{rec.3}}</td>
+			<td class="more_percentiles">{{rec.4}}</td>
+			<td>{{rec.5}}</td>
+			<td class="more_percentiles">{{rec.6}}</td>
+			<td class="more_percentiles">{{rec.7}}</td>
+			<td>{{rec.8}}</td>
+			<td class="more_percentiles">{{rec.9}}</td>
+			<td>{{rec.10}}</td>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+</div>
+{% endblock %}

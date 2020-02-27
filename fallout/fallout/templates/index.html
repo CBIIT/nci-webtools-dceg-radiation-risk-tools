@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %} 
+
+{% block siteDescription %}Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout is for estimating radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population" />
+<meta property="og:description" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout is for estimating radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/fallout/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population">
+<meta name="twitter:description" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout is for estimating radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.">
+{% endblock %}
+{% block content %}	
+<p>This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site (NTS) and sites outside of the United States (global fallout). In addition, the calculator estimates your risk of developing thyroid cancer from that exposure. This calculator also provides an estimate of probability of causation, sometimes called assigned share (PC/AS) for individuals who have been diagnosed with thyroid cancer.</p> 
+<p>To use this calculator, you will need to supply information to help characterize your exposure to radioactive fallout, including:</p>
+	<ul>
+		<li>your gender and date of birth; </li>
+		<li>the states and counties that you lived in between 1951 and 1982; and</li>
+		<li>the primary types and amounts of milk that you consumed at different ages.</li>
+	</ul> 
+<p>Before you start the calculator, we urge you to read <a href="{% url "site-about" %}">About the I-131 Calculator</a> to learn more about the tests, fallout exposure, and thyroid cancer risks.</p>
+<p><a class="btn btn-primary" role="button" href="{% url "get-started" %}">Get Started &raquo;</a></p>
+<div class="alert alert-secondary" role="alert">
+	<p>This version of the fallout dose and risk calculator was released in January 2020. Please refer to <a href="{% url "site-updates" %}">Individual Thyroid Risk and Dose calculator for fallout</a> for the modifications included in various versions of the fallout calculator.</p>
+</div>
+<p><strong>If you were born after 1982, your estimated thyroid dose from nuclear weapons testing is negligibly small and the calculator would not be relevant to you.</strong> </p>
+{% endblock %}

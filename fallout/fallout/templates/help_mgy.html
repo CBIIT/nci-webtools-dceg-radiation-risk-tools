@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>I-131 Radiation Exposure - National Cancer Institute (NCI)</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    	<link href="{% static 'css/colorbox.css' %}" type="text/css" rel="stylesheet" />    
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<h1 class="page-title">Guidance on Milligray (mGy)</h1>
+			<h2>What is a "mGy"?</h2>		
+        	<p>The "mGy" is a unit used to express radiation dose. It is a measure of the energy absorbed in the organ or tissue exposed to radiation.</p>       
+        	<h2>How many mGy of exposure are in everyday life events?</h2>      
+        	<p>Everyone is exposed to radiation in the course of everyday life. There is a natural "background" radiation (from, for example, cosmic rays) and on average this background radiation exposes a person's thyroid to about 1 mGy per year.</p>       
+        	<p>A single chest x-ray gives a thyroid dose to a person of about 0.07 mGy. One transcontinental round-trip flight gives a thyroid dose of about 0.05 mGy.</p>
+		</main>
+	</body>
+</html>

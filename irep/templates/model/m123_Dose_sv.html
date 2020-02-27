@@ -1,0 +1,34 @@
+{% extends "model/model_base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}This step takes into account additional uncertainties associated with radiation effectiveness factor (REF) for a given type of radiation.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Estimate of Organ Equivalent Dose Used in IREP to Calculate the Probability of Causation" />
+<meta property="og:description" content="This step takes into account additional uncertainties associated with radiation effectiveness factor (REF) for a given type of radiation." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/other/dose/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Estimate of Organ Equivalent Dose Used in IREP to Calculate the Probability of Causation">
+<meta name="twitter:description" content="This step takes into account additional uncertainties associated with radiation effectiveness factor (REF) for a given type of radiation.">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	<a href="{% url "model-m121_err_other" %}">ERR Other Sources</a>
+	Dose (Sv)
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Estimate of Organ Equivalent Dose Used in IREP to Calculate the Probability of Causation</h1>
+<p class="equation">
+	<span class="equation-box">Organ Equivalent Dose (Sv)</span>
+	<span class="equation-operators">=</span>
+	<span class="equation-operator-box">
+		<span class="equation-box">Absorbed Organ Dose (cGy)</span>
+		<span class="equation-operators">x</span>
+		<span class="equation-box">Radiation Effectiveness Factor (REF)</span>
+		<span class="equation-operators divide"></span>
+		100
+	</span>
+</p>
+<p>This step takes into account additional uncertainties associated with radiation effectiveness factor (REF) for a given type of radiation.  The equivalent dose (cSv) provided by the user is used to obtain an <a href="{% url "model-m1232_Dose_csv" %}">absorbed dose (cGy)</a>, which is further multiplied by an <a href="{% url "model-m1233_ref_unc" %}">uncertain REF</a> for different radiation types. The factor of 100 converts cSv to Sv.</p>
+{% endblock %}

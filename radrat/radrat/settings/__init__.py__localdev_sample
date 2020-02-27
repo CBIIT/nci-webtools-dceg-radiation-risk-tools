@@ -1,0 +1,37 @@
+from .settings import *
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '', 
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '', 
+        'PORT': '', 
+    },
+}
+
+WINDOWS_SERVER = 'http://<windows-server ip or domain>/' 
+FALSE_WINDOWS_SERVER = False
+
+#ADE_VERSION = "4.6"
+
+ADMINS = (
+    ('Your Name', 'you@company.com'),
+)
+
+MANAGERS = ADMINS
+
+COMPRESS_ENABLED = False
+
+CLEAR_RECORD_ON_RENDER = False
+
+# Celery settings
+#CELERY_TASK_ALWAYS_EAGER = True
+#CELERY_TASK_EAGER_PROPAGATES = True
+
+# REDIS broker
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_USE_SSL = False
+CELERY_TASK_ALWAYS_EAGER = False
+CELERY_TASK_EAGER_PROPAGATES = False

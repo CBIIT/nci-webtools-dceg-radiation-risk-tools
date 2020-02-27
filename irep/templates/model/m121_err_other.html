@@ -1,0 +1,32 @@
+{% extends "model/model_base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}The risk coefficients are based on information obtained from the LSS cohort (Japanese survivors of the A-bomb), with the exception of thyroid cancer and radon exposures.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Equations to Estimate Excess Relative Risk (ERR) for sources other than radon
+" />
+<meta property="og:description" content="The risk coefficients are based on information obtained from the LSS cohort (Japanese survivors of the A-bomb), with the exception of thyroid cancer and radon exposures." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/other/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Equations to Estimate Excess Relative Risk (ERR) for sources other than radon
+">
+<meta name="twitter:description" content="The risk coefficients are based on information obtained from the LSS cohort (Japanese survivors of the A-bomb), with the exception of thyroid cancer and radon exposures.">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	ERR Other Sources
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Equations to Estimate Excess Relative Risk (ERR) for sources other than radon</h1>
+<p class="equation">
+	<span class="equation-box">Excess Relative Risk</span>
+	<span class="equation-operators">=</span>
+	<span class="equation-box">Organ Equivalent Dose (Sv)</span>
+	<span class="equation-operators">x</span>
+	<span class="equation-box">Risk Coefficients (ERR/Sv)</span>
+</p>
+<p>For more information, refer to the <a href="{% url  "model-m123_Dose_sv" %}">equation of Organ Equivalent Dose</a> used in IREP to calculate probability of causation. </p>
+<p>The <a href="{% url "model-m124_fin_adj_err" %}">risk coefficients</a> are based on information obtained from the LSS cohort (Japanese survivors of the A-bomb), with the exception of thyroid cancer and radon exposures. The Japanese survivor data are adjusted for application to the U.S. population. Click on the &quot;Risk Coefficients&quot; node to view these adjustments.</p>
+{% endblock %}

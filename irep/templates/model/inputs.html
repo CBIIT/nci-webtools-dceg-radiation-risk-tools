@@ -1,0 +1,576 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}IREP contains a collection of risk coefficients for cancer incidence obtained mainly from the Japanese A-bomb survivors study, but also from other epidemiological studies.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Interactive RadioEpidemiological Program Information - Version {{version}}" />
+<meta property="og:description" content="IREP contains a collection of risk coefficients for cancer incidence obtained mainly from the Japanese A-bomb survivors study, but also from other epidemiological studies." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/inputs/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Interactive RadioEpidemiological Program Information - Version {{version}}">
+<meta name="twitter:description" content="IREP contains a collection of risk coefficients for cancer incidence obtained mainly from the Japanese A-bomb survivors study, but also from other epidemiological studies.">
+{% endblock %}
+{% block breadcrumbs %}
+	IREP Information
+{% endblock %}
+
+
+{% block content %}
+<h1 class="page-title">Interactive RadioEpidemiological Program Information - Version {{version}}</h1>
+<p>Enter the inputs in the form below or <a href="{% url "model-template" %}">upload an input file.</a></p>
+<form id="personal_information" name="personal_information" action="." method="post" novalidate autocomplete="off">
+	{% csrf_token %} 
+		<div id="id_personal_information">
+			<h2>Personal Information</h2>
+				<input type="hidden" id="id_action" name="action" value="">
+				<table>
+			<tbody>
+				{{form.as_table}}
+			</tbody>
+				</table>
+		</div>
+		<div id="id_skin_form">
+			<h2>Skin Cancer Inputs</h2>
+			<table>
+			<tbody>
+				<tr>
+					<th>{{ skin_form.ethnic.label_tag }}</th>
+					<td>{{ skin_form.ethnic }}{{ skin_form.ethnic.errors }}</td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+		<div id="id_lung_form">
+			<h2>Lung Cancer Inputs</h2>
+				<table>
+			<tbody>
+				<tr>
+					<th>{{ lung_form.exposure_source.label_tag }}</th>
+					<td>{{ lung_form.exposure_source }}{{ lung_form.exposure_source.errors }}</td>
+				</tr>
+				<tr>
+					<th>{{ lung_form.smoking_history.label_tag }}</th>
+					<td>{{ lung_form.smoking_history }}{{ lung_form.smoking_history.errors }}</td>
+				</tr>
+			</tbody>
+				</table>
+		</div>
+		<div id="id_radon_exosure_formset">
+			<h2>Radon Exposure Information</h2>
+		<p>Radon exposure, entered as Working Level Months (WLM), can be a point estimate or probability distribution.</p>
+			{{ radon_formset.management_form }}
+            {% if radon_formset.non_form_errors %}
+			<div class="errorlist"><ul>{% for error in radon_formset.non_form_errors %}<li>{{ error|striptags }}</li>{% endfor %}</ul></div>
+            {% endif %}
+			<table class="radon-history removeTableRWD counterRow">
+			<thead>
+				<th>No.</th>
+				<th>Exposure Year</th>
+				<th>Exposure Distribution (WLM)</th>
+				<th colspan="3">Parameters 1,2,3 <a href="{% url "model-help_distr" %}" target="_blank"><img class="distr-help-button" src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for form in radon_formset.forms %}
+				<tr class="form">{% include "model/radon_exposure_form.html" %}</tr>
+				{% if form.errors %}
+				<tr class="errorlist"><td colspan=9><ul>{% for field in form %}{% if field.errors %}<li>{{ field.errors|striptags }}</li>{% endif %}{% endfor %}</ul></td></tr>
+				{% endif %}
+				{% endfor %}
+				{% with radon_formset.empty_form as form %}
+    			<tr class="empty-form">{% include "model/radon_exposure_form.html" %}</tr>
+				{% endwith %}
+			</tbody>
+			</table>
+			<div id="id_add_radon_exposure">
+			<input type="submit" class="btn btn-secondary" value="Add Radon Exposure" id="id_add_radon" name="id_add_radon">
+			</div>
+		</div>
+		<div id="id_dose_exosure_formset">
+			<h2>Enter Dose Exposure Information</h2>
+		<p>Dose entry can be either a single point value, or a probability distribution.</p>
+			{{ dose_formset.management_form }}
+            {% if dose_formset.non_form_errors %}
+			<div class="errorlist"><ul>{% for error in dose_formset.non_form_errors %}<li>{{ error|striptags }}</li>{% endfor %}</ul></div>
+            {% endif %}
+		<table class="dose-history removeTableRWD counterRow">
+			<thead>
+				<th>No.</th>
+				<th>Exposure Year</th>
+				<th>Exposure Rate</th>
+				<th><span>Radiation Type</span> <a class="rad_type-help-button" href="{% url "model-help_rad_type" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th>Organ Dose (cSv) <a class="distr-help-button" href="{% url "model-help_distr" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+				<th>Parameter 1</th>
+				<th>Parameter 2</th>
+				<th>Parameter 3</th>
+				<th rowspan="2" id="delete-action"><span class="offscreen">Delete Action</span></th>
+			</thead>
+			<tbody>
+				{% for form in dose_formset.forms %}
+				<tr class="form">{% include "model/dose_form.html" %}</tr>
+				{% if form.errors %}
+				<tr class="errorlist"><td colspan=9><ul>{% for field in form %}{% if field.errors %}<li>{{ field.errors|striptags }}</li>{% endif %}{% endfor %}</ul></td></tr>
+				{% endif %}
+				{% endfor %}
+				{% with dose_formset.empty_form as form %}
+    			<tr class="empty-form">{% include "model/dose_form.html" %}</tr>
+				{% endwith %}
+			</tbody>
+			</table>
+			<div id="id_add_dose_exposure">
+			<input type="submit" class="btn btn-secondary" value="Add Dose Exposure" id="id_add_dose" name="id_add_dose">
+			</div>
+		</div>
+	<div id="id_assumptions" class="accordion">
+		<div class="accordion-header">
+			<a id="id_assumptions_link" href="#"><span id="expandIcon" title="Expand" alt="Expand">+</span> Assumptions, Settings and Report Options</a>
+		</div>
+		<div class="accordion-body" id="id_assumptions_settings">
+			<p>These settings allows the user to control two sampling parameters, sample size and the random seed for sampling.</p>
+				<table>
+					<tbody>
+						<tr>
+							<th>{{ advanced_form.sample_size.label_tag }}</th>
+							<td>{{ advanced_form.sample_size }}{{ advanced_form.sample_size.errors }}</td>
+						</tr>
+						<tr>
+							<th>{{ advanced_form.random_seed.label_tag }}</th>
+							<td>{{ advanced_form.random_seed }}<img class="seed-button" src="{% static 'img/cog.png' %}" height="16" width="16" title="Generate New Random Seed" alt="Seed" />{{ advanced_form.random_seed.errors }}</td>
+						</tr>
+					</tbody>
+				</table>
+			<p>The User Defined Uncertainty Distribution can be adjusted to account for the presence of additional uncertainty and bias correction not presently included in IREP.</p>
+			<p>The default setting, a lognormal distribution (GM=1, GSD=1), has no effect on the calculation. Changing the default settings should only be done after sufficient justification accompanied by a written rationale.</p>
+				<table>
+					<tr>
+						<th>{{ advanced_form.ududtype.label_tag }}<a href="{% url "model-help_distr" %}" target="_blank"><img class="distr-help-button" src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></th>
+						<td>{{ advanced_form.ududtype }}{{ advanced_form.ududtype.errors }}</td>
+					</tr>
+					<tr>
+						<th>{{ advanced_form.ududparm1.label_tag }}</th>
+						<td>{{ advanced_form.ududparm1 }}{{ advanced_form.ududparm1.errors }}</td>
+					</tr>
+					<tr>
+						<th>{{ advanced_form.ududparm2.label_tag }}</th>
+						<td>{{ advanced_form.ududparm2 }}{{ advanced_form.ududparm2.errors }}</td>
+					</tr>
+					<tr>
+						<th>{{ advanced_form.ududparm3.label_tag }}</th>
+						<td>{{ advanced_form.ududparm3 }}{{ advanced_form.ududparm3.errors }}</td>
+					</tr>
+				</table>
+			<div id="id_optional_results">
+				<h3>Optional results to include in report:</h3>
+				<div>{{ advanced_form.report_intermediate }}{{ advanced_form.report_intermediate.label_tag }}{{ advanced_form.report_intermediate.errors }}</div>
+				</div>
+			</div>
+		</div>
+	<input type="submit" class="btn btn-primary" value="Generate Results" id="id_generate_results" name="id_generate_results">
+	<a href="{% url 'clear-inputs' %}" class="btn btn-secondary" role="button" id="id_clear">Clear</a>
+	</form>
+{% endblock %}
+
+{% block css %}
+<link href="{% static 'css/jquery.countdown.css' %}" type="text/css" rel="stylesheet">
+<link href="{% static 'select2/select2.css' %}" type="text/css" rel="stylesheet">
+<style>
+.hasCountdown {
+    background-color: #FFF;
+    border: 0px solid;
+}
+.countdown_amount {
+    font-size: 100%;
+}
+a.select-county {
+    padding: 2px;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.countdown.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'select2/select2.js' %}" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {
+   first=true;
+   $('#id_skin_form').css("display","none");
+   $('#id_lung_form').css("display","none");
+   $('#id_radon_exosure_formset').css("display","none");
+   $('.formset_delete').css("display","none");
+   $('.delete-button img').css("display","inline");
+   if ({% if advanced_form.errors %}0{% else %}1{% endif %}) {$('#id_assumptions_settings').css("display","none");}
+   $('#id_add_dose_exposure').css("display","none");
+   $('#id_add_radon_exposure').css("display","none");
+
+   $('#id_cancer_choice').change(function(){
+   		$("#id_cancer_choice option:selected").each(function () {
+           var cancer_choice = $(this).val();
+           var skin_cancers = ['Non-melanoma (BCC)','Non-melanoma (SCC)'];
+           showTag('id_skin_form', $.inArray(cancer_choice, skin_cancers) != -1);
+           var lung_cancers = ['Lung'];
+           showTag('id_lung_form', $.inArray(cancer_choice, lung_cancers) != -1);
+           $("#id_exposure_source option:selected").each(function () {
+           		displayGeneralExposures(cancer_choice, $(this).val());
+           		displayRadonExposures(cancer_choice, $(this).val());
+           });
+        });
+   }).change();
+   $('#id_exposure_source').change(function(){
+   		$("#id_exposure_source option:selected").each(function () {
+   		   var exposure_choice = $(this).val();
+           $("#id_cancer_choice option:selected").each(function () {
+           		displayGeneralExposures($(this).val(), exposure_choice);
+           		displayRadonExposures($(this).val(), exposure_choice);
+           });
+        });
+   }).change();
+   $('#id_assumptions_link').click(function(e) {
+      e.preventDefault();
+	  if ($('#id_assumptions_settings').is(":visible")) {
+	  	$("#id_collapse_adv").attr("src", "{% static 'img/control_fastforward_blue.png' %}");
+	  	$("#id_collapse_adv").attr("title", "Expand");
+	  } else {
+	  	$("#id_collapse_adv").attr("src", "{% static 'img/control_rewind_blue.png' %}");
+	  	$("#id_collapse_adv").attr("title", "Collapse");
+	  }
+      $('#id_assumptions_settings').slideToggle(1000);
+      return false;
+   });
+   $('#id_report_options').click(function() {
+      $('#id_report_option_settings').slideToggle(1000, function() {
+		  if ($('#id_report_option_settings').is(":visible")) {
+		  	$("#id_collapse_rpt").attr("src", "{% static 'img/contract.gif' %}");
+		  	$("#id_collapse_rpt").attr("title", "Collapse");
+		  } else {
+		  	$("#id_collapse_rpt").attr("src", "{% static 'img/expand.gif' %}");
+		  	$("#id_collapse_rpt").attr("title", "Expand");
+		  }
+      });
+      return false;
+   });
+   // dose exposure javascript
+	new FormSet('id_dose_exosure_formset', 200, "{% static 'img/add.png' %}");
+	$(document).on( 'click', 'a.rad_type-help-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_rad_type" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.distr-help-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_distr" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.external-help-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_external" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.internal-help-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_internal" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_note1-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_note1" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_note1a-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_note1a" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_note2-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_note2" %}",
+            width: "75%",
+            maxwidth: "75%",
+            innerHeight: "50%",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_note2a-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_note2a" %}",
+            width: "75%",
+            maxwidth: "75%",
+            innerHeight: "50%",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_note3-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_note3" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_totaldose-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_totaldose" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+	$(document).on( 'click', 'a.help_separatedoses-button', function() {
+        $.colorbox( {
+            href: "{% url "model-help_separatedoses" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',            
+            opacity: 0.6
+        } );
+        return false;
+    } );
+
+    $(document).on('change', 'select.dose-type', function() {
+      enableDoseParameters($(this));
+    } );
+    $(document).on('change', 'select.radon-dose-type', function() {
+      enableRadonDoseParameters($(this));
+    } );
+    $(document).on('change', 'select.udud-type', function() {
+      enableUdudParameters($(this));
+    } );
+    $('.dose-type').each(function(idx) {
+       enableDoseParameters($(this));
+    });
+    $('.radon-dose-type').each(function(idx) {
+       enableRadonDoseParameters($(this));
+    });
+    $('.udud-type').each(function(idx) {
+        enableUdudParameters($(this));
+    });
+
+
+    //radon exposures
+  	new FormSet('id_radon_exosure_formset', 100,"{% static 'img/add.png' %}");
+    $('img.distr-help-button').on( 'click', function() {
+        $.colorbox( {
+            href: "{% url "model-help_distr" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            closeButton: true,
+            close: '',
+            opacity: 0.6
+        } );
+        return false;
+    } );
+    //advanced settings
+	$('.seed-button').click(function() {
+	   $('#id_random_seed').val(Math.floor(Math.random() * 1000000) + 1);
+	});
+	first=false;
+	
+    $('#id_generate_results').on( 'click', function(event) {
+        var execution_task_id = 0;
+        $.ajax({
+            url: "{% url 'queue-report' %}",
+            async: false,
+            type: "POST",
+            data: $('form').serialize(),
+            success: function( response ) {
+                if (response.is_valid) {
+                   execution_task_id = response.execution_task_id;
+                }
+            }
+        });
+        
+        if (!execution_task_id) {
+            /* Ajax call to queue analysis indicated that parameters are not valid, reload page to see errors. */
+            return true;
+        } else {
+            /* Form is valid -- cancel form submission and start process of periodically polled execution status. */  
+            event.preventDefault();
+            var estimation = getExecuteEstimation();
+            setTimeout( function() {
+                $.colorbox( {
+                    html: '<p>Do not close this webpage or browser, results are being generated.</p><p>This may take as long as ' + estimation['text'] + '.</p> <p id="id_estimation_count">Approximate time to complete: <span id="id_countdown"></p>',
+                    width: "1200px",
+                    maxwidth: "1200px",
+                    height: "1200px",
+                    overlayClose: false,
+                    escKey: false,
+                    opacity: 0.6,
+                    close: ''
+                } );
+                $('#id_countdown').countdown({until: +estimation['seconds'], format: 'MS', timeSeparator: ' : ',compact: true, onExpiry: onExpiry});
+            }, 0 ); 
+
+            function pollStatus() {
+                $.ajax({
+                    url: "{% url 'poll-execution' %}?execution_task_id=" + execution_task_id,
+                    cache: false,
+                    success:function(response) {
+                        if (response.completed) {
+                            window.location.href = "{% url 'summary-report' %}?execution_task_id=" + execution_task_id;
+                        } else if ($('#colorbox').is(':visible')) {                   
+                            setTimeout(pollStatus, 5000);
+                        }
+                    }
+                });
+            }
+            
+            pollStatus();
+                
+            return false;
+        }        
+    } );
+	
+	
+    $(window).unload(function() {
+        $.colorbox.close();
+    });	
+    
+    
+    //$('#id_cancer_choice').select2({width: "310px"});
+    {% for form in radon_formset.forms %} 
+    //$("#id_radon_-{{forloop.counter0}}-dosetype").select2({width: "100%"});
+    {% endfor %}    
+    {% for form in dose_formset.forms %} 
+    //$("#id_dose_-{{forloop.counter0}}-radtype").select2({width: "100%"});
+    {% endfor %}   
+});
+function displayGeneralExposures(cancer_choice, exposure_choice) {
+    var lung_cancers = ['Lung'];
+    var lung_exposures = ['Radon'];
+    showTag('id_dose_exosure_formset', !($.inArray(cancer_choice, lung_cancers) != -1 && $.inArray(exposure_choice, lung_exposures) != -1));
+}
+function displayRadonExposures(cancer_choice, exposure_choice) {
+    var lung_cancers = ['Lung'];
+    var lung_exposures = ['Radon','Radon + Other Sources'];
+    showTag('id_radon_exosure_formset', $.inArray(cancer_choice, lung_cancers) != -1 && $.inArray(exposure_choice, lung_exposures) != -1);
+}
+function showTag(tagId, show) {
+   if (show) {
+     if (!$('#' + tagId).is(":visible")) {
+       if (first) {$('#' + tagId).css("display","block");} else {$('#' + tagId).slideDown(1000);}
+     }
+   } else {
+     if ($('#' + tagId).is(":visible")) {
+     	if (first) {$('#' + tagId).css("display","none");} else {$('#' + tagId).slideUp(1000);}
+     }
+   }
+}
+function enableParameters(selection, param2, param3) {
+    if (selection == 'Constant') {
+        $.each([param2,param3], function(idx, item) {
+            item.addClass('disabled');
+            item.attr('disabled','disabled');
+        });
+    } else if ($.inArray(selection, ['Lognormal','Normal','Uniform','Loguniform']) != -1) {
+        param2.removeClass('disabled');
+        param2.removeAttr('disabled');
+        param3.addClass('disabled');
+        param3.attr('disabled','disabled');
+    } else /*if ($.inArray(selection, ['Triangular','Logtriangular']) != -1)*/ {
+        $.each([param2,param3], function(idx, item) {
+            item.removeClass('disabled');
+            item.removeAttr('disabled');
+        });
+    }
+}
+function enableDoseParameters(selector) {
+    var selection = $(selector).val();
+    var tr = $(selector).parents('tr');
+    var param2 = tr.find('.dose-param2');
+    var param3 = tr.find('.dose-param3');
+    enableParameters(selection, param2, param3);
+}
+function enableRadonDoseParameters(selector) {
+    var selection = $(selector).val();
+    var tr = $(selector).parents('tr');
+    var param2 = tr.find('.radon-dose-param2');
+    var param3 = tr.find('.radon-dose-param3');
+    enableParameters(selection, param2, param3);
+}
+function enableUdudParameters(selector) {
+    var selection = $(selector).val();
+    var table = $(selector).parents('table');
+    var param2 = table.find('.udud-param2');
+    var param3 = table.find('.udud-param3');
+    enableParameters(selection, param2, param3);
+}
+function onExpiry() {
+    $('#id_estimation_count').html('<div style="margin-top: 5px;">Results are taking longer than expected to generate, please wait ... <img title="Loading" alt="Loading" height="16" width="16" src="{% static 'img/loading_small.gif' %}" /></div>'); 
+}
+function getExecuteEstimation() {
+    var estimation = Math.ceil($('.form').filter(':visible').length);
+    var minutes = Math.floor(estimation/60);
+    var seconds = estimation - (minutes * 60);
+    var text_estimation = '';
+    if (minutes) {
+    	text_estimation = minutes + ' minute' + (minutes > 1 ? 's' : '')    	
+    } 
+    if (seconds) {
+        text_estimation += (minutes ? ' ' : '') + seconds + ' second' + (seconds > 1 ? 's' : '')            	
+    }
+    return {'text':text_estimation,'seconds':estimation};
+}
+</script>
+{% endblock %}

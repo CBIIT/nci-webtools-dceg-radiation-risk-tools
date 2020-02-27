@@ -1,0 +1,32 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>I-131 Radiation Exposure - National Cancer Institute (NCI)</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    	<link href="{% static 'css/colorbox.css' %}" type="text/css" rel="stylesheet" />    
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<h1 class="page-title">Guidance for Entering Residence History</h1>
+			<h2>What is meant by "Begin Date"?</h2>		
+			<p>The begin date is the beginning month and year for the location of residence and a specified type and amount of milk consumed during a period when exposure may have occurred (1951 through 1982). If you moved to a new location or changed the type or amount of milk that you consumed, you will be asked to enter a new begin date. </p>       
+			<h2>My birthdate was before January 1951; why does the calculator not allow me to enter my complete residence history?</h2>      
+			<p>It is only important for you to enter your residence and type of milk you drank for the time period when you could have been exposed to NTS fallout (1951-1982).</p>       
+			<h2>What do I do if I cannot remember the month or year when I moved?</h2>      
+			<p>You are encouraged to use your best recollection. Depending on where you lived during certain NTS tests, your likely dose could be much higher or lower than if you had lived in another location. Perhaps you can recall the season in which you moved. As a rule of thumb, many people move during the summer months (when their children are not in school). This calculator requires the selection of a specific month before estimations of dose and risk can be completed. </p>       
+			<h2>Why am I not being asked the actual day when I moved? </h2>      
+			<p>Since it is unlikely that exact move dates could be recalled, this calculator requires only that the month and year be entered. A random day of the selected month is used for each Monte Carlo uncertainty calculation. </p>       
+		</main>
+	</body>
+</html>

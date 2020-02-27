@@ -1,0 +1,58 @@
+{% extends "model/model_base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}This calculation provides a percentage estimate between 0 and 100 percent, where 0 would mean 0 likelihood that radiation caused the cancer and 100 would mean 100 percent certainty that radiation caused the cancer.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Estimating Probability of Causation (Assigned Share*)" />
+<meta property="og:description" content="This calculation provides a percentage estimate between 0 and 100 percent, where 0 would mean 0 likelihood that radiation caused the cancer and 100 would mean 100 percent certainty that radiation caused the cancer." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Estimating Probability of Causation (Assigned Share*)">
+<meta name="twitter:description" content="This calculation provides a percentage estimate between 0 and 100 percent, where 0 would mean 0 likelihood that radiation caused the cancer and 100 would mean 100 percent certainty that radiation caused the cancer.">
+{% endblock %}
+{% block breadcrumbs %}
+	Causation
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Estimating Probability of Causation (Assigned Share*)</h1>
+<h2>General Equation</h2>
+<p>The probability of causation (PC) is calculated as the risk of cancer attributable to radiation exposure (RadRisk) divided by the sum of the baseline risk of cancer to the general population (BasRisk) plus the risk attributable to the radiation exposure, multiplied by 100 percent, as follows:</p>
+<h2>PC = RadRisk/RadRisk + BasRisk x 100%</h2>
+<p>This calculation provides a percentage estimate between 0 and 100 percent, where 0 would mean 0 likelihood that radiation caused the cancer and 100 would mean 100 percent certainty that radiation caused the cancer.</p>
+<h2>Equation used in NIH-IREP</h2>
+<p class="equation">
+	<span class="equation-box">Probability of Causation (Assigned Share)</span>
+	<span class="equation-operators">=</span>
+	<span class="equation-operator-box">
+		<span class="equation-box">Excess Relative Risk</span>
+		<span class="equation-operators divide"></span>
+		<span class="equation-box">Relative Risk</span>
+	</span>
+	<span class="equation-operators">x</span>
+	<span>100%</span>
+</p>
+<p>Excess Relative Risk (ERR) = proportion of Relative Risk (RR) due solely to radiation exposure (ERR=RR-1)</p>
+<p>Relative Risk (RR) = ratio of the total risk from exposure divided by risk due to background alone</p>
+<h2>Equations to Estimate Excess Relative Risk (ERR)</h2>
+<p class="equation">
+	<span class="equation-box">Total Excess Relative Risk</span>
+	<span class="equation-operators">=</span>
+	<span class="equation-operator-box">
+		<span class="large">&Sigma;</span><br/>
+		<span class="small">Exposure<br/>period</span>
+	</span>
+	<span class="equation-operators large">(</span>
+	<span class="equation-box">Excess Relative Risk (sources other than radon)</span>
+	<span class="equation-operators">+</span>
+	<span class="equation-box">Excess Relative Risk (radon source)</span>
+	<span class="equation-operators large">)</span>
+	<span class="equation-operators">x</span>
+	<span class="equation-box">User Defined Additional Uncertainty</span>
+</p>
+<p>For more information, see  Excess Relative Risk equations for <a href="{% url "model-m121_err_other" %}">sources other than radon</a>, for <a href="{% url "model-radon" %}">radon sources</a>, and <a href="{% url "model-udud" %}">adjustment for additional sources of uncertainty</a>.</p>
+<p>For details on how lung caner is dealth with in IREP, refer to <a href="{% url "model-lung" %}">Special Considerations for Esimating Probability of Causation for Lung Cancer</a>.</p>
+<h3>* Definition of Assigned Share</h3>
+<p>The assigned share is the fraction of cancers observed in a large and heterogeneous group, having similar exposure histories, that would not have occurrred in the absence of exposure. In NIH-IREP, the assigned share is estimated with uncertainty, expressed as a probability distribution. The term is used interchangebly with probability of causation, because the concept is applied to an individual with a diagnosed disease.</p>
+{% endblock %}

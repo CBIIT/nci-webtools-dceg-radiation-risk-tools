@@ -1,0 +1,91 @@
+<div id="id_intermediate">
+	<h2>Interactive RadioEpidemiological Program Intermediate Results</h2>
+	{% if debug and response_data.intermediate_messages %}
+	<ul class="errorlist">
+		{% for message in response_data.intermediate_messages %}
+		<li>{{message}}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}	
+	{% if lung_cancer.exposure_source.data != 'Radon' %}
+	<h3>Absorbed Dose (cGy) Percentiles</h3>
+	<div class="rwdtable">
+    <table>
+		<tr><th>Exposure #</th><th>5th</th><th>50th</th><th>95th</th></tr>
+		{% for rec in response_data.abs_dose_tab %}
+		<tr><td>{{forloop.counter}}</td><td>{{rec.0}}</td><td>{{rec.1}}</td><td>{{rec.2}}</td></tr>
+		{% endfor %}
+	</table></div>
+	<h3>Radiation Effectiveness Factor Percentiles</h3>
+	<div class="rwdtable">
+    <table>
+		<tr><th>Exposure #</th><th>5th</th><th>50th</th><th>95th</th></tr>
+		{% for rec in response_data.rbe_tab %}
+		<tr><td>{{forloop.counter}}</td><td>{{rec.0}}</td><td>{{rec.1}}</td><td>{{rec.2}}</td></tr>
+		{% endfor %}
+	</table></div>
+	<h3>Excess Relative Risk - non-radon (per exposure) Percentiles</h3>
+	<div class="rwdtable">
+    <table>
+		<tr><th>Exposure #</th><th>5th</th><th>50th</th><th>95th</td></tr>
+		{% for rec in response_data.err_tab %}
+		<tr><td>{{forloop.counter}}</td><td>{{rec.0}}</td><td>{{rec.1}}</td><td>{{rec.2}}</td></tr>
+		{% endfor %}
+	</table></div>		
+	{% endif %}
+	
+	{% if lung_cancer.exposure_source.data == 'Radon' or lung_cancer.exposure_source.data == 'Radon + Other Sources' %}
+	<h3>Working Level Months - Radon (per radon exposure) Percentiles</h3>
+	<div class="rwdtable">
+    <table>
+		<tr><th>Exposure #</th><th>5th</th><th>50th</th><th>95th</td></tr>
+		{% for rec in response_data.wlm_latency_tab %}
+		<tr><td>{{forloop.counter}}</td><td>{{rec.0}}</td><td>{{rec.1}}</td><td>{{rec.2}}</td></tr>
+		{% endfor %}
+	</table></div>
+	<h3>Excess Relative Risk - Radon (total) Percentiles</h3>
+	<div class="rwdtable">
+    <table>
+		<tr><th>Exposure #</th><th>5th</th><th>50th</th><th>95th</td></tr>
+		<tr><td>Total</td><td>{{response_data.err_radon_tab.0}}</td><td>{{response_data.err_radon_tab.1}}</td><td>{{response_data.err_radon_tab.2}}</td></tr>
+	</table></div>
+	{% endif %}
+</div>
+<div id="id_import_analyses">
+	<h2>Importance Analyses</h2>
+	<h3>Components of Probability of Causation</h3>
+	<div class="rwdtable">
+    <table>
+		{% for rec in response_data.unc_pc_tab %}
+		<tr><th>{{rec.unc_pc_idx_tab}}</th><td>{{rec.unc_pc_tab}}</td></tr>
+		{% endfor %}
+	</table></div>
+
+	{% if lung_cancer.exposure_source.data != 'Radon' %}
+	<h3>Components of Excess Relative Risk (sources other than radon)</h3>
+	<div class="rwdtable">
+    <table>
+		{% for rec in response_data.unc_shr_tab %}
+		<tr><th>{{rec.unc_shr_idx_tab}}</th><td>{{rec.unc_shr_tab}}</td></tr>
+		{% endfor %}
+	</table></div>
+	
+	<h3>Components of Adjusted ERR/Sv (applicable to low LET radiation)</h3>
+	<div class="rwdtable">
+    <table>
+		{% for rec in response_data.unc_errsv_tab %}
+		<tr><th>{{rec.unc_errsv_idx_tab}}</th><td>{{rec.unc_errsv_tab}}</td></tr>
+		{% endfor %}
+	</table></div>
+	{% endif %}
+
+	{% if lung_cancer.exposure_source.data == 'Radon' or lung_cancer.exposure_source.data == 'Radon + Other Sources' %}
+	<h3>Components of Excess Relative Risk (radon sources)</h3>
+	<div class="rwdtable">
+    <table>
+		{% for rec in response_data.unc_rad_tab %}
+		<tr><th>{{rec.unc_rad_idx_tab}}</th><td>{{rec.unc_rad_tab}}</td></tr>
+		{% endfor %}
+	</table></div>
+	{% endif %}
+</div>

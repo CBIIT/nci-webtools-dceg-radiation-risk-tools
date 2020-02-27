@@ -1,0 +1,45 @@
+{% extends "model/model_base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}The probability of causation depends on the risk of cancer attributable to radiation exposure. In IREP, the radiation risk for a given cancer is estimated using risk coefficients for cancer incidence developed by the NCI{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Risk Coefficients: Final Adjusted ERR/Sv Module" />
+<meta property="og:description" content="The probability of causation depends on the risk of cancer attributable to radiation exposure. In IREP, the radiation risk for a given cancer is estimated using risk coefficients for cancer incidence developed by the NCI" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/other/coefficients/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Risk Coefficients: Final Adjusted ERR/Sv Module">
+<meta name="twitter:description" content="The probability of causation depends on the risk of cancer attributable to radiation exposure. In IREP, the radiation risk for a given cancer is estimated using risk coefficients for cancer incidence developed by the NCI">
+{% endblock %}
+{% block breadcrumbs %}
+	<a href="{% url "model-details" %}">Causation</a>
+	<a href="{% url "model-m121_err_other" %}">ERR Other Sources</a>
+	Risk Coefficients
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Risk Coefficients: Final Adjusted ERR/Sv Module</h1>
+<style>
+	.equation-operator-box * {
+		display: block;
+	}
+</style>
+<p class="equation">
+	<span style="vertical-align: top;">
+		<span class="equation-box">Original ERR/Sv (from LSS cohort)</span>
+		<span class="equation-arrow" title="right arrow">&#8594;</span>
+	</span>
+	<span class="equation-operator-box">
+		<span class="equation-box">ERR/Sv (adjusted for errors in dosimetry)</span>
+		<span class="equation-arrow" title="down arrow">&#8595;</span>
+		<span class="equation-box">ERR/Sv (adjusted for transfer to U.S. population)</span>
+		<span class="equation-arrow" title="down arrow">&#8595;</span>
+		<span class="equation-box">ERR/Sv (adjusted dose and dose rate)</span>
+	</span>
+	<span style="vertical-align: bottom;">
+		<span class="equation-arrow" title="right arrow">&#8594;</span>
+		<span class="equation-box">Final Err/Sv</span>
+	</span>
+</p>
+<p>Refer to the  <a href="{% static 'docs/ERR_Sv_database.pdf' %}" target="_blank"}">Risk Coefficients Database (PDF)</a> for more information.</p>
+{% endblock %}

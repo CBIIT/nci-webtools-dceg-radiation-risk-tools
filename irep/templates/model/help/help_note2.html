@@ -1,0 +1,38 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+		<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+		<div class="breadcrumbs">
+			<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+			<a class="internal-help-button" href="{% url "model-help_internal" %}">Internal Exposure</a> &#187;
+			Various Radiation Types
+		</div>
+
+		<h2>Various Radiation Types Differ in Biological Effectiveness</h2>
+		
+				<p>An example is <sup>125</sup>I, which emits four different radiation types used by IREP: photons &lt; 30 keV, photons at 30-250 keV, electrons &lt; 15 keV, and electrons &gt; 15 keV (refs. [1] and [2]).  Each of these radiation types contributes significantly to the dose to the thyroid, and each has a different biological effectiveness.  Other examples include <sup>58</sup>Co and <sup>65</sup>Zn, both of which emit low-energy electrons (&lt; 15 keV), higher-energy positrons (positively-charged electrons) from beta decay, low-energy photons (&lt; 30 keV), and high-energy photons (&gt; 250 keV), all with significant intensities.</p>
+				<h3>References:</h3>
+				<ol>
+					<li>International Commission on Radiological Protection (ICRP), Radionuclide Transformations:  Energy and Intensity of Emissions, ICRP Publication 38, Ann. ICRP 11-13, Pergamon Press, Oxford, U.K. (1983).</li>
+					<li>D. C. Kocher, Radioactive Decay Data Tables, DOE/TIC-11026, U.S. Department of Energy, Oak Ridge, Tennessee (available through National Technical Information Service, Springfield, Virginia) (1981).</li>
+				</ol>
+			</div>
+		</main>
+	</body>
+</html>

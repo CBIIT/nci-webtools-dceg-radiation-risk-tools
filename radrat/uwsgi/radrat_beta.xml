@@ -1,0 +1,15 @@
+<uwsgi>
+    <pidfile>--redacted--/radrat.%h.pid</pidfile>
+    <socket>127.0.0.1:16198</socket>
+    <protocol>scgi</protocol>
+    <pythonpath>--redacted--/pybin/radrat</pythonpath>
+    <virtualenv>--redacted--/pybin/venv/radrat</virtualenv>
+    <module>radrat.wsgi</module>
+    <workers>2</workers>
+    <threads>2</threads>
+    <procname-prefix>radrat:www198</procname-prefix>
+    <daemonize>--redacted--/logs/radrat-www198.%h.log</daemonize>
+    <disable-logging />
+    <master />
+    <vacuum />
+</uwsgi>

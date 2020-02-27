@@ -1,0 +1,84 @@
+{% extends "model/model_base.html" %}
+
+{% block siteDescription %}The probability of causation for radiation-induced lung cancer is a function of smoking history.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Special Considerations for Esimating Probability of Causation for Lung Cancer
+" />
+<meta property="og:description" content="The probability of causation for radiation-induced lung cancer is a function of smoking history." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/model/lung/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Special Considerations for Esimating Probability of Causation for Lung Cancer
+">
+<meta name="twitter:description" content="The probability of causation for radiation-induced lung cancer is a function of smoking history.">
+{% endblock %}
+{% block breadcrumbs %}
+	    <a href="{% url "model-details" %}">Causation</a>
+		Lung Cancer
+{% endblock %}
+
+{% block model_content %}
+<h1 class="page-title">Special Considerations for Esimating Probability of Causation for Lung Cancer</h1>
+<h2>Smoking History</h2>
+<ul>
+	<li>The probability of causation for radiation-induced lung cancer is a function of smoking history.</li>
+	<li>There are 3 major choices for smoking history: (1) never smoked, (2) former smoker, and (3) current smoker.</li>
+	<li>The current smoker category is further subdivided according to the number of cigarettes smoked per day. If unsure of the number of cigarettes smoked per day, select 'Current smoker (? cig/day)'.</li>
+</ul>
+<h2>Adjustment for Smoking History in IREP</h2>
+<h3>Smoking mixture factor</h3>
+<p>The smoking mixture factor is used to account for the interaction between radiation and smoking history.</p>
+<p>For exposures to alpha particles, the smoking mixture factor is based on studies of uranium miners and is described as a triangular distribution (min=0, mode=1, max=1.1). For exposures to radiation types other than alpha particles, the lung model is based on an analysis suggesting that the radiation-smoking interaction among LSS subjects is more nearly additive than that estimated for uranium miners. In this case, the smoking mixture factor has a 50% weight assigned to the additive model (x=0) and a 50% weight assigned to the triangular distribution (min=0, mode=1, max=1.1).</p>
+<h3>Smoking adjustment</h3>
+<p>The smoking adjustment is a numerical factor that is applied when the interaction between radiation and smoking history is assumed to be additive.</p>
+<p>The smoking adjustment values are as follows:</p>
+<div id="smoking_history" class="rwdtable">
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Smoking History</th>
+				<th scope="col">Male</th>
+				<th scope="col">Female</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Never smoker</td>
+				<td>4.74</td>
+				<td>3.90</td>
+			</tr>
+			<tr>
+				<td>Former smoker</td>
+				<td>1.19</td>
+				<td>0.98</td>
+			</tr>
+			<tr>
+				<td>Current smoker (? cig/day)</td>
+				<td>0.42</td>
+				<td>0.35</td>
+			</tr>
+			<tr>
+				<td>&lt;10 cig/day (currently)</td>
+				<td>1.22</td>
+				<td>1.00</td>
+			</tr>
+			<tr>
+				<td>10-19 cig/day (currently)</td>
+				<td>0.49</td>
+				<td>0.41</td>
+			</tr>
+			<tr>
+				<td>20-39 cig/day (currently)</td>
+				<td>0.28</td>
+				<td>0.23</td>
+			</tr>
+			<tr>
+				<td>&gt;40 cig/day (currently)</td>
+				<td>0.20</td>
+				<td>0.16</td>
+			</tr>
+		</tbody>
+  </table>
+</div>
+<p>The smoking adjustment applies to ERR/Sv coefficients representing a population of never smokers. The values for this adjustment are normalized to never smokers, i.e., the values in the table above are divided by 4.74 for males and by 3.90 for females.</p>
+{% endblock %}

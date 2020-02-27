@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block siteDescription %}To ask questions about or report a problem with this Web site, fill out the form below. Your message will be forwarded to the party best able to address it. If you are unable to use the form, you may e-mail the IREP Web staff instead.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Contact Us - Interactive RadioEpidemiological Program" />
+<meta property="og:description" content="To ask questions about or report a problem with this Web site, fill out the form below. Your message will be forwarded to the party best able to address it. If you are unable to use the form, you may e-mail the IREP Web staff instead." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/contact/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Contact Us - Interactive RadioEpidemiological Program">
+<meta name="twitter:description" content="To ask questions about or report a problem with this Web site, fill out the form below. Your message will be forwarded to the party best able to address it. If you are unable to use the form, you may e-mail the IREP Web staff instead.">
+{% endblock %}
+{% block breadcrumbs %}
+	Contact Us
+{% endblock %}
+
+{% block content %}
+<p>To ask questions about or report a problem with this Web site, fill out the form below. Your message will be forwarded to the party best able to address it. If you are unable to use the form, you may <a href="mailto:{{manager_email}}?Subject=IREP Web site">e-mail the IREP Web staff</a> instead.</p>
+<form id="contact_information" name="contact_information" action="{% url "contact" %}" method="post">{% csrf_token %} 
+	<p>{{form.sender.label_tag}}
+	   {{form.sender}}
+	   {{form.sender.errors}}
+	</p>
+	<p>{{form.subject.label_tag}}
+	   {{form.subject}}
+	   {{form.subject.errors}}
+	</p>
+	<p>{{form.message.label_tag}}
+	   {{form.message}}
+	   {{form.message.errors}}
+	</p>
+	<a href="#" onclick="document.contact_information.submit();return true;" class="btn btn-primary">Send Comment</a> 
+</form> 
+{% if user_message %}<p class="error">{{user_message}}</p>{% endif %}
+{% endblock %}

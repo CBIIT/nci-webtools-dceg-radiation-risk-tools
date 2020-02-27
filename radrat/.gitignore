@@ -1,0 +1,8 @@
+*.pyc
+local_settings.py
+.project
+.pydevproject
+org.eclipse.core.resources.prefs
+CACHE/
+cache/
+session/

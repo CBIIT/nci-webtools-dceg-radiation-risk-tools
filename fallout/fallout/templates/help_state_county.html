@@ -1,0 +1,28 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>I-131 Radiation Exposure - National Cancer Institute (NCI)</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    	<link href="{% static 'css/colorbox.css' %}" type="text/css" rel="stylesheet" />
+    	{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<h1 class="page-title">Guidance for Entering Residence History</h1>
+			<h2>What do I do if I lived outside the United States? </h2>		
+			<p>If you lived outside the study area (which includes the continental United States, Alaska, Hawaii, and Puerto Rico) for any period of time between 1951 and 1982, select "Outside Study Area" from the pull-down menu of states.<br/><br/>In the current version of the calculator, exposures outside the study area, including other countries, are not estimated.</p>       
+			<h2>What do I do if I cannot remember the county where I lived?</h2>      
+			<p>The <a href="https://www.census.gov/quickfacts/" target="_blank">U.S. Census Bureau</a> website to help you identify the name of a specific county by entering a zip code, city, or town. </p>       	
+		</main>
+	</body>
+</html>

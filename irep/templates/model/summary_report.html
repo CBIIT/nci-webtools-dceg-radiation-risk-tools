@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load data_verbose %}
+{% load normalize_dose_parameter %}
+{% load staticfiles %}
+
+{% block siteDescription %}IREP {{version}} using Analytica/ADE {{ade_version}} 64-bit{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Summary Report - Interactive RadioEpidemiological Program" />
+<meta property="og:description" content="IREP {{version}} using Analytica/ADE {{ade_version}} 64-bit" />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/results/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Summary Report - Interactive RadioEpidemiological Program">
+<meta name="twitter:description" content="IREP {{version}} using Analytica/ADE {{ade_version}} 64-bit">
+{% endblock %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/print.css' %}" media="print">
+{% endblock %}
+
+{% block breadcrumbs %}
+	<a href="{% url "model-inputs" %}">Information</a>
+	Summary Report
+{% endblock %}
+
+{% block content %}
+<a onclick="window.print(); return false;" href="#" id="id_print_report" class="btn btn-primary right">&#128438; Print</a>
+<h1 class="page-title">Interactive RadioEpidemiological Program - Summary Report</h1>
+<div id="id_report_content">
+	<p id="id_report_info">IREP {{version}} using Analytica/ADE {{ade_version}} 64-bit<span class="right">Report Date: {% now "m/d/Y h:i:s A e" %}</p>
+	{% if debug and response_data.messages %}
+	<div class="errorlist">
+	    <h2>Analytica ADE Warnings and Errors</h2>
+		<ul>
+			{% for message in response_data.messages %}
+			<li>{{message}}</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+	<h2>Information Used In Assigned Share (Probability of Causation) Calculation</h2>
+	<div class="rwdtable">
+		<table id="id_table_personal">
+			<tr>		   
+				<th>Gender</th>
+				<td>{{personal.gen_choice|data_verbose}}</td>
+			</tr>
+			<tr>
+				<th>Race</th>
+				<td>{% if personal.cancer_choice.data == "Non-melanoma (BCC)" or personal.cancer_choice.data == "Non-melanoma (SCC)" %}{{skin_cancer.ethnic|data_verbose}}{% else %}N/A{% endif %}</td>
+			</tr>
+			<tr>
+				<th>Birth Year</th>
+				<td>{{personal.by.data}}</td>
+			</tr>
+			<tr>
+				<th>Year of Diagnosis</th>
+				<td>{{personal.dod.data}}</td>
+			</tr>
+			<tr>
+				<th>Cancer Model</th>
+				<td>{{personal.cancer_choice|data_verbose}}</td>
+			</tr>
+			<tr>
+				<th>Smoking history</th>
+				<td>{% ifequal personal.cancer_choice.data 'Lung' %}{{lung_cancer.smoking_history|data_verbose}}{% else %}N/A{% endifequal %}</td>
+			</tr>
+		</table>
+	</div>
+	<h2>IREP Assumptions and Settings</h2>
+	<div class="rwdtable">
+		<table id="id_table_assumptions">
+			<tr>
+				<th>User Defined Uncertainty Distribution</th>
+				<td>{{advanced.ududtype.data}}
+								{% ifequal advanced.ududtype.data 'Lognormal' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Normal' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Uniform' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Loguniform' %}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Triangular'%}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Logtriangular'%}({{advanced.ududparm1.data}},{{advanced.ududparm2.data}},{{advanced.ududparm2.data}})
+								{% else %}{% ifequal advanced.ududtype.data 'Constant' %}({{advanced.ududparm1.data}})
+								{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+				</td>
+			</tr>
+			<tr>
+				<th>Number of Iterations</th>
+				<td>{{advanced.sample_size.data}}</td>
+			</tr>
+			<tr>
+				<th>Random Number Seed</th>
+				<td>{{advanced.random_seed.data}}</td>
+			</tr>
+		</table>
+	</div>
+	{% if personal.cancer_choice.data == 'Lung' and lung_cancer.exposure_source.data == 'Radon' %}
+	{% else %}
+	<h2>General Exposure Information</h2>
+	<div class="rwdtable">
+		<table>
+			<thead>
+				<tr>
+					<th>Exposure #</th>
+					<th>Exposure Year</th>
+					<th>Organ Dose (cSv)</th>
+					<th>Exposure Rate</th>
+					<th>Radiation Type</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for form in dose_exposure.forms %}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{form.yoe.data}}</td>
+					<td>{{form.dosetype.data}}
+					{% if form.dosetype.data == "Lognormal" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Normal" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Triangular" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}}, {{form.doseparm3|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Logtriangular" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}}, {{form.doseparm3|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Uniform" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Loguniform" %}({{form.doseparm1|normalize_dose_parameter}}, {{form.doseparm2|normalize_dose_parameter}})
+					{% else %}{% if form.dosetype.data == "Constant" %}({{form.doseparm1|normalize_dose_parameter}})
+					{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}</td>
+					<td>{{form.exprate|data_verbose}}</td>
+					<td>{{form.radtype|data_verbose}}</td>
+				</tr>
+				{% endfor %}
+			<tbody>
+		</table>
+	</div>
+	{% endif %}
+	{% if personal.cancer_choice.data == 'Lung' %}
+		{% if lung_cancer.exposure_source.data == 'Radon' or lung_cancer.exposure_source.data == 'Radon + Other Sources' %}
+		<h2>Radon Exposure Information</h2>
+		<div class="rwdtable">
+			<table>
+				<thead>
+					<tr>
+						<th>Exposure #</th>
+						<th>Exposure Year</th>
+						<th>Exposure (WLM)</th>
+						<!-- The following lines are commented to eliminate the choice between Total and Annual exposure types for radon. Now
+							the program assumes annual exposures to radon for all cases. Although, these lines are commented, the program
+							transmits "annual" to the Analytica model. (3/26/03)-->
+						<!--<td width="100">Exposure Type</td> -->
+					</tr>
+				</thead>
+				<tbody>
+				{% for form in radon_exposure.forms %}
+					<tr>
+						<td>{{forloop.counter}}</td>
+						<td>{{form.yoe.data}}</td>
+						<td>{{form.dosetype|data_verbose}}
+						{% if form.dosetype.data == "Lognormal" %}({{form.doseparm1.data}},{{form.doseparm2.data}})
+						{% else %}{% if form.dosetype.data == "Normal" %}({{form.doseparm1.data}},{{form.doseparm2.data}})
+						{% else %}{% if form.dosetype.data == "Triangular" %}({{form.doseparm1.data}},{{form.doseparm2.data}},{{form.doseparm3.data}})
+						{% else %}{% if form.dosetype.data == "Logtriangular" %}({{form.doseparm1.data}},{{form.doseparm2.data}},{{form.doseparm3.data}})
+						{% else %}{% if form.dosetype.data == "Uniform" %}({{form.doseparm1.data}},{{form.doseparm2.data}})
+						{% else %}{% if form.dosetype.data == "Loguniform" %}({{form.doseparm1.data}},{{form.doseparm2.data}})
+						{% else %}{% if form.dosetype.data == "Constant" %}	={{form.doseparm1.data}}
+						{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}</td>
+						<!-- The following lines are commented to eliminate the choice between Total and Annual exposure types for radon. Now
+							the program assumes annual exposures to radon for all cases. Although, these lines are commented, the program
+							transmits "annual" to the Analytica model. (3/26/03)-->
+						<!--<td width="100"><%=radon_table(6,i)%></td> -->
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{%endif %}
+	{% endif %}
+	<h2>Assigned Share (Probability of Causation) Results</h2> 
+	<div class="rwdtable">
+		<table>
+			<tr>
+				<th>Percentile</th>
+				<td>{{response_data.sumidx_tab.0}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.1}}</td>
+				<td>{{response_data.sumidx_tab.2}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.3}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.4}}</td>
+				<td>{{response_data.sumidx_tab.5}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.6}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.7}}</td>
+				<td>{{response_data.sumidx_tab.8}}</td>
+				<td class="more_percentiles highlight">{{response_data.sumidx_tab.9}}</td>
+				<td>{{response_data.sumidx_tab.10}}</td>
+			</tr>
+			<tr>
+				<th>Assigned Share</th>
+				<td>{{response_data.summ_tab.0}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.1}} &#37;</td>
+				<td>{{response_data.summ_tab.2}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.3}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.4}} &#37;</td>
+				<td>{{response_data.summ_tab.5}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.6}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.7}} &#37;</td>
+				<td>{{response_data.summ_tab.8}} &#37;</td>
+				<td class="more_percentiles highlight">{{response_data.summ_tab.9}} &#37;</td>
+				<td>{{response_data.summ_tab.10}} &#37;</td>
+			</tr>
+		</table>
+	</div>
+	<p><a class="btn btn-primary" role="button" id="id_percentiles_toggle" href="#" onclick="return false;">Show more percentiles</a></p>
+	
+	<p class="more_percentiles">Assigned Share associated with the expected value of ERR = {{response_data.summ_tab.11}} &#37;</p>
+	{% if advanced.report_intermediate.data %}
+	<hr/>
+	{% include "model/uncertainty_report.html" %}
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {
+   $('.more_percentiles').hide();
+   $('#id_percentiles_toggle').click(function(){   		
+        $('.more_percentiles').toggle();
+        var text = $('#id_percentiles_toggle').text();
+        $('#id_percentiles_toggle').text(text == "Show more percentiles" ? "Show less percentiles" : "Show more percentiles");        
+   });
+});
+</script>
+{% endblock %}

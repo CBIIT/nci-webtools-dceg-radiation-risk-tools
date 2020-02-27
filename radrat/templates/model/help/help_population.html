@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>NCI Radiation Risk Assessment Tool</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance for Selecting Population</h1>
+				<p>The lifetime risk is calculated using baseline cancer incidence rates and corresponding survival functions. The population menu provides the ability to estimate lifetime risk for specific populations. The default selection "U.S. 2000-2005" represents the general U.S. population, based on the Surveillance Epidemiology and End Results (SEER) cancer incidence rates for the years 2000 through 2005.</p>		
+				<p>The population menu also provides the ability to estimate lifetime risk for subsets of the U.S. Population, as well as other select countries and periods.</p>	     
+			</div>
+		</main>
+	</body>
+</html>

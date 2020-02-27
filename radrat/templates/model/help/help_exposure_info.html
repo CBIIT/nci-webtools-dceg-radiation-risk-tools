@@ -1,0 +1,40 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>NCI Radiation Risk Assessment Tool</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance for Entering Exposure Information</h1>
+				<p>The NCI Radiation Risk Assessment Tool has been designed to analyze complex exposure histories. An exposure history is a collection of exposure events, each event including doses to one or more organs. Exposure information associated with each dose is entered in one row of the exposure history table. Each dose entry corresponds to an exposure to a specific organ from an exposure event. If the same organs are exposed by all exposure events, the number of dose entries is equal to the number of organs multiplied by the number of exposure events. For example, if 2 organs were exposed during 5 exposure events, then 10 dose entries would be required.</p>     
+				<p>The examples provided below show how the "Exposure Event" column is used to relate rows to each other.</p>       
+				<p>Due to the complex nature of the NCI Radiation Risk Assessment Tool, a limited number of exposure events may be considered for a single calculation. For evaluations of risk for a single organ, the calculator can process 300 Monte Carlo iterations (default setting) for up to 200 exposure events. However, for evaluations involving exposures to more than one organ, the calculator is currently limited to up to 11 separate exposure events (assuming 300 iterations). For 12 to 17 exposure events, the number of iterations should be reduced to 200. For 18 to 34 exposure events, the number of iterations should be reduced to 100. If the combination of exposure events and number of Monte Carlo iterations exceed the server's memory, a message will be displayed requesting that the user reduce the number of exposure events or the number of iterations.</p>       
+				<h2>Example #1</h2> 
+					<p>For 5 independent exposures that occurred in 5 different years, enter 1 through 5 in the "Exposure Event" column in each of the 5 rows.</p>
+					<img src="{% static 'img/example1.png' %}" height="205" width="770" title="Example 1" alt="Example 1" />      
+				<h2>Example #2</h2> 
+					<p>For a single exposure event that exposed 5 organs to the same level of dose, enter the same integer number into the "Exposure Event" column for each of the 5 rows and enter the same year in the "Exposure Year" column for each of the 5 rows.</p>
+					<img src="{% static 'img/example2.png' %}" height="205" width="770" title="Example 2" alt="Example 2" />      
+				<h2>Example #3</h2>  
+					<p>For a single exposure event that exposed the entire body to the same level of dose, enter an integer value in the "Exposure Event" column and select "Apply Dose to All Organs" in the "Organ" column.</p>
+					<img src="{% static 'img/example3.png' %}" height="90" width="770" title="Example 3" alt="Example 3" />      
+				<h2>Example #4</h2> 
+					<p>An individual was exposed to 4 different exposure events. The first event (Exposure Event 1) exposed the prostate, bladder, and kidney. The second event (Exposure Event 2) exposed the colon. The third event exposed the liver. The fourth event exposed the entire body to the same dose.</p>
+					<img src="{% static 'img/example4.png' %}" height="220" width="770" title="Example 4" alt="Example 4" />      
+			</div>
+		</main>
+	</body>
+</html>

@@ -1,0 +1,11 @@
+{% load staticfiles %}
+
+<td header="radon-number" data-label="Number">
+	<span class="index">{{forloop.counter}}</span>
+</td>
+<td header="radon-exposure-year" data-label="Exposure Year">{{ form.yoe.label_tag }}{{ form.yoe }}{{ form.exptype.as_hidden }}{{form.ORDER.as_hidden}}</td>
+<td header="radon-distribution-rate" data-label="Exposure Distribution (WLM)">{{ form.dosetype.label_tag }}{{ form.dosetype }} <a class="distr-help-button hide-desktop" href="{% url "model-help_rad_type" %}" target="_blank"><img src="{% static 'img/question_button.png' %}" height="16" width="16" title="Help" alt="Help" /></a></td>
+<td header="header="radon-parameter-1 organ-dose" data-label="Parameter 1">{{ form.doseparm1.label_tag }}{{ form.doseparm1 }}</td>
+<td header="header="radon-parameter-2 organ-dose" data-label="Parameter 2">{{ form.doseparm2.label_tag }}{{ form.doseparm2 }}</td>
+<td header="header="radon-parameter-3 organ-dose" data-label="Parameter 3">{{ form.doseparm3.label_tag }}{{ form.doseparm3 }}</td>		
+<td header="delete" data-label="Delete" class="delete-form">{% if not forloop.first %}<span class="delete-button"><img src="{% static 'img/delete.png' %}" height="16" width="16" title="Delete Radon Exposure" alt="Delete Radon Exposure" style="display:none;"/></span><div class="formset_delete" title="Exclude Radon Exposure">{{ form.DELETE.label_tag }}{{form.DELETE}}</div>{% endif %}</td>

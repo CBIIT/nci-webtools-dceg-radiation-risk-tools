@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load active_href %}
+
+{% block content %}
+<div class="flexBox">
+	<aside class="flexItem leftnav">
+		<ul id="local_nav">
+			<li><a {% active_href request "model-details" %}>Estimating Probability of Causation</a></li>
+			<li><a {% active_href request "model-m121_err_other" %}>Excess Relative Risk (Sources other than Radon)</a>
+				<ul>
+					<li><a {% active_href request "model-m123_Dose_sv" %}>Organ Equivalent Dose</a>
+						<ul>
+							<li><a {% active_href request "model-m1232_Dose_csv" %}>Estimate of Absorbed Organ Dose</a></li>
+							<li><a {% active_href request "model-m1233_ref_unc" %}>Radiation Effectiveness Factor</a></li>									 
+						</ul>
+					</li>
+					<li><a {% active_href request "model-m124_fin_adj_err" %}>Risk Coefficients</a></li>
+				</ul>
+			</li>
+			<li><a {% active_href request "model-radon" %}>Excess Relative Risk from Radon Exposures</a></li>
+			<li><a {% active_href request "model-udud" %}>User Defined Additional Uncertainty</a></li>
+			<li><a {% active_href request "model-lung" %}>Special Considerations for Lung Cancer</a></li>
+		</ul>
+	</aside>
+	<div class="flexItem flexbody">
+	{% block model_content %}
+	{% endblock %}
+	</div>
+</div>
+{% endblock %}

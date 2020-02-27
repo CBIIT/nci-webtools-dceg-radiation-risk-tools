@@ -1,0 +1,46 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Interactive RadioEpidemiological Program</title>		
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance on Selection of Radiation Type</h1>
+				
+				<div class="breadcrumbs">
+					<a class="rad_type-help-button" href="{% url "model-help_rad_type" %}">Radiation Type</a> &#187;
+					External Exposure
+				</div>				
+				
+				<h2>External Exposure</h2>
+				<h3>Photons</h3>
+				<ol type=A>
+					<li>E &gt; 250 keV - Applies to photons from fission reactions, including nuclear detonations, decay of mixed fission or activation products, and <i>unknown sources</i>.  This energy range applies to many common photon-emitting radionuclides including, for example, <sup>58</sup>Co, <sup>60</sup>Co, <sup>65</sup>Zn, <sup>106</sup>Ru+<sup>106</sup>Rh, <sup>134</sup>Cs, and <sup>137</sup>Cs+<sup>137m</sup>Ba.</li>
+					<li>E = 30-250 keV - Applies to diagnostic x rays generated at peak tube potential greater than 45 kVp, or diagnostic x rays of unknown energy. Radionuclides that emit photons in this energy range include, for example, <sup>57</sup>Co, <sup>144</sup>Ce+<sup>144</sup>Pr decay products, <sup>155</sup>Eu, <sup>235</sup>U, and <sup>241</sup>Am.</li>
+					<li>E &lt; 30 keV - Applies to diagnostic x rays generated at peak tube potential less than 45 kVp. Radionuclides that emit photons in this energy range normally should not be important contributors to external dose.</li>
+				</ol>
+				<p>If a dose is identified with external exposure to specific radionuclides, select the energy range for each radionuclide on the basis of the <a class="help_note1-button" href="{% url "model-help_note1" %}">average energy of emitted photons</a>.</p>
+				<h3>Electrons</h3>
+				<p>Select E &gt; 15 keV in all cases of external electron exposure of skin and lens of the eye.</p>
+				<h3>Neutrons</h3>
+				<ol type=a>
+					<li>E = 0.1-2 MeV - Applies to fission neutrons, other neutrons with average energies known to be in this range, and neutrons of <i>unknown energies</i>.</li>
+					<li>Select other range of neutron energies only if average energies are known to be in that range [for example, E &lt; 10 keV applies to thermal neutrons, E = 2-20 MeV applies to neutrons from <sup>3</sup>H(d,n)<sup>4</sup>Hereaction at low projectile energies].</li>
+				</ol>
+			</div>
+		</main>
+	</body>
+</html>

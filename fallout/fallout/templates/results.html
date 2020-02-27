@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load data_verbose %}
+{% load numeric_tags %}
+{% load render_locations %}
+{% load tz %}
+
+{% block siteDescription %}This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population Report - Summary Report" />
+<meta property="og:description" content="This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/fallout/results" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population Report - Summary Report">
+<meta name="twitter:description" content="This calculator estimates the radiation dose received by your thyroid gland from radionuclides in fallout from nuclear tests conducted at the Nevada Test Site and sites outside of the United States.">
+{% endblock %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{% static 'css/print.css' %}" media="print" >
+{% endblock %}
+
+{% block breadcrumbs %}
+	<a href="{% url "inputs" %}">Fallout Information</a>
+	Summary Report
+{% endblock %}
+
+{% block content %}
+<a onclick="window.print(); return false;" href="#" id="id_print_report" class="btn btn-primary right">&#128438; Print</a>
+<h1 class="page-title">Thyroid Dose and Risk Calculator for Nuclear Weapons Fallout for the US Population Report - Summary Report</h1>
+<div id="id_report_content">
+    <div id="id_report_info">
+        {% localtime off %}
+        <p>I-131 Fallout {{version}} using Analytica/ADE {{ade_version}} 64-bit<span class="right">Report Date: {{ completed_time|date:"m/d/Y h:i:s A e" }}</span></p>
+        {% endlocaltime %}
+        {% if debug and total_time %}
+        <p>Total Time: {{total_time.0}} minutes {{total_time.1}} seconds</p>
+        {% endif %} 
+    </div>
+    {% if debug and response_data.messages %}
+    <div class="alert alert-error">
+        <p><strong>Analytica ADE Warnings and Errors</strong></p>
+        <ul>
+            {% for message in response_data.messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <h2>Information Used In Lifetime Risk Calculation</h2>
+	<div class="rwdtable">
+		<table id="id_table_personal">
+			<tbody>
+				<tr>
+					<th>Gender</th>
+					<td>{{personal.gender|data_verbose}}</td></tr>
+				<tr>
+					<th>Date of Birth</th>
+					<td>{{personal.dob.data}}</td></tr>
+				<tr>
+					<th>Hours spent outdoors</th>
+					<td>{% if personal.spent_hours_outdoors.data %}Not Sure{% else %}{{personal.hours_outdoors.data}}{% endif %}</td></tr> 
+				<tr>
+					<th>Mother's Milk</th><td>{{personal.mothers_milk_toggle|data_verbose}}</td></tr>     
+				<tr>
+					<th>Diagnosed with Thyroid Cancer</th>
+					<td>{% if personal.diagnosed_cancer.data == 'No' %}No{% else %}Yes, {{personal.diag_year.data}}{% endif %}</td>
+				</tr>    
+			</tbody>
+		</table>
+    </div>
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> County Residence and Milk Consumption History</a>
+		</div>
+		<div class="initial-hidden accordion-body">
+			<div class="rwdtable">
+				<table id="id_table_assumptions">
+					<thead>						
+						<tr>
+							<th>#</th>
+							<th>Time Period</th>
+							<th>County State (FIPS)</th>
+							<th>Milk Source/Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% render_locations locations %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% if display_results %}  
+    <h2>Estimated thyroid dose from exposure to fallout</h2>
+    <p>The best estimate of the thyroid dose you received is {{response_data.NTS_Global.7|roundto2}} <a class="help-mgy" href="{% url "help-mgy" %}" target="_blank">mGy</a>.</p>    
+    <p>However, no person's dose can be known with complete certainty. It is unlikely that your dose was lower than {{response_data.NTS_Global.6|roundto2}} mGy or higher than {{response_data.NTS_Global.8|roundto2}} mGy (this is a <a class="help-uncertainty-range" href="{% url "help-uncertainty-range" %}" target="_blank">90 percent uncertainty range</a>).</p>    
+    <!-- Display risk results, conditionally on whether cancer was diagnosed or not. -->
+    {% if personal.diagnosed_cancer.data == 'No' %}
+        <h2>Your risk of developing thyroid cancer (assuming you have not been diagnosed with this disease)</h2>
+            <!-- This if statement displays a message if the best estimate is greater than 100 chances in 1000 -->
+            {% if response_data.total_future.2|multiply:1000 > 100 %}        
+                {% thyroid_cancer_risk_high_chances response_data.baseline_future response_data.baseline_future as thyroid_risk %}
+                <p>If the information you entered is correct, you may have received a high radiation dose. We estimate that you may have <strong>more than 1 chance in 10</strong> of eventually developing thyroid cancer. By comparison, if you had not been exposed to fallout from nuclear weapons testing, your risk would be <strong>{{thyroid_risk}} chances in 1,000</strong></p>    
+                <p>Please note that our models for estimating cancer risk are based on research conducted at lower radiation doses than the high radiation dose you may have received.  Therefore, our estimates of risk for people exposed to high radiation doses may not be accurate.  Nevertheless, it appears your risk is high.</p>        
+                <p>If you are concerned that exposure to radiation from nuclear weapons testing may have affected your thyroid gland, you may want to consider options for thyroid screening.</p>
+                <p>The National Cancer Institute has developed a booklet, "Making Choices: Screening for Thyroid Disease" that may be helpful to you.  You can order this free booklet by calling the NCI's Cancer Information Service at 1-800-4CANCER, or you can go directly to it on the NCI Website: <a href="https://i131.nci.nih.gov/decision.html">https://i131.nci.nih.gov/decision.html</a>.  We suggest that you complete the worksheet in the booklet and discuss it with a health care professional.  Then you can make a decision about thyroid cancer screening.</p>
+            {% else %}
+                {% thyroid_cancer_risk_low_chances response_data.total_future response_data.baseline_future '1' as thyroid_risk %}
+                <p>The best estimate of your risk of developing thyroid cancer from today forward is <strong>{{thyroid_risk}} chances in 1,000</strong>.</p>    
+                {% thyroid_cancer_risk_high_chances response_data.total_future response_data.baseline_future as thyroid_compare %}
+                <p>By comparison, if you had not been exposed to fallout from nuclear weapons testing, your risk would be {{thyroid_compare}} chances in 1,000.
+                {% if response_data.total_future.2 <= response_data.baseline_future.2|multiply:1.1 %}
+                    Thus, your risk of developing thyroid cancer is not distinguishable from the risk had you not been exposed, due to either a low dose or because you were exposed as an adult.
+                {% endif %}    
+                </p>
+
+                <h2>What does this risk mean?</h2>
+                <p>Your risk estimate of {{thyroid_risk}} chances in 1,000 means that we expect{% if response_data.total_future.0|multiply:1000 >= 0.5  %} about{% endif%} {{ response_data.total_future.2|multiply:1000|roundoff_people }} thyroid cancer(s) to develop from today forward in a group of 1,000 people of your age and sex, who were exposed at the same age and level as you were.</p>
+                {% with response_data.total_future.2|multiply:1000 as totalfuture2 %}
+                <p>Thus, we expect that thyroid cancer would <strong><i>not</i></strong> develop in {{1000|subtract:totalfuture2|roundoff_high}} out of 1,000 people of your age and sex.</p>
+                {% endwith %}
+                <p>By comparison, if this group had <strong><i>no exposure to radiation from nuclear weapons testing</i></strong>, we would expect{% if response_data.total_future.0|multiply:1000 >= 0.5  %} about{% endif%} {{ response_data.baseline_future.2|multiply:1000|roundoff_people }} out of 1,000 people to develop thyroid cancer from today forward. </p>
+
+                {% if response_data.total_future.2 > response_data.baseline_future.2|multiply:1.1 %}
+                    <h2>The estimated range of your risk</h2>
+                    {% thyroid_cancer_risk_from_today_lower response_data.total_future as thyroid_risk_from_today_lower %}
+                    {% thyroid_cancer_risk_from_today_upper response_data.total_future as thyroid_risk_from_today_upper %}
+                    <p>Your risk cannot be estimated with certainty. The estimated range of your risk of developing thyroid cancer from this day forward is <strong>{{thyroid_risk_from_today_lower}} chances in 1,000 up to {{thyroid_risk_from_today_upper}} chances in 1,000</strong>.</p>
+                    {% if response_data.total_future.3|multiply:1000 < 1 %}
+                    <p>Thus, because the above range of risk is less than <strong>1 out of 1,000</strong>, your chance of not developing thyroid cancer is greater than <strong>999 chances in 1,000</strong>.</p>
+                    {% endif %}
+
+                    <h2>What does this estimated range mean?</h2>
+                    <p>Scientifically, we cannot estimate the exact risk of developing thyroid cancer for any person. We can, however, estimate the range of your risk (this is a <a class="help-uncertainty-range" href="{% url "help-uncertainty-range" %}" target="_blank">90 percent uncertainty range</a>). Note that the best estimate of your risk lies within this range. </p>
+                    <p>Based on this estimated range , we expect from {{thyroid_risk_from_today_lower}} to {{thyroid_risk_from_today_upper}} thyroid cancer(s) to develop from today forward in a group of 1,000 people of your age and sex, who were exposed at the same age and level as you were.</p>
+                {% endif %}
+                
+            {% endif %}
+    {% else %}
+        <h2>Your Risk of Thyroid Cancer</h2>
+        {% if response_data.total_future.2|multiply:1000 > 100 %}
+            {% thyroid_cancer_risk_high_chances response_data.total_future response_data.baseline_future as thyroid_risk %}  
+            <p>If the information you entered is correct, you may have received a high radiation dose. We estimate that you have had <strong>more than 1 chance in 10</strong> of developing thyroid cancer. By comparison, if you had not been exposed to fallout from nuclear weapons testing, your risk would be <strong>{{thyroid_risk}} chances in 1,000</strong></p>
+            <p>Please note that our models for estimating cancer risk are based on research conducted at lower radiation doses than the high radiation dose you may have received.  Therefore, our estimates of risk for people exposed to high radiation doses may not be accurate.  Nevertheless, it appears your risk was high.</p>
+        {% else %}
+            {% thyroid_cancer_risk_low_chances response_data.total_future response_data.baseline_future '.1' as thyroid_risk %}      
+            <p>For a person similar to yourself in age, sex, residential history, and milk consumption, who is presently free of thyroid cancer, we estimate that the average chance of developing thyroid cancer from this day forward from exposure to NTS fallout is about <strong>{{thyroid_risk}} chances in 1,000</strong>
+            <!-- Exclude if min and max are the same as mean -->
+            {% if response_data.total_future.2 <= response_data.baseline_future.2|multiply:1.1 %}.
+            {% else %}
+                {% thyroid_cancer_risk_from_today_lower2 response_data.total_future as thyroid_risk_from_today_lower %}
+                {% thyroid_cancer_risk_from_today_upper response_data.total_future as thyroid_risk_from_today_upper %}
+            with an estimated <a class="help-uncertainty-range" href="{% url "help-uncertainty-range" %}" target="_blank">90 percent uncertainty range</a> of <strong>{{thyroid_risk_from_today_lower}} to {{thyroid_risk_from_today_upper}} chances in 1,000</strong>.
+            {% endif %}
+            </p>
+            {% thyroid_cancer_risk_high_chances response_data.total_future response_data.baseline_future as future_thyroid_risk %}  
+            <p>This can be compared to an estimated average future risk of <strong>{{future_thyroid_risk}} chances in 1,000</strong>, in the absence of fallout exposure.</p>
+            <!-- if for whether risk is distinguishable from background-->
+            {% if response_data.total_future.2 <= response_data.baseline_future.2|multiply:1.1 %}
+            <p>Thus, your risk of developing thyroid cancer is not distinguishable from the risk had you not been exposed, due to either a low dose or because you were exposed as an adult.</p>
+            {% endif %}
+            <p><strong>However, since you reported that you were diagnosed with a thyroid cancer in the year {{personal.diag_year.data}}</strong>, you may be interested in the likelihood that your exposure and your disease are related.</p>
+            <p>At present, we have no way of determining which of these cancers were caused by exposure to radioactive fallout and which were not. An administrative solution would be to "assign" a value of {{response_data.pc.2|roundto2}}&#37; to each of the cancers observed in the population. 
+               This percentage represents the individual "share" of the total exposure-related increase. Thus, your "assigned share" of the estimated increase due to exposure (also loosely known as "probability of causation") is <strong>{{response_data.pc.2|roundto2}}&#37;.</strong>
+            </p>
+            <p>Scientifically, we cannot estimate the exact value of assigned share for any person with thyroid cancer.
+               The <a class="help-uncertainty-range" href="{% url "help-uncertainty-range" %}" target="_blank">90 percent uncertainty range</a> of your assigned share is <strong>{{response_data.pc.0|roundto2}}&#37;</strong> to <strong>
+               {% ifequal response_data.pc.3|roundto2 100 %}&gt;99{% else %}{{response_data.pc.3|roundto2}}{% endifequal %}&#37;</strong>.
+            </p>
+        {% endif %}
+    {% endif %}
+    <!-- end Display risk results, conditionally on whether cancer was diagnosed or not. -->
+	<div class="accordion">
+    	<div class="accordion-header">
+			<a class="toggle-table-link" href="#" onclick="return false;"><img src="{% static 'img/plus_icon.gif' %}" alt="Expand" title="Expand" class="expandIcon"> Additional Dose Information</a>
+		</div>
+		<div class="initial-hidden accordion-body" id="id_additional_info">
+			<h2>Dose (mGy) received from NTS vs. Global fallout:</h2>
+			<div class="rwdtable">
+				<table>
+					<thead>
+						<tr>
+							<th>&nbps;</th>
+							<th id="best">Best</th>
+							<th id="uncertainty-range" colspan=2>90% Uncertainty Range</th>
+						</tr>
+						<tr>
+							<th id="source">Source</th>
+							<th id="estimate" header="best">Estimate</th>
+							<th id="lower" header="uncertainty-range">Lower</th>
+							<th id="upper" header="uncertainty-range">Upper</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row" header="source">NTS</th>
+							<td header="estimate best">{{response_data.NTS_Global.1|roundto2}}</td>
+							<td header="lower uncertainty-range">{{response_data.NTS_Global.0|roundto2}}</td>
+							<td header="upper uncertainty-range">{{response_data.NTS_Global.2|roundto2}}</td>
+						</tr>
+						<tr>
+							<th scope="row" header="source">Global</th>
+							<td header="estimate best">{{response_data.NTS_Global.4|roundto2}}</td>
+							<td header="lower uncertainty-range">{{response_data.NTS_Global.3|roundto2}}</td>
+							<td header="upper uncertainty-range">{{response_data.NTS_Global.5|roundto2}}</td>
+						</tr>
+						<tr>
+							<th scope="row" header="source">Total</th>
+							<td header="estimate best">{{response_data.NTS_Global.7|roundto2}}</td>
+							<td header="lower uncertainty-range">{{response_data.NTS_Global.6|roundto2}}</td>
+							<td header="upper uncertainty-range">{{response_data.NTS_Global.8|roundto2}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<h2>Dose (mGy) received from each pathway of exposure:</h2>
+			<div class="rwdtable">
+				<table>
+					<thead>
+						<tr><th style="color:#830000;">NTS+Global</th><th>Best</th><th colspan=2>90% Uncertainty Range</th></tr>
+						<tr><th>Pathway</th><th>Estimate</th><th>Lower</th><th>Upper</th></tr>
+						</thead>
+					<tbody>
+						<tr><th>Milk</th><td>{{response_data.Pathway_Dose.1|roundto2}}</td><td>{{response_data.Pathway_Dose.0|roundto2}}</td><td>{{response_data.Pathway_Dose.2|roundto2}}</td></tr>
+						<tr><th>Food Products*</th><td>{{response_data.Pathway_Dose.22|roundto2}}</td><td>{{response_data.Pathway_Dose.21|roundto2}}</td><td>{{response_data.Pathway_Dose.23|roundto2}}</td></tr>
+						<tr><th>Inhalation</th><td>{{response_data.Pathway_Dose.13|roundto2}}</td><td>{{response_data.Pathway_Dose.12|roundto2}}</td><td>{{response_data.Pathway_Dose.14|roundto2}}</td></tr>
+						<tr><th>External</th><td>{{response_data.Pathway_Dose.16|roundto2}}</td><td>{{response_data.Pathway_Dose.15|roundto2}}</td><td>{{response_data.Pathway_Dose.17|roundto2}}</td></tr>
+						<tr><th>Total</th><td>{{response_data.Pathway_Dose.19|roundto2}}</td><td>{{response_data.Pathway_Dose.18|roundto2}}</td><td>{{response_data.Pathway_Dose.20|roundto2}}</td></tr>
+					</tbody>
+				</table> 
+			</div>
+			<div class="rwdtable">
+				<table>
+					<thead>
+						<tr><th style="color:#830000;">NTS Only</th><th>Best</th><th colspan=2>90% Uncertainty Range</th></tr>
+						<tr><th>Pathway</th><th>Estimate</th><th>Lower</th><th>Upper</th></tr>
+					</thead>
+					<tbody>
+						<tr><th>Milk</th><td>{{response_data.Pathway_Dose_nts.1|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.0|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.2|roundto2}}</td></tr>
+						<tr><th>Food Products*</th><td>{{response_data.Pathway_Dose_nts.22|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.21|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.23|roundto2}}</td></tr>
+						<tr><th>Inhalation</th><td>{{response_data.Pathway_Dose_nts.13|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.12|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.14|roundto2}}</td></tr>
+						<tr><th>External</th><td>{{response_data.Pathway_Dose_nts.16|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.15|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.17|roundto2}}</td></tr>
+						<tr><th>Total</th><td>{{response_data.Pathway_Dose_nts.19|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.18|roundto2}}</td><td>{{response_data.Pathway_Dose_nts.20|roundto2}}</td></tr>
+					</tbody>
+				</table> 
+			</div>
+			<div class="rwdtable">
+				<table>
+					<thead>
+						<tr><th style="color:#830000;">Global Only</th><th>Best</th><th colspan=2>90% Uncertainty Range</th></tr>
+						<tr><th>Pathway</th><th>Estimate</th><th>Lower</th><th>Upper</th></tr>
+					</thead>
+					<tbody>
+						<tr><th>Milk</th><td>{{response_data.Pathway_Dose_global.1|roundto2}}</td><td>{{response_data.Pathway_Dose_global.0|roundto2}}</td><td>{{response_data.Pathway_Dose_global.2|roundto2}}</td></tr>
+						<tr><th>Food Products*</th><td>{{response_data.Pathway_Dose_global.22|roundto2}}</td><td>{{response_data.Pathway_Dose_global.21|roundto2}}</td><td>{{response_data.Pathway_Dose_global.23|roundto2}}</td></tr>
+						<tr><th>Inhalation</th><td>{{response_data.Pathway_Dose_global.13|roundto2}}</td><td>{{response_data.Pathway_Dose_global.12|roundto2}}</td><td>{{response_data.Pathway_Dose_global.14|roundto2}}</td></tr>
+						<tr><th>External</th><td>{{response_data.Pathway_Dose_global.16|roundto2}}</td><td>{{response_data.Pathway_Dose_global.15|roundto2}}</td><td>{{response_data.Pathway_Dose_global.17|roundto2}}</td></tr>
+						<tr><th>Total</th><td>{{response_data.Pathway_Dose_global.19|roundto2}}</td><td>{{response_data.Pathway_Dose_global.18|roundto2}}</td><td>{{response_data.Pathway_Dose_global.20|roundto2}}</td></tr>
+					</tbody>
+				</table>    
+				<p>* Food products include leafy vegetables, eggs, and cottage cheese.</p>
+			</div>
+		</div>
+	</div>
+{% endif %} <!-- display_results -->    
+
+</div>
+
+{% if display_raw and display_results %} 
+<h2>{% trans 'Raw Results' %}</h2>
+<div class="raw-results rwdtable">   
+    <table>
+		<thead>
+			<tr>
+				<th>{% trans 'Key' %}</th>
+				<th>{% trans 'Value' %}</th>
+			</tr>
+		</thead>
+		<tbody>
+    {% for key, value in response_data.items %}
+    	<tr>
+			<td>{{ key }}</td>
+			<td>{{ value }}</td>
+		</tr>
+    {% endfor %}
+		</tbody>
+    </table> 
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {   
+   $('a.help-mgy').on( 'click', function() {
+        $.colorbox( {
+            href: "{% url "help-mgy" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: ''
+        } );
+        return false;
+   });     
+   $('a.help-uncertainty-range').on( 'click', function() {
+        $.colorbox( {
+            href: "{% url "help-uncertainty-range" %}",
+            width: "1200px",
+            maxwidth: "1200px",
+            height: "1200px",
+            opacity: 0.6,
+            closeButton: true,
+            close: ''
+        } );
+        return false;
+   });     
+});
+</script>
+{% endblock %}
+
+{% block footerjs %}
+<script type="text/javascript" charset="utf-8">
+$(document).ready( function() {   
+   $('.accordion .accordion-header').click(function(){   		
+        $(this).next().toggle();
+        if ($(this).children('.expandIcon').attr("src") == "{% static 'img/plus_icon.gif' %}") {
+            $(this).children('.expandIcon').attr("src", "{% static 'img/minus_icon.gif' %}");
+            $(this).children('.expandIcon').attr("title", "Collapse");
+        } else {
+            $(this).children('.expandIcon').attr("src", "{% static 'img/plus_icon.gif' %}");
+            $(this).children('.expandIcon').attr("title", "Expand");
+        }                 
+   });
+});
+</script>
+{% endblock %}

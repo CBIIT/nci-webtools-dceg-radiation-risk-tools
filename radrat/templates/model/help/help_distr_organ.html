@@ -1,0 +1,38 @@
+{% load staticfiles %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>NCI Radiation Risk Assessment Tool</title>
+		{% compress css %}
+		<link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+		{% endcompress %}
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/ico" href="{% static "img/favicon.ico" %}" />
+	</head>
+	<body class="help-dialog">
+		<noscript>
+			<div class="javascript">Some elements of this web site use Javascript. It is recommended you enable Javascript on your browser to ensure this web site functions as intended.</div>
+		</noscript>
+		<main id="content" class="home">
+			<div class="container">
+				<h1 class="page-title">Guidance for Entering Organ Doses</h1>
+				<p>For a dose with negligible uncertainty or to ignore uncertainty in dose, select "Fixed Value" as the Distribution Type and enter the dose value in the Parameter 1 column.</p>		
+				<p>Uncertainty in dose may be described using probability distributions. To enter an uncertain dose, select one of the distributions from the Distribution Type menu and enter the parameters required to define the selected distribution. The parameters required to define each distribution type are provided below.</p>       
+				<p>In cases where fewer than 3 parameters are required, unnecessary parameters are inactive.</p>     
+				<div class="rwdtable">
+					<table id="parameters">
+						<tr><th>Distribution Type</th><th>Parameter 1</th><th>Parameter 2</th><th>Parameter 3</th></tr>
+						<tr><td>Lognormal</td><td>median</td><td>geometric standard deviation</td><td>N/A</td></tr>
+						<tr><td>Normal</td><td>mean</td><td>standard deviation</td><td>N/A</td></tr>
+						<tr><td>Triangular or LogTriangular</td><td>minimum</td><td>mode</td><td>maximum</td></tr>
+						<tr><td>Uniform or LogUniform</td><td>minimum</td><td>maximum</td><td>N/A</td></tr>
+						<tr><td>Fixed Value</td><td>value</td><td>N/A</td><td>N/A</td></tr>
+					</table>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>

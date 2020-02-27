@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block siteDescription %}Please refer to Interactive RadioEpidemiological Program - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.{% endblock %}
+{% block ogtags %}
+<meta property="og:title" content="Updates - Interactive RadioEpidemiological Program" />
+<meta property="og:description" content="Please refer to Interactive RadioEpidemiological Program - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator." />
+<meta property="og:url" content="https://radiationcalculators.cancer.gov/irep/update/" />
+{% endblock %}
+{% block twittertags %}
+<meta name="twitter:title" content="Updates - Interactive RadioEpidemiological Program">
+<meta name="twitter:description" content="Please refer to Interactive RadioEpidemiological Program - Upgrade (January 2020) for the modifications included in various versions of the fallout calculator.">
+{% endblock %}
+{% block breadcrumbs %}
+	Updates
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Updates</h1>
+<h2>IREP 5.7 Upgrade (January 2020)</h2>
+<dl>
+	<dt>Website Maintenance</dt>
+	<ul>
+		<li>Updated underlying website frameworks. No changes were made to calculations.</li>
+		<li>Site made responsive across all devices.</li>
+	</ul>
+</dl>
+<h2>IREP 5.6.1 (03/2015)</h2>
+<dl>
+	<dt>Corrected Lung Cancer with Radon Exposure Algorithm</dt>
+	<dd>In IREP 5.6 and earlier, when radon exposures were present, IREP could lead to incorrect results.  The model code has been modified to correct this issue.</dd>
+	<dt>Analytica Software Upgrade</dt>
+	<dd>
+		<ul>
+			<li>IREP was upgraded to Analytica/ADE version 4.5.  </li>
+			<li>A small undesirable bias was discovered in the random shuffling algorithm for Analytica/ADE version 4.2. The bias is extremely small at large sample size, but can become significant at sample sizes under 10. As a consequence, this update could cause relatively insignificant changes to results when compared to previous versions.</li>
+		</ul>
+	</dd>
+</dl>
+<h2>IREP 5.6 Upgrade (12/2011)</h2>
+<dl>
+	<dt>Website Redesign</dt>
+	<dd>The IREP site was redesigned to improve usability and to comply with Section 508 of the Rehabilitation Act. Other changes include:
+		<ul>
+			<li>Input forms now present all input parameters on a single page and input validation is improved.</li>
+			<li>Intermediate result options were removed.</li>
+			<li>The Model Details section was modified to reflect calculations currently offered in IREP.</li>
+			<li>An accessible version of 2003 NCI-CDC Working Group report was added.</li>
+		</ul>
+	</dd>
+	<dt>Hosting</dt>
+	<dd>IREP website was transferred to a new datacenter and is now secured with HTTPS encryption.</dd>
+</dl>
+<h2>IREP 5.5 Upgrade (2/1/2011)</h2>
+<dl>
+	<dt>Removed Entries for Name and Reference ID</dt>
+	<dd>To allow IREP to meet current government security guidelines, personal identifiers (name and reference id) have been removed from all input screens, summary report, and the Excel template file. Although older Excel template files should continue to work with IREP 5.5, it is recommended that users download the new template file.</dd>
+	<dt>Server Upgrade</dt>
+	<dd>IREP has been upgraded to operate on a 64-bit server. A calculation performed using IREP will now be able to access up to 128 GB of memory, instead of the 2 GB limit imposed by a 32-bit platform.</dd>
+	<dt>Miscellaneous Modifications</dt>
+	<dd>
+		<ul>
+			<li>Several small editorial modifications have been made to the content of the help files located under "View Model Details".</li>
+			<li>In the previous version of IREP, the "Intermediate Results" button generated an error message when the selected cancer model was lung. The error has been identified and corrected.</li>
+			<li>The default number of iterations has been set to 10,000.</li>
+			<li>The default radiation type has been set to "photons E>250 keV".</li>
+			<li>Banners and footers were updated to match the cancer.gov standard format.</li>
+		</ul>
+	</dd>
+</dl>
+<h2>IREP 5.4 Upgrade (12/04/08)</h2>
+<dl>
+	<dt>Corrected Acute Lymphocytic Leukemia Algorithm</dt>
+	<dd>It was identified that IREP contained an incorrect algorithm for a specific set of input parameters used when calculating assigned share (probability of causation) for acute lymphocytic leukemia cases.
+		For all types of leukemias (including acute lymphocytic leukemia), in the case of acute exposure to low-LET radiation, the dose response obtained from the epidemiological data is linear-quadratic. Therefore, the ERR should be a function of [dose*(1+dose)].
+		In versions of IREP prior to v.5.4, the ERR for acute lymphocytic leukemia was programmed to depend only on dose instead of using the linear-quadratic algorithm.
+		This modification has the potential to slightly increase the assigned share results for acute lymphocytic leukemia cases, if the case included acute exposures to low-LET radiation.
+	</dd>
+	<dt>Corrected Age Dependency for Selected Cancers</dt>
+	<dd>A small difference was identifed between the IREP code and its documentation. The difference occurred in an algorithm that models the uncertainty in the adjustment factor describing the dependency of risk on age at exposure and attained age for <a href="{% static 'docs/ERR_Sv_database.pdf' %}" target="_blank"><u>cancer types included in Group 2</u></a>.
+		The IREP code has been modified to match the documentation. The assigned share values estimated for Group 2 cancers using IREP v.5.4 are identical to the results obtained from previous versions of IREP for any cancers diagnosed at ages 50 or older, and for any radiation exposures that occurred at ages 30 or older.
+		The modification has the potential of reducing the uncertainty in the estimated assigned share for exposures at ages less than 30 and for cancers diagnosed at ages less than 50.
+	</dd>
+	<dt>Dose Rounding Algorithm on Summary Page</dt>
+	<dd>The dose input parameters that are summarized on the "Summary Report" page have now been rounded to 3 significant figures. Prior versions of IREP reported all digits of the dose parameters. If the dose value is less than 0.001 or larger than 1000 cSv, exponential format is now used in the dose summary table.</dd>
+</dl>
+<h2>Previous IREP Upgrades</h2>
+<dl>
+	<dt>Random Errors in Dosimetry for Radon Exposures (01/21/05)</dt>
+	<dd>The radon model in previous versions of IREP contained a bias correction factor for random errors in dosimetry for smokers. It has been determined that the bias correction factor should also be applied for individuals who have never smoked. This modification, which affects only lung cancer cases for never smokers who were exposed to radon, has the potential to increase assigned share. The actual effect on the assigned share varies according to the level of exposure to radon.</dd>
+	<dt>Modification for thyroid cancer (03/19/04)</dt>
+	<dd>Previous versions of IREP contained a reduction of the risk coefficients for thyroid cancer for ages less than 20 to account for a perceived difference in the dose response from exposure to x-rays and the dose response from exposure to high-energy gamma rays.
+		More recent interpretation of the epidemiologic data on thyroid cancer from exposure to x-rays indicates that such a reduction is not necessary and should be removed from IREP.
+		This modification only affects individuals with thyroid cancer who were exposed at ages less than 20 and leads to an increase in the estimated assigned share.
+	</dd>
+	<dt>Modification for bone cancer (05/11/03)</dt>
+	<dd>Previous versions of IREP assumed a latency period for bone cancer of approximately 10 years, similar to the latency period of other solid tumors. More recent interpretation of epidemiologic studies indicates that bone cancer can occur as early as 5 years after exposure to radiation, similar to thyroid cancer. Based on this finding, a reduction in the latency period assigned for bone cancer has been changed from that of solid tumors (about 10 years) to that of thyroid cancer (about 5 years).
+		This modification only affects individuals who developed bone cancer within about 10 years after exposure to radiation and leads to an increase in assigned share.
+	</dd>
+</dl>
+{% endblock %}
