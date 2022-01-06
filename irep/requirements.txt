@@ -6,5 +6,5 @@ tqdm
 openpyxl==2.5.*
 xlrd
 requests==2.22.*
-celery==4.3.0
+celery==5.2.2
 psycopg2-binary
